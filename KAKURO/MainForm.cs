@@ -124,6 +124,7 @@ namespace KAKURO
                     boxTiles[i, j].BackColor = Color.Transparent; // Задаємо прозорий фон
                     boxTiles[i, j].Click += new EventHandler(Tile_Click); // Додаємо подію кліку
                     boxTiles[i, j].Tag = i + ":" + j; // Додаємо тег з координатами
+                    boxTiles[i, j].ContextMenuStrip = contextMenuStrip; // Додаємо контекстне меню
                 }
             }
         }
@@ -158,6 +159,11 @@ namespace KAKURO
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new SettingsForm().ShowDialog();
+        }
+
+        private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Restart();
         }
     }
 }

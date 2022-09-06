@@ -127,6 +127,8 @@
     <None Include="Resources\setting_tools.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\control_play.png" />
+    <None Include="Resources\control_pause.png" />
     <Content Include="Resources\rules.htm" />
     <Content Include="rules.htm" />
   </ItemGroup>

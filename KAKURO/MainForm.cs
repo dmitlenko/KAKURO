@@ -52,5 +52,16 @@ namespace KAKURO
                 if (res == DialogResult.Yes) Application.Exit();
             }
         }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!Saved)
+            {
+                // Запитати у користувача чи точно він хоче вийти з гри
+                DialogResult res = MessageBox.Show("Ви дійсно хочете вийти з гри?", "Результат поточної гри не буде збережено.", MessageBoxButtons.YesNo);
+                // Якщо так, то вийти
+                if (res == DialogResult.No) e.Cancel = true;
+            }
+        }
     }
 }

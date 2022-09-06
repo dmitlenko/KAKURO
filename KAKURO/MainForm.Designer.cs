@@ -196,8 +196,8 @@
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.fileToolStripMenuItem.Text = "File";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.fileToolStripMenuItem.Text = "Файл";
             // 
             // openToolStripMenuItem
             // 
@@ -205,7 +205,7 @@
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.openToolStripMenuItem.Text = "Open";
+            this.openToolStripMenuItem.Text = "Відкрити";
             // 
             // saveToolStripMenuItem
             // 
@@ -213,7 +213,7 @@
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Text = "Зберегти";
             // 
             // toolStripMenuItem1
             // 
@@ -225,7 +225,7 @@
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Text = "Вийти";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // gameToolStripMenuItem
@@ -234,24 +234,24 @@
             this.newGameToolStripMenuItem,
             this.restartGameToolStripMenuItem});
             this.gameToolStripMenuItem.Name = "gameToolStripMenuItem";
-            this.gameToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
-            this.gameToolStripMenuItem.Text = "Game";
+            this.gameToolStripMenuItem.Size = new System.Drawing.Size(38, 20);
+            this.gameToolStripMenuItem.Text = "Гра";
             // 
             // newGameToolStripMenuItem
             // 
             this.newGameToolStripMenuItem.Image = global::KAKURO.Properties.Resources.board_game;
             this.newGameToolStripMenuItem.Name = "newGameToolStripMenuItem";
             this.newGameToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newGameToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-            this.newGameToolStripMenuItem.Text = "New game";
+            this.newGameToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.newGameToolStripMenuItem.Text = "Нова гра";
             // 
             // restartGameToolStripMenuItem
             // 
             this.restartGameToolStripMenuItem.Image = global::KAKURO.Properties.Resources.arrow_refresh;
             this.restartGameToolStripMenuItem.Name = "restartGameToolStripMenuItem";
             this.restartGameToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
-            this.restartGameToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-            this.restartGameToolStripMenuItem.Text = "Restart game";
+            this.restartGameToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.restartGameToolStripMenuItem.Text = "Почати знову";
             // 
             // statusStrip
             // 

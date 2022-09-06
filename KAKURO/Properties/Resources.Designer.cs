@@ -73,6 +73,16 @@ namespace KAKURO.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap arrow_right {
+            get {
+                object obj = ResourceManager.GetObject("arrow_right", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap board_game {
             get {
                 object obj = ResourceManager.GetObject("board_game", resourceCulture);
@@ -116,6 +126,26 @@ namespace KAKURO.Properties {
         internal static System.Drawing.Bitmap folder_vertical_open {
             get {
                 object obj = ResourceManager.GetObject("folder_vertical_open", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap information {
+            get {
+                object obj = ResourceManager.GetObject("information", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap setting_tools {
+            get {
+                object obj = ResourceManager.GetObject("setting_tools", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

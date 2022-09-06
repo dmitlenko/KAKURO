@@ -39,9 +39,15 @@
             this.gameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.restartGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.допомогаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rulesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.statusSeed = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusTime = new System.Windows.Forms.ToolStripStatusLabel();
+            this.timer = new System.Windows.Forms.Timer(this.components);
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.tile7_5 = new System.Windows.Forms.PictureBox();
             this.tile3_5 = new System.Windows.Forms.PictureBox();
             this.tile6_5 = new System.Windows.Forms.PictureBox();
@@ -106,9 +112,7 @@
             this.tile1_0 = new System.Windows.Forms.PictureBox();
             this.tile4_0 = new System.Windows.Forms.PictureBox();
             this.tile0_0 = new System.Windows.Forms.PictureBox();
-            this.timer = new System.Windows.Forms.Timer(this.components);
-            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tile7_5)).BeginInit();
@@ -179,9 +183,11 @@
             // 
             // menuStrip
             // 
+            this.menuStrip.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.gameToolStripMenuItem});
+            this.gameToolStripMenuItem,
+            this.допомогаToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(456, 24);
@@ -232,7 +238,9 @@
             // 
             this.gameToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newGameToolStripMenuItem,
-            this.restartGameToolStripMenuItem});
+            this.restartGameToolStripMenuItem,
+            this.checkToolStripMenuItem,
+            this.settingsToolStripMenuItem});
             this.gameToolStripMenuItem.Name = "gameToolStripMenuItem";
             this.gameToolStripMenuItem.Size = new System.Drawing.Size(38, 20);
             this.gameToolStripMenuItem.Text = "Гра";
@@ -253,28 +261,66 @@
             this.restartGameToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.restartGameToolStripMenuItem.Text = "Почати знову";
             // 
+            // checkToolStripMenuItem
+            // 
+            this.checkToolStripMenuItem.Image = global::KAKURO.Properties.Resources.arrow_right;
+            this.checkToolStripMenuItem.Name = "checkToolStripMenuItem";
+            this.checkToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
+            this.checkToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.checkToolStripMenuItem.Text = "Перевірити";
+            // 
+            // допомогаToolStripMenuItem
+            // 
+            this.допомогаToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.rulesToolStripMenuItem});
+            this.допомогаToolStripMenuItem.Name = "допомогаToolStripMenuItem";
+            this.допомогаToolStripMenuItem.Size = new System.Drawing.Size(75, 20);
+            this.допомогаToolStripMenuItem.Text = "Допомога";
+            // 
+            // rulesToolStripMenuItem
+            // 
+            this.rulesToolStripMenuItem.Image = global::KAKURO.Properties.Resources.information;
+            this.rulesToolStripMenuItem.Name = "rulesToolStripMenuItem";
+            this.rulesToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
+            this.rulesToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.rulesToolStripMenuItem.Text = "Правила гри";
+            // 
             // statusStrip
             // 
+            this.statusStrip.BackColor = System.Drawing.SystemColors.Control;
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusSeed,
             this.statusTime});
             this.statusStrip.Location = new System.Drawing.Point(0, 480);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(456, 22);
+            this.statusStrip.SizingGrip = false;
             this.statusStrip.TabIndex = 3;
             this.statusStrip.Text = "statusStrip1";
             // 
             // statusSeed
             // 
+            this.statusSeed.BackColor = System.Drawing.SystemColors.Control;
             this.statusSeed.Name = "statusSeed";
             this.statusSeed.Size = new System.Drawing.Size(63, 17);
             this.statusSeed.Text = "statusSeed";
             // 
             // statusTime
             // 
+            this.statusTime.BackColor = System.Drawing.SystemColors.Control;
             this.statusTime.Name = "statusTime";
-            this.statusTime.Size = new System.Drawing.Size(64, 17);
-            this.statusTime.Text = "statusTime";
+            this.statusTime.Size = new System.Drawing.Size(49, 17);
+            this.statusTime.Text = "00:00:00";
+            // 
+            // timer
+            // 
+            this.timer.Enabled = true;
+            this.timer.Interval = 1000;
+            this.timer.Tick += new System.EventHandler(this.timer_Tick);
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.FileName = "openFileDialog1";
             // 
             // tile7_5
             // 
@@ -852,20 +898,18 @@
             this.tile0_0.TabIndex = 0;
             this.tile0_0.TabStop = false;
             // 
-            // timer
+            // settingsToolStripMenuItem
             // 
-            this.timer.Enabled = true;
-            this.timer.Interval = 1000;
-            this.timer.Tick += new System.EventHandler(this.timer_Tick);
-            // 
-            // openFileDialog
-            // 
-            this.openFileDialog.FileName = "openFileDialog1";
+            this.settingsToolStripMenuItem.Image = global::KAKURO.Properties.Resources.setting_tools;
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.settingsToolStripMenuItem.Text = "Налаштування";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Desktop;
             this.ClientSize = new System.Drawing.Size(456, 502);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.tile7_5);
@@ -942,6 +986,7 @@
             this.Text = "Какуро";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.statusStrip.ResumeLayout(false);
@@ -1096,6 +1141,10 @@
         private System.Windows.Forms.Timer timer;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private System.Windows.Forms.ToolStripMenuItem checkToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem допомогаToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem rulesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
     }
 }
 

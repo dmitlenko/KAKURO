@@ -42,13 +42,13 @@ namespace KAKURO
             // Просвоюємо змінній Saved "false" так як гра ще не збережена
             Saved = false;
 
-            // Підготувати клітинки
+            // Підготувати тайли
             PrepareTiles();
 
             Tile bt = new BlackTile(boxTiles[0, 0]);
             bt.Draw();
 
-            Tile st = new SumsTile(boxTiles[0, 1], 1,2);
+            Tile st = new SumsTile(boxTiles[0, 1], 21,30);
             st.Draw();
 
             Tile nt = new NumberTile(boxTiles[0, 2], 4);
@@ -73,27 +73,29 @@ namespace KAKURO
 
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
+            // Зберегти координати вибраного тайлу в тимчасову змінну
             Point current = new Point(SelectedTile.X, SelectedTile.Y);
             
             switch(e.KeyCode)
             {
-                case Keys.Up:
+                case Keys.Up: // При натисканні на стрілку вгору здвинути координату вгору
                     if ((SelectedTile.Y - 1) > -1 && SelectedTile.Y < boxTiles.GetLength(0)) SelectedTile.Y -= 1;
                     break;
-                case Keys.Down:
+                case Keys.Down: // При натисканні на стрілку вниз здвинути координату вниз
                     if ((SelectedTile.Y + 1) < boxTiles.GetLength(0)) SelectedTile.Y += 1;
                     break;
-                case Keys.Left:
+                case Keys.Left: // При натисканні на стрілку вліво здвинути координату вліво
                     if ((SelectedTile.X - 1) > -1) SelectedTile.X -= 1;
                     break;
-                case Keys.Right:
+                case Keys.Right: // При натисканні на стрілку вправо здвинути координату вправо
                     if ((SelectedTile.X + 1) < boxTiles.GetLength(1)) SelectedTile.X += 1;
                     break;
             }
 
             if (current.X > -1 && current.Y > -1)
             {
-                if(boxTiles[current.Y, current.X].BorderStyle == BorderStyle.FixedSingle) boxTiles[current.Y, current.X].BorderStyle = BorderStyle.None;
+                // Якщо існує тайл з краями то вимикаємо їх і задаємо краї новому тайлу
+                if (boxTiles[current.Y, current.X].BorderStyle == BorderStyle.FixedSingle) boxTiles[current.Y, current.X].BorderStyle = BorderStyle.None;
                 boxTiles[SelectedTile.Y, SelectedTile.X].BorderStyle = BorderStyle.FixedSingle;
             }
                 
@@ -101,7 +103,7 @@ namespace KAKURO
 
         private void PrepareTiles()
         {
-
+            // Я це все руками писав :|
             boxTiles = new PictureBox[,]
             {
                 {tile0_0, tile0_1, tile0_2, tile0_3, tile0_4, tile0_5, tile0_6, tile0_7},
@@ -118,26 +120,30 @@ namespace KAKURO
             {
                 for (int j = 0; j < boxTiles.GetLength(1); j++)
                 {
-                    boxTiles[i, j].BorderStyle = BorderStyle.None;
-                    boxTiles[i, j].BackColor = Color.Transparent;
-                    boxTiles[i, j].Click += new EventHandler(Tile_Click);
-                    boxTiles[i, j].Tag = i + ":" + j;
+                    boxTiles[i, j].BorderStyle = BorderStyle.None; // Прибираємо крї у тайлу
+                    boxTiles[i, j].BackColor = Color.Transparent; // Задаємо прозорий фон
+                    boxTiles[i, j].Click += new EventHandler(Tile_Click); // Додаємо подію кліку
+                    boxTiles[i, j].Tag = i + ":" + j; // Додаємо тег з координатами
                 }
             }
         }
 
         private void Tile_Click(object sender, EventArgs e)
         {
+            // Зберегти координати вибраного тайлу в тимчасову змінну
             Point current = new Point(SelectedTile.X, SelectedTile.Y);
             string[] coords = ((PictureBox)sender).Tag.ToString().Split(':');
             int y = Convert.ToInt32(coords[0]);
             int x = Convert.ToInt32(coords[1]);
 
+            // Виконати тільки, якщо не задані координати за замовчуванням (вони не задані :] )
             if (current.X > -1 && current.Y > -1)
             {
+                // Якщо існує тайл з краями то вимикаємо їх і задаємо краї новому тайлу
                 if (boxTiles[current.Y, current.X].BorderStyle == BorderStyle.FixedSingle) boxTiles[current.Y, current.X].BorderStyle = BorderStyle.None;
                 ((PictureBox)sender).BorderStyle = BorderStyle.FixedSingle;
 
+                // Записати координати в точку
                 SelectedTile.X = x;
                 SelectedTile.Y = y;
             }
@@ -145,8 +151,13 @@ namespace KAKURO
 
         private void rulesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RulesForm form = new RulesForm();
-            form.Show();
+            // Відкрити форму з правилами
+            new RulesForm().Show();
+        }
+
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new SettingsForm().ShowDialog();
         }
     }
 }

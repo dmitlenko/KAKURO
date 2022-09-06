@@ -16,7 +16,7 @@ namespace KAKURO
         private int CurrentSeed { get; set; }
         private bool Saved { get; set; }
         private Point SelectedTile = new Point(0, 0);
-        private PictureBox[,] tiles;
+        private PictureBox[,] boxTiles;
 
         public MainForm()
         {
@@ -44,18 +44,20 @@ namespace KAKURO
 
             // Підготувати клітинки
             PrepareTiles();
+
+            Tile bt = new BlackTile(boxTiles[0, 0]);
+            bt.Draw();
+
+            Tile st = new SumsTile(boxTiles[0, 1], 1,2);
+            st.Draw();
+
+            Tile nt = new NumberTile(boxTiles[0, 2], 4);
+            nt.Draw();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Saved) Application.Exit();
-            else
-            {
-                // Запитати у користувача чи точно він хоче вийти з гри
-                DialogResult res = MessageBox.Show("Результат поточної гри не буде збережено.", "Ви дійсно хочете вийти з гри?", MessageBoxButtons.YesNo);
-                // Якщо так, то вийти
-                if (res == DialogResult.Yes) Application.Exit();
-            }
+            Application.Exit();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -76,23 +78,23 @@ namespace KAKURO
             switch(e.KeyCode)
             {
                 case Keys.Up:
-                    if ((SelectedTile.Y - 1) > -1 && SelectedTile.Y < tiles.GetLength(0)) SelectedTile.Y -= 1;
+                    if ((SelectedTile.Y - 1) > -1 && SelectedTile.Y < boxTiles.GetLength(0)) SelectedTile.Y -= 1;
                     break;
                 case Keys.Down:
-                    if ((SelectedTile.Y + 1) < tiles.GetLength(0)) SelectedTile.Y += 1;
+                    if ((SelectedTile.Y + 1) < boxTiles.GetLength(0)) SelectedTile.Y += 1;
                     break;
                 case Keys.Left:
                     if ((SelectedTile.X - 1) > -1) SelectedTile.X -= 1;
                     break;
                 case Keys.Right:
-                    if ((SelectedTile.X + 1) < tiles.GetLength(1)) SelectedTile.X += 1;
+                    if ((SelectedTile.X + 1) < boxTiles.GetLength(1)) SelectedTile.X += 1;
                     break;
             }
 
             if (current.X > -1 && current.Y > -1)
             {
-                if(tiles[current.Y, current.X].BorderStyle == BorderStyle.FixedSingle) tiles[current.Y, current.X].BorderStyle = BorderStyle.None;
-                tiles[SelectedTile.Y, SelectedTile.X].BorderStyle = BorderStyle.FixedSingle;
+                if(boxTiles[current.Y, current.X].BorderStyle == BorderStyle.FixedSingle) boxTiles[current.Y, current.X].BorderStyle = BorderStyle.None;
+                boxTiles[SelectedTile.Y, SelectedTile.X].BorderStyle = BorderStyle.FixedSingle;
             }
                 
         }
@@ -100,7 +102,7 @@ namespace KAKURO
         private void PrepareTiles()
         {
 
-            tiles = new PictureBox[,]
+            boxTiles = new PictureBox[,]
             {
                 {tile0_0, tile0_1, tile0_2, tile0_3, tile0_4, tile0_5, tile0_6, tile0_7},
                 {tile1_0, tile1_1, tile1_2, tile1_3, tile1_4, tile1_5, tile1_6, tile1_7},
@@ -112,13 +114,14 @@ namespace KAKURO
                 {tile7_0, tile7_1, tile7_2, tile7_3, tile7_4, tile7_5, tile7_6, tile7_7}
             };
 
-            for (int i = 0; i < tiles.GetLength(0); i++)
+            for (int i = 0; i < boxTiles.GetLength(0); i++)
             {
-                for (int j = 0; j < tiles.GetLength(1); j++)
+                for (int j = 0; j < boxTiles.GetLength(1); j++)
                 {
-                    tiles[i, j].BorderStyle = BorderStyle.None;
-                    tiles[i, j].Click += new EventHandler(Tile_Click);
-                    tiles[i, j].Tag = i + ":" + j;
+                    boxTiles[i, j].BorderStyle = BorderStyle.None;
+                    boxTiles[i, j].BackColor = Color.Transparent;
+                    boxTiles[i, j].Click += new EventHandler(Tile_Click);
+                    boxTiles[i, j].Tag = i + ":" + j;
                 }
             }
         }
@@ -127,16 +130,23 @@ namespace KAKURO
         {
             Point current = new Point(SelectedTile.X, SelectedTile.Y);
             string[] coords = ((PictureBox)sender).Tag.ToString().Split(':');
-            int x = Convert.ToInt32(coords[0]);
-            int y = Convert.ToInt32(coords[1]);
+            int y = Convert.ToInt32(coords[0]);
+            int x = Convert.ToInt32(coords[1]);
 
             if (current.X > -1 && current.Y > -1)
             {
-                if (tiles[current.Y, current.X].BorderStyle == BorderStyle.FixedSingle) tiles[current.Y, current.X].BorderStyle = BorderStyle.None;
+                if (boxTiles[current.Y, current.X].BorderStyle == BorderStyle.FixedSingle) boxTiles[current.Y, current.X].BorderStyle = BorderStyle.None;
                 ((PictureBox)sender).BorderStyle = BorderStyle.FixedSingle;
 
-
+                SelectedTile.X = x;
+                SelectedTile.Y = y;
             }
+        }
+
+        private void rulesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RulesForm form = new RulesForm();
+            form.Show();
         }
     }
 }

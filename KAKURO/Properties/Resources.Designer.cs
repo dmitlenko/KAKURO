@@ -141,6 +141,21 @@ namespace KAKURO.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;html&gt;
+        ///&lt;body style=&quot;font-family:Arial&quot;&gt;
+        ///    &lt;p&gt;
+        ///        &lt;h3&gt;Какуро&lt;/h3&gt; — це оригінальна логічна головоломка з числами, яку часто називають математичною транслітерацією кросворду. Назва Какуро походить від японського скорочення kasan kurosu (перехресне додавання); в США головоломка також відома під назвою Cross Sums (пересічні суми), яку придумав канадський Джейкоб Е. Функ ще в 1966 році, а також Cross Addition.
+        ///    &lt;/p&gt;
+        ///    &lt;p&gt;
+        ///        Популярність Какуро в Японії величезна, поступаючись лише Судоку  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string rules {
+            get {
+                return ResourceManager.GetString("rules", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap setting_tools {

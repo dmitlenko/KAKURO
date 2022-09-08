@@ -8,11 +8,12 @@ using System.Windows.Forms;
 
 namespace KAKURO
 {
-    internal class Tile
+    internal class GraphicTile
     {
         public PictureBox Picture { get; set; }
 
-        public Tile(PictureBox pb)
+        public GraphicTile() { Picture = null; }
+        public GraphicTile(PictureBox pb)
         {
             Picture = pb;
         }
@@ -20,9 +21,10 @@ namespace KAKURO
         public virtual void Draw() { }
     }
 
-    class BlackTile : Tile
+    class BlackGraphicTile : GraphicTile
     {
-        public BlackTile(PictureBox pictureBox) : base(pictureBox) { }
+        public BlackGraphicTile(PictureBox pictureBox) : base(pictureBox) { }
+        public BlackGraphicTile() : base() { }
 
         private void Paint(object sender, System.Windows.Forms.PaintEventArgs e)
         {
@@ -30,16 +32,29 @@ namespace KAKURO
         }
 
         public override void Draw() {
-            Picture.Paint += new PaintEventHandler(Paint);
+            if(Picture != null)
+                Picture.Paint += new PaintEventHandler(Paint);
         }
     }
 
-    class SumsTile : Tile
+    class HintGraphicTile : GraphicTile
     {
         public int SumLeft {get;set;}
         public int SumRight {get;set;}
 
-        public SumsTile(PictureBox pictureBox, int sumLeft, int sumRight): base(pictureBox) 
+        public HintGraphicTile() : base()
+        {
+            SumLeft = 0;
+            SumRight = 0;
+        }
+
+        public HintGraphicTile(int sumLeft, int sumRight) : base()
+        {
+            SumLeft = sumLeft;
+            SumRight = sumRight;
+        }
+
+        public HintGraphicTile(PictureBox pictureBox, int sumLeft, int sumRight): base(pictureBox) 
         { 
             SumLeft = sumLeft;
             SumRight = sumRight;
@@ -69,15 +84,23 @@ namespace KAKURO
 
         public override void Draw()
         {
-            Picture.Paint += new PaintEventHandler(Paint);
+            if(Picture != null)
+                Picture.Paint += new PaintEventHandler(Paint);
         }
     }
 
-    class NumberTile : Tile
+    class NumberGraphicTile : GraphicTile
     {
         private int DrawnNumber { get; set; }
 
-        public NumberTile(PictureBox pictureBox, int drawnNumber) : base(pictureBox)
+        public NumberGraphicTile(): base() { DrawnNumber = 0; }
+
+        public NumberGraphicTile(int drawnNumber) : base()
+        {
+            DrawnNumber = drawnNumber;
+        }
+
+        public NumberGraphicTile(PictureBox pictureBox, int drawnNumber) : base(pictureBox)
         {
             DrawnNumber = drawnNumber;
         }
@@ -94,7 +117,8 @@ namespace KAKURO
 
         public override void Draw()
         {
-            Picture.Paint += new PaintEventHandler(Paint);
+            if(Picture == null)
+                Picture.Paint += new PaintEventHandler(Paint);
         }
     }
 }

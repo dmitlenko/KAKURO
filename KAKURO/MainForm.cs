@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -12,7 +13,7 @@ namespace KAKURO
 {
     public partial class MainForm : Form
     {
-        private DateTime CurrentTime = new DateTime(1, 1, 1, 0, 0, 0);
+        private DateTime CurrentTime = new DateTime();
         private int CurrentSeed { get; set; }
         private bool Saved { get; set; }
         private Point SelectedTile = new Point(0, 0);
@@ -45,13 +46,13 @@ namespace KAKURO
             // Підготувати тайли
             PrepareTiles();
 
-            Tile bt = new BlackTile(boxTiles[0, 0]);
+            GraphicTile bt = new BlackGraphicTile(boxTiles[0, 0]);
             bt.Draw();
 
-            Tile st = new SumsTile(boxTiles[0, 1], 21,30);
+            GraphicTile st = new HintGraphicTile(boxTiles[0, 1], 21,30);
             st.Draw();
 
-            Tile nt = new NumberTile(boxTiles[0, 2], 4);
+            GraphicTile nt = new NumberGraphicTile(boxTiles[0, 2], 4);
             nt.Draw();
         }
 
@@ -129,6 +130,14 @@ namespace KAKURO
             }
         }
 
+        private void AssignTiles(ref GraphicTile[,] tiles)
+        {
+            for (int x = 0; x < tiles.GetLength(0); x++)
+                for (int y = 0; y < tiles.GetLength(1); y++)
+                    tiles[y, x].Picture = boxTiles[y, x];
+                    
+        }
+
         private void Tile_Click(object sender, EventArgs e)
         {
             // Зберегти координати вибраного тайлу в тимчасову змінну
@@ -163,7 +172,14 @@ namespace KAKURO
 
         private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Application.Restart();
+            //Application.Restart();
+            Generator generator = new Generator(CurrentSeed);
+            Cell[,] board = null;
+
+            board = generator.GenerateBoard(6, 6, 0.2);
+            GraphicTile[,] tiles = generator.CellsToGraphicTiles(board);
+            AssignTiles(ref tiles);
+
         }
     }
 }

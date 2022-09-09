@@ -14,10 +14,35 @@ namespace KAKURO
     public partial class MainForm : Form
     {
         private DateTime CurrentTime = new DateTime();
-        private int CurrentSeed { get; set; }
         private bool Saved { get; set; }
         private Point SelectedTile = new Point(0, 0);
         private PictureBox[,] boxTiles;
+        private bool IsPaused { get; set; }
+
+        private bool Paused
+        {
+            get
+            {
+                return IsPaused;
+            }
+            set
+            {
+                IsPaused = value;
+                if (value)
+                {
+                    timer.Stop();
+                    statusInPause.Text = "Пауза";
+                    pauseToolStripMenuItem.Enabled = false;
+                    resumeToolStripMenuItem.Enabled = true;
+                } else
+                {
+                    timer.Start();
+                    statusInPause.Text = "";
+                    pauseToolStripMenuItem.Enabled = true;
+                    resumeToolStripMenuItem.Enabled = false;
+                }
+            }
+        }
 
         public MainForm()
         {
@@ -33,27 +58,13 @@ namespace KAKURO
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            // Генеруємо сід
-            Random rnd = new Random();
-            CurrentSeed = rnd.Next();
-            
-            // Виводимо сід на екран
-            statusSeed.Text = "Seed: " + CurrentSeed.ToString();
-
             // Просвоюємо змінній Saved "false" так як гра ще не збережена
             Saved = false;
 
             // Підготувати тайли
             PrepareTiles();
 
-            GraphicTile bt = new BlackGraphicTile(boxTiles[0, 0]);
-            bt.Draw();
-
-            GraphicTile st = new HintGraphicTile(boxTiles[0, 1], 21,30);
-            st.Draw();
-
-            GraphicTile nt = new NumberGraphicTile(boxTiles[0, 2], 4);
-            nt.Draw();
+            statusInPause.Text = "";
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -74,32 +85,35 @@ namespace KAKURO
 
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
-            // Зберегти координати вибраного тайлу в тимчасову змінну
-            Point current = new Point(SelectedTile.X, SelectedTile.Y);
-            
-            switch(e.KeyCode)
+            // Якщо гра не в паузі
+            if (!Paused)
             {
-                case Keys.Up: // При натисканні на стрілку вгору здвинути координату вгору
-                    if ((SelectedTile.Y - 1) > -1 && SelectedTile.Y < boxTiles.GetLength(0)) SelectedTile.Y -= 1;
-                    break;
-                case Keys.Down: // При натисканні на стрілку вниз здвинути координату вниз
-                    if ((SelectedTile.Y + 1) < boxTiles.GetLength(0)) SelectedTile.Y += 1;
-                    break;
-                case Keys.Left: // При натисканні на стрілку вліво здвинути координату вліво
-                    if ((SelectedTile.X - 1) > -1) SelectedTile.X -= 1;
-                    break;
-                case Keys.Right: // При натисканні на стрілку вправо здвинути координату вправо
-                    if ((SelectedTile.X + 1) < boxTiles.GetLength(1)) SelectedTile.X += 1;
-                    break;
-            }
+                // Зберегти координати вибраного тайлу в тимчасову змінну
+                Point current = new Point(SelectedTile.X, SelectedTile.Y);
 
-            if (current.X > -1 && current.Y > -1)
-            {
-                // Якщо існує тайл з краями то вимикаємо їх і задаємо краї новому тайлу
-                if (boxTiles[current.Y, current.X].BorderStyle == BorderStyle.FixedSingle) boxTiles[current.Y, current.X].BorderStyle = BorderStyle.None;
-                boxTiles[SelectedTile.Y, SelectedTile.X].BorderStyle = BorderStyle.FixedSingle;
-            }
-                
+                switch (e.KeyCode)
+                {
+                    case Keys.Up: // При натисканні на стрілку вгору здвинути координату вгору
+                        if ((SelectedTile.Y - 1) > -1 && SelectedTile.Y < boxTiles.GetLength(0)) SelectedTile.Y -= 1;
+                        break;
+                    case Keys.Down: // При натисканні на стрілку вниз здвинути координату вниз
+                        if ((SelectedTile.Y + 1) < boxTiles.GetLength(0)) SelectedTile.Y += 1;
+                        break;
+                    case Keys.Left: // При натисканні на стрілку вліво здвинути координату вліво
+                        if ((SelectedTile.X - 1) > -1) SelectedTile.X -= 1;
+                        break;
+                    case Keys.Right: // При натисканні на стрілку вправо здвинути координату вправо
+                        if ((SelectedTile.X + 1) < boxTiles.GetLength(1)) SelectedTile.X += 1;
+                        break;
+                }
+
+                if (current.X > -1 && current.Y > -1)
+                {
+                    // Якщо існує тайл з краями то вимикаємо їх і задаємо краї новому тайлу
+                    if (boxTiles[current.Y, current.X].BorderStyle == BorderStyle.FixedSingle) boxTiles[current.Y, current.X].BorderStyle = BorderStyle.None;
+                    boxTiles[SelectedTile.Y, SelectedTile.X].BorderStyle = BorderStyle.FixedSingle;
+                }
+            } 
         }
 
         private void PrepareTiles()
@@ -140,22 +154,25 @@ namespace KAKURO
 
         private void Tile_Click(object sender, EventArgs e)
         {
-            // Зберегти координати вибраного тайлу в тимчасову змінну
-            Point current = new Point(SelectedTile.X, SelectedTile.Y);
-            string[] coords = ((PictureBox)sender).Tag.ToString().Split(':');
-            int y = Convert.ToInt32(coords[0]);
-            int x = Convert.ToInt32(coords[1]);
-
-            // Виконати тільки, якщо не задані координати за замовчуванням (вони не задані :] )
-            if (current.X > -1 && current.Y > -1)
+            if (!Paused)
             {
-                // Якщо існує тайл з краями то вимикаємо їх і задаємо краї новому тайлу
-                if (boxTiles[current.Y, current.X].BorderStyle == BorderStyle.FixedSingle) boxTiles[current.Y, current.X].BorderStyle = BorderStyle.None;
-                ((PictureBox)sender).BorderStyle = BorderStyle.FixedSingle;
+                // Зберегти координати вибраного тайлу в тимчасову змінну
+                Point current = new Point(SelectedTile.X, SelectedTile.Y);
+                string[] coords = ((PictureBox)sender).Tag.ToString().Split(':');
+                int y = Convert.ToInt32(coords[0]);
+                int x = Convert.ToInt32(coords[1]);
 
-                // Записати координати в точку
-                SelectedTile.X = x;
-                SelectedTile.Y = y;
+                // Виконати тільки, якщо не задані координати за замовчуванням (вони не задані :] )
+                if (current.X > -1 && current.Y > -1)
+                {
+                    // Якщо існує тайл з краями то вимикаємо їх і задаємо краї новому тайлу
+                    if (boxTiles[current.Y, current.X].BorderStyle == BorderStyle.FixedSingle) boxTiles[current.Y, current.X].BorderStyle = BorderStyle.None;
+                    ((PictureBox)sender).BorderStyle = BorderStyle.FixedSingle;
+
+                    // Записати координати в точку
+                    SelectedTile.X = x;
+                    SelectedTile.Y = y;
+                }
             }
         }
 
@@ -173,13 +190,23 @@ namespace KAKURO
         private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Application.Restart();
-            Generator generator = new Generator(CurrentSeed);
+            Generator generator = new Generator();
             Cell[,] board = null;
 
             board = generator.GenerateBoard(6, 6, 0.2);
             GraphicTile[,] tiles = generator.CellsToGraphicTiles(board);
             AssignTiles(ref tiles);
 
+        }
+
+        private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Paused = true;
+        }
+
+        private void resumeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Paused = false;
         }
     }
 }

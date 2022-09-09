@@ -40,15 +40,16 @@
             this.newGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.restartGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
+            this.resumeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.resumeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.допомогаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rulesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.statusSeed = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusTime = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusInPause = new System.Windows.Forms.ToolStripStatusLabel();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
@@ -116,7 +117,6 @@
             this.tile1_0 = new System.Windows.Forms.PictureBox();
             this.tile4_0 = new System.Windows.Forms.PictureBox();
             this.tile0_0 = new System.Windows.Forms.PictureBox();
-            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
@@ -250,7 +250,7 @@
             this.checkToolStripMenuItem,
             this.toolStripMenuItem4,
             this.resumeToolStripMenuItem,
-            this.toolStripMenuItem3,
+            this.pauseToolStripMenuItem,
             this.toolStripMenuItem2,
             this.settingsToolStripMenuItem});
             this.gameToolStripMenuItem.Name = "gameToolStripMenuItem";
@@ -282,6 +282,28 @@
             this.checkToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.checkToolStripMenuItem.Text = "Перевірити";
             // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(187, 6);
+            // 
+            // resumeToolStripMenuItem
+            // 
+            this.resumeToolStripMenuItem.Enabled = false;
+            this.resumeToolStripMenuItem.Image = global::KAKURO.Properties.Resources.control_play;
+            this.resumeToolStripMenuItem.Name = "resumeToolStripMenuItem";
+            this.resumeToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.resumeToolStripMenuItem.Text = "Resume";
+            this.resumeToolStripMenuItem.Click += new System.EventHandler(this.resumeToolStripMenuItem_Click);
+            // 
+            // pauseToolStripMenuItem
+            // 
+            this.pauseToolStripMenuItem.Image = global::KAKURO.Properties.Resources.control_pause;
+            this.pauseToolStripMenuItem.Name = "pauseToolStripMenuItem";
+            this.pauseToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.pauseToolStripMenuItem.Text = "Pause";
+            this.pauseToolStripMenuItem.Click += new System.EventHandler(this.pauseToolStripMenuItem_Click);
+            // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
@@ -294,22 +316,6 @@
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.settingsToolStripMenuItem.Text = "Налаштування";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.Enabled = false;
-            this.toolStripMenuItem3.Image = global::KAKURO.Properties.Resources.control_pause;
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(190, 22);
-            this.toolStripMenuItem3.Text = "Pause";
-            // 
-            // resumeToolStripMenuItem
-            // 
-            this.resumeToolStripMenuItem.Enabled = false;
-            this.resumeToolStripMenuItem.Image = global::KAKURO.Properties.Resources.control_play;
-            this.resumeToolStripMenuItem.Name = "resumeToolStripMenuItem";
-            this.resumeToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
-            this.resumeToolStripMenuItem.Text = "Resume";
             // 
             // допомогаToolStripMenuItem
             // 
@@ -324,7 +330,7 @@
             this.rulesToolStripMenuItem.Image = global::KAKURO.Properties.Resources.information;
             this.rulesToolStripMenuItem.Name = "rulesToolStripMenuItem";
             this.rulesToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.rulesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.rulesToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.rulesToolStripMenuItem.Text = "Правила гри";
             this.rulesToolStripMenuItem.Click += new System.EventHandler(this.rulesToolStripMenuItem_Click);
             // 
@@ -332,21 +338,15 @@
             // 
             this.statusStrip.BackColor = System.Drawing.SystemColors.Control;
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.statusSeed,
-            this.statusTime});
+            this.statusTime,
+            this.statusInPause});
             this.statusStrip.Location = new System.Drawing.Point(0, 408);
             this.statusStrip.Name = "statusStrip";
+            this.statusStrip.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.statusStrip.Size = new System.Drawing.Size(384, 22);
             this.statusStrip.SizingGrip = false;
             this.statusStrip.TabIndex = 3;
             this.statusStrip.Text = "statusStrip1";
-            // 
-            // statusSeed
-            // 
-            this.statusSeed.BackColor = System.Drawing.SystemColors.Control;
-            this.statusSeed.Name = "statusSeed";
-            this.statusSeed.Size = new System.Drawing.Size(63, 17);
-            this.statusSeed.Text = "statusSeed";
             // 
             // statusTime
             // 
@@ -354,6 +354,12 @@
             this.statusTime.Name = "statusTime";
             this.statusTime.Size = new System.Drawing.Size(49, 17);
             this.statusTime.Text = "00:00:00";
+            // 
+            // statusInPause
+            // 
+            this.statusInPause.Name = "statusInPause";
+            this.statusInPause.Size = new System.Drawing.Size(53, 17);
+            this.statusInPause.Text = "IsPaused";
             // 
             // timer
             // 
@@ -941,11 +947,6 @@
             this.tile0_0.TabIndex = 0;
             this.tile0_0.TabStop = false;
             // 
-            // toolStripMenuItem4
-            // 
-            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(187, 6);
-            // 
             // contextMenuStrip
             // 
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1201,7 +1202,6 @@
         private System.Windows.Forms.ToolStripMenuItem gameToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newGameToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem restartGameToolStripMenuItem;
-        private System.Windows.Forms.ToolStripStatusLabel statusSeed;
         private System.Windows.Forms.ToolStripStatusLabel statusTime;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.Timer timer;
@@ -1212,12 +1212,13 @@
         private System.Windows.Forms.ToolStripMenuItem rulesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem pauseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem resumeToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem6;
+        private System.Windows.Forms.ToolStripStatusLabel statusInPause;
     }
 }
 

@@ -30,13 +30,6 @@ namespace KAKURO
 
     internal class Generator
     {
-        public int Seed { get; set; }
-
-        public Generator(int seed)
-        {
-            Seed = seed;
-        }
-
         private class Seen
         {
             public string IsSeen { get; set; }

@@ -53,6 +53,10 @@
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tilesPanel = new System.Windows.Forms.Panel();
             this.tile7_5 = new System.Windows.Forms.PictureBox();
             this.tile3_5 = new System.Windows.Forms.PictureBox();
             this.tile6_5 = new System.Windows.Forms.PictureBox();
@@ -117,11 +121,10 @@
             this.tile1_0 = new System.Windows.Forms.PictureBox();
             this.tile4_0 = new System.Windows.Forms.PictureBox();
             this.tile0_0 = new System.Windows.Forms.PictureBox();
-            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
+            this.contextMenuStrip.SuspendLayout();
+            this.tilesPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tile7_5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tile3_5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tile6_5)).BeginInit();
@@ -186,7 +189,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.tile1_0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tile4_0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tile0_0)).BeginInit();
-            this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -198,7 +200,7 @@
             this.допомогаToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(384, 24);
+            this.menuStrip.Size = new System.Drawing.Size(638, 24);
             this.menuStrip.TabIndex = 2;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -292,6 +294,8 @@
             this.resumeToolStripMenuItem.Enabled = false;
             this.resumeToolStripMenuItem.Image = global::KAKURO.Properties.Resources.control_play;
             this.resumeToolStripMenuItem.Name = "resumeToolStripMenuItem";
+            this.resumeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.R)));
             this.resumeToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.resumeToolStripMenuItem.Text = "Resume";
             this.resumeToolStripMenuItem.Click += new System.EventHandler(this.resumeToolStripMenuItem_Click);
@@ -300,6 +304,8 @@
             // 
             this.pauseToolStripMenuItem.Image = global::KAKURO.Properties.Resources.control_pause;
             this.pauseToolStripMenuItem.Name = "pauseToolStripMenuItem";
+            this.pauseToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.P)));
             this.pauseToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.pauseToolStripMenuItem.Text = "Pause";
             this.pauseToolStripMenuItem.Click += new System.EventHandler(this.pauseToolStripMenuItem_Click);
@@ -340,11 +346,10 @@
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusTime,
             this.statusInPause});
-            this.statusStrip.Location = new System.Drawing.Point(0, 408);
+            this.statusStrip.Location = new System.Drawing.Point(0, 569);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.statusStrip.Size = new System.Drawing.Size(384, 22);
-            this.statusStrip.SizingGrip = false;
+            this.statusStrip.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.statusStrip.Size = new System.Drawing.Size(638, 22);
             this.statusStrip.TabIndex = 3;
             this.statusStrip.Text = "statusStrip1";
             // 
@@ -372,582 +377,6 @@
             // 
             this.openFileDialog.FileName = "openFileDialog1";
             // 
-            // tile7_5
-            // 
-            this.tile7_5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile7_5.Location = new System.Drawing.Point(240, 360);
-            this.tile7_5.Name = "tile7_5";
-            this.tile7_5.Size = new System.Drawing.Size(48, 48);
-            this.tile7_5.TabIndex = 1;
-            this.tile7_5.TabStop = false;
-            // 
-            // tile3_5
-            // 
-            this.tile3_5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile3_5.Location = new System.Drawing.Point(240, 168);
-            this.tile3_5.Name = "tile3_5";
-            this.tile3_5.Size = new System.Drawing.Size(48, 48);
-            this.tile3_5.TabIndex = 1;
-            this.tile3_5.TabStop = false;
-            // 
-            // tile6_5
-            // 
-            this.tile6_5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile6_5.Location = new System.Drawing.Point(240, 312);
-            this.tile6_5.Name = "tile6_5";
-            this.tile6_5.Size = new System.Drawing.Size(48, 48);
-            this.tile6_5.TabIndex = 1;
-            this.tile6_5.TabStop = false;
-            // 
-            // tile2_5
-            // 
-            this.tile2_5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile2_5.Location = new System.Drawing.Point(240, 120);
-            this.tile2_5.Name = "tile2_5";
-            this.tile2_5.Size = new System.Drawing.Size(48, 48);
-            this.tile2_5.TabIndex = 1;
-            this.tile2_5.TabStop = false;
-            // 
-            // tile5_5
-            // 
-            this.tile5_5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile5_5.Location = new System.Drawing.Point(240, 264);
-            this.tile5_5.Name = "tile5_5";
-            this.tile5_5.Size = new System.Drawing.Size(48, 48);
-            this.tile5_5.TabIndex = 1;
-            this.tile5_5.TabStop = false;
-            // 
-            // tile1_5
-            // 
-            this.tile1_5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile1_5.Location = new System.Drawing.Point(240, 72);
-            this.tile1_5.Name = "tile1_5";
-            this.tile1_5.Size = new System.Drawing.Size(48, 48);
-            this.tile1_5.TabIndex = 1;
-            this.tile1_5.TabStop = false;
-            // 
-            // tile4_5
-            // 
-            this.tile4_5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile4_5.Location = new System.Drawing.Point(240, 216);
-            this.tile4_5.Name = "tile4_5";
-            this.tile4_5.Size = new System.Drawing.Size(48, 48);
-            this.tile4_5.TabIndex = 1;
-            this.tile4_5.TabStop = false;
-            // 
-            // tile0_5
-            // 
-            this.tile0_5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile0_5.Location = new System.Drawing.Point(240, 24);
-            this.tile0_5.Name = "tile0_5";
-            this.tile0_5.Size = new System.Drawing.Size(48, 48);
-            this.tile0_5.TabIndex = 1;
-            this.tile0_5.TabStop = false;
-            // 
-            // tile7_7
-            // 
-            this.tile7_7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile7_7.Location = new System.Drawing.Point(336, 360);
-            this.tile7_7.Name = "tile7_7";
-            this.tile7_7.Size = new System.Drawing.Size(48, 48);
-            this.tile7_7.TabIndex = 1;
-            this.tile7_7.TabStop = false;
-            // 
-            // tile3_7
-            // 
-            this.tile3_7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile3_7.Location = new System.Drawing.Point(336, 168);
-            this.tile3_7.Name = "tile3_7";
-            this.tile3_7.Size = new System.Drawing.Size(48, 48);
-            this.tile3_7.TabIndex = 1;
-            this.tile3_7.TabStop = false;
-            // 
-            // tile6_7
-            // 
-            this.tile6_7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile6_7.Location = new System.Drawing.Point(336, 312);
-            this.tile6_7.Name = "tile6_7";
-            this.tile6_7.Size = new System.Drawing.Size(48, 48);
-            this.tile6_7.TabIndex = 1;
-            this.tile6_7.TabStop = false;
-            // 
-            // tile2_7
-            // 
-            this.tile2_7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile2_7.Location = new System.Drawing.Point(336, 120);
-            this.tile2_7.Name = "tile2_7";
-            this.tile2_7.Size = new System.Drawing.Size(48, 48);
-            this.tile2_7.TabIndex = 1;
-            this.tile2_7.TabStop = false;
-            // 
-            // tile5_7
-            // 
-            this.tile5_7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile5_7.Location = new System.Drawing.Point(336, 264);
-            this.tile5_7.Name = "tile5_7";
-            this.tile5_7.Size = new System.Drawing.Size(48, 48);
-            this.tile5_7.TabIndex = 1;
-            this.tile5_7.TabStop = false;
-            // 
-            // tile1_7
-            // 
-            this.tile1_7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile1_7.Location = new System.Drawing.Point(336, 72);
-            this.tile1_7.Name = "tile1_7";
-            this.tile1_7.Size = new System.Drawing.Size(48, 48);
-            this.tile1_7.TabIndex = 1;
-            this.tile1_7.TabStop = false;
-            // 
-            // tile4_7
-            // 
-            this.tile4_7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile4_7.Location = new System.Drawing.Point(336, 216);
-            this.tile4_7.Name = "tile4_7";
-            this.tile4_7.Size = new System.Drawing.Size(48, 48);
-            this.tile4_7.TabIndex = 1;
-            this.tile4_7.TabStop = false;
-            // 
-            // tile0_7
-            // 
-            this.tile0_7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile0_7.Location = new System.Drawing.Point(336, 24);
-            this.tile0_7.Name = "tile0_7";
-            this.tile0_7.Size = new System.Drawing.Size(48, 48);
-            this.tile0_7.TabIndex = 1;
-            this.tile0_7.TabStop = false;
-            // 
-            // tile7_6
-            // 
-            this.tile7_6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile7_6.Location = new System.Drawing.Point(288, 360);
-            this.tile7_6.Name = "tile7_6";
-            this.tile7_6.Size = new System.Drawing.Size(48, 48);
-            this.tile7_6.TabIndex = 1;
-            this.tile7_6.TabStop = false;
-            // 
-            // tile3_6
-            // 
-            this.tile3_6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile3_6.Location = new System.Drawing.Point(288, 168);
-            this.tile3_6.Name = "tile3_6";
-            this.tile3_6.Size = new System.Drawing.Size(48, 48);
-            this.tile3_6.TabIndex = 1;
-            this.tile3_6.TabStop = false;
-            // 
-            // tile6_6
-            // 
-            this.tile6_6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile6_6.Location = new System.Drawing.Point(288, 312);
-            this.tile6_6.Name = "tile6_6";
-            this.tile6_6.Size = new System.Drawing.Size(48, 48);
-            this.tile6_6.TabIndex = 1;
-            this.tile6_6.TabStop = false;
-            // 
-            // tile2_6
-            // 
-            this.tile2_6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile2_6.Location = new System.Drawing.Point(288, 120);
-            this.tile2_6.Name = "tile2_6";
-            this.tile2_6.Size = new System.Drawing.Size(48, 48);
-            this.tile2_6.TabIndex = 1;
-            this.tile2_6.TabStop = false;
-            // 
-            // tile5_6
-            // 
-            this.tile5_6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile5_6.Location = new System.Drawing.Point(288, 264);
-            this.tile5_6.Name = "tile5_6";
-            this.tile5_6.Size = new System.Drawing.Size(48, 48);
-            this.tile5_6.TabIndex = 1;
-            this.tile5_6.TabStop = false;
-            // 
-            // tile1_6
-            // 
-            this.tile1_6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile1_6.Location = new System.Drawing.Point(288, 72);
-            this.tile1_6.Name = "tile1_6";
-            this.tile1_6.Size = new System.Drawing.Size(48, 48);
-            this.tile1_6.TabIndex = 1;
-            this.tile1_6.TabStop = false;
-            // 
-            // tile4_6
-            // 
-            this.tile4_6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile4_6.Location = new System.Drawing.Point(288, 216);
-            this.tile4_6.Name = "tile4_6";
-            this.tile4_6.Size = new System.Drawing.Size(48, 48);
-            this.tile4_6.TabIndex = 1;
-            this.tile4_6.TabStop = false;
-            // 
-            // tile0_6
-            // 
-            this.tile0_6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile0_6.Location = new System.Drawing.Point(288, 24);
-            this.tile0_6.Name = "tile0_6";
-            this.tile0_6.Size = new System.Drawing.Size(48, 48);
-            this.tile0_6.TabIndex = 1;
-            this.tile0_6.TabStop = false;
-            // 
-            // tile7_4
-            // 
-            this.tile7_4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile7_4.Location = new System.Drawing.Point(192, 360);
-            this.tile7_4.Name = "tile7_4";
-            this.tile7_4.Size = new System.Drawing.Size(48, 48);
-            this.tile7_4.TabIndex = 1;
-            this.tile7_4.TabStop = false;
-            // 
-            // tile3_4
-            // 
-            this.tile3_4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile3_4.Location = new System.Drawing.Point(192, 168);
-            this.tile3_4.Name = "tile3_4";
-            this.tile3_4.Size = new System.Drawing.Size(48, 48);
-            this.tile3_4.TabIndex = 1;
-            this.tile3_4.TabStop = false;
-            // 
-            // tile6_4
-            // 
-            this.tile6_4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile6_4.Location = new System.Drawing.Point(192, 312);
-            this.tile6_4.Name = "tile6_4";
-            this.tile6_4.Size = new System.Drawing.Size(48, 48);
-            this.tile6_4.TabIndex = 1;
-            this.tile6_4.TabStop = false;
-            // 
-            // tile2_4
-            // 
-            this.tile2_4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile2_4.Location = new System.Drawing.Point(192, 120);
-            this.tile2_4.Name = "tile2_4";
-            this.tile2_4.Size = new System.Drawing.Size(48, 48);
-            this.tile2_4.TabIndex = 1;
-            this.tile2_4.TabStop = false;
-            // 
-            // tile5_4
-            // 
-            this.tile5_4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile5_4.Location = new System.Drawing.Point(192, 264);
-            this.tile5_4.Name = "tile5_4";
-            this.tile5_4.Size = new System.Drawing.Size(48, 48);
-            this.tile5_4.TabIndex = 1;
-            this.tile5_4.TabStop = false;
-            // 
-            // tile1_4
-            // 
-            this.tile1_4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile1_4.Location = new System.Drawing.Point(192, 72);
-            this.tile1_4.Name = "tile1_4";
-            this.tile1_4.Size = new System.Drawing.Size(48, 48);
-            this.tile1_4.TabIndex = 1;
-            this.tile1_4.TabStop = false;
-            // 
-            // tile4_4
-            // 
-            this.tile4_4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile4_4.Location = new System.Drawing.Point(192, 216);
-            this.tile4_4.Name = "tile4_4";
-            this.tile4_4.Size = new System.Drawing.Size(48, 48);
-            this.tile4_4.TabIndex = 1;
-            this.tile4_4.TabStop = false;
-            // 
-            // tile0_4
-            // 
-            this.tile0_4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile0_4.Location = new System.Drawing.Point(192, 24);
-            this.tile0_4.Name = "tile0_4";
-            this.tile0_4.Size = new System.Drawing.Size(48, 48);
-            this.tile0_4.TabIndex = 1;
-            this.tile0_4.TabStop = false;
-            // 
-            // tile7_3
-            // 
-            this.tile7_3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile7_3.Location = new System.Drawing.Point(144, 360);
-            this.tile7_3.Name = "tile7_3";
-            this.tile7_3.Size = new System.Drawing.Size(48, 48);
-            this.tile7_3.TabIndex = 1;
-            this.tile7_3.TabStop = false;
-            // 
-            // tile3_3
-            // 
-            this.tile3_3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile3_3.Location = new System.Drawing.Point(144, 168);
-            this.tile3_3.Name = "tile3_3";
-            this.tile3_3.Size = new System.Drawing.Size(48, 48);
-            this.tile3_3.TabIndex = 1;
-            this.tile3_3.TabStop = false;
-            // 
-            // tile6_3
-            // 
-            this.tile6_3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile6_3.Location = new System.Drawing.Point(144, 312);
-            this.tile6_3.Name = "tile6_3";
-            this.tile6_3.Size = new System.Drawing.Size(48, 48);
-            this.tile6_3.TabIndex = 1;
-            this.tile6_3.TabStop = false;
-            // 
-            // tile2_3
-            // 
-            this.tile2_3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile2_3.Location = new System.Drawing.Point(144, 120);
-            this.tile2_3.Name = "tile2_3";
-            this.tile2_3.Size = new System.Drawing.Size(48, 48);
-            this.tile2_3.TabIndex = 1;
-            this.tile2_3.TabStop = false;
-            // 
-            // tile5_3
-            // 
-            this.tile5_3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile5_3.Location = new System.Drawing.Point(144, 264);
-            this.tile5_3.Name = "tile5_3";
-            this.tile5_3.Size = new System.Drawing.Size(48, 48);
-            this.tile5_3.TabIndex = 1;
-            this.tile5_3.TabStop = false;
-            // 
-            // tile1_3
-            // 
-            this.tile1_3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile1_3.Location = new System.Drawing.Point(144, 72);
-            this.tile1_3.Name = "tile1_3";
-            this.tile1_3.Size = new System.Drawing.Size(48, 48);
-            this.tile1_3.TabIndex = 1;
-            this.tile1_3.TabStop = false;
-            // 
-            // tile4_3
-            // 
-            this.tile4_3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile4_3.Location = new System.Drawing.Point(144, 216);
-            this.tile4_3.Name = "tile4_3";
-            this.tile4_3.Size = new System.Drawing.Size(48, 48);
-            this.tile4_3.TabIndex = 1;
-            this.tile4_3.TabStop = false;
-            // 
-            // tile0_3
-            // 
-            this.tile0_3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile0_3.Location = new System.Drawing.Point(144, 24);
-            this.tile0_3.Name = "tile0_3";
-            this.tile0_3.Size = new System.Drawing.Size(48, 48);
-            this.tile0_3.TabIndex = 1;
-            this.tile0_3.TabStop = false;
-            // 
-            // tile7_2
-            // 
-            this.tile7_2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile7_2.Location = new System.Drawing.Point(96, 360);
-            this.tile7_2.Name = "tile7_2";
-            this.tile7_2.Size = new System.Drawing.Size(48, 48);
-            this.tile7_2.TabIndex = 1;
-            this.tile7_2.TabStop = false;
-            // 
-            // tile3_2
-            // 
-            this.tile3_2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile3_2.Location = new System.Drawing.Point(96, 168);
-            this.tile3_2.Name = "tile3_2";
-            this.tile3_2.Size = new System.Drawing.Size(48, 48);
-            this.tile3_2.TabIndex = 1;
-            this.tile3_2.TabStop = false;
-            // 
-            // tile6_2
-            // 
-            this.tile6_2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile6_2.Location = new System.Drawing.Point(96, 312);
-            this.tile6_2.Name = "tile6_2";
-            this.tile6_2.Size = new System.Drawing.Size(48, 48);
-            this.tile6_2.TabIndex = 1;
-            this.tile6_2.TabStop = false;
-            // 
-            // tile2_2
-            // 
-            this.tile2_2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile2_2.Location = new System.Drawing.Point(96, 120);
-            this.tile2_2.Name = "tile2_2";
-            this.tile2_2.Size = new System.Drawing.Size(48, 48);
-            this.tile2_2.TabIndex = 1;
-            this.tile2_2.TabStop = false;
-            // 
-            // tile5_2
-            // 
-            this.tile5_2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile5_2.Location = new System.Drawing.Point(96, 264);
-            this.tile5_2.Name = "tile5_2";
-            this.tile5_2.Size = new System.Drawing.Size(48, 48);
-            this.tile5_2.TabIndex = 1;
-            this.tile5_2.TabStop = false;
-            // 
-            // tile1_2
-            // 
-            this.tile1_2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile1_2.Location = new System.Drawing.Point(96, 72);
-            this.tile1_2.Name = "tile1_2";
-            this.tile1_2.Size = new System.Drawing.Size(48, 48);
-            this.tile1_2.TabIndex = 1;
-            this.tile1_2.TabStop = false;
-            // 
-            // tile4_2
-            // 
-            this.tile4_2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile4_2.Location = new System.Drawing.Point(96, 216);
-            this.tile4_2.Name = "tile4_2";
-            this.tile4_2.Size = new System.Drawing.Size(48, 48);
-            this.tile4_2.TabIndex = 1;
-            this.tile4_2.TabStop = false;
-            // 
-            // tile0_2
-            // 
-            this.tile0_2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile0_2.Location = new System.Drawing.Point(96, 24);
-            this.tile0_2.Name = "tile0_2";
-            this.tile0_2.Size = new System.Drawing.Size(48, 48);
-            this.tile0_2.TabIndex = 1;
-            this.tile0_2.TabStop = false;
-            // 
-            // tile7_1
-            // 
-            this.tile7_1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile7_1.Location = new System.Drawing.Point(48, 360);
-            this.tile7_1.Name = "tile7_1";
-            this.tile7_1.Size = new System.Drawing.Size(48, 48);
-            this.tile7_1.TabIndex = 1;
-            this.tile7_1.TabStop = false;
-            // 
-            // tile3_1
-            // 
-            this.tile3_1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile3_1.Location = new System.Drawing.Point(48, 168);
-            this.tile3_1.Name = "tile3_1";
-            this.tile3_1.Size = new System.Drawing.Size(48, 48);
-            this.tile3_1.TabIndex = 1;
-            this.tile3_1.TabStop = false;
-            // 
-            // tile6_1
-            // 
-            this.tile6_1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile6_1.Location = new System.Drawing.Point(48, 312);
-            this.tile6_1.Name = "tile6_1";
-            this.tile6_1.Size = new System.Drawing.Size(48, 48);
-            this.tile6_1.TabIndex = 1;
-            this.tile6_1.TabStop = false;
-            // 
-            // tile2_1
-            // 
-            this.tile2_1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile2_1.Location = new System.Drawing.Point(48, 120);
-            this.tile2_1.Name = "tile2_1";
-            this.tile2_1.Size = new System.Drawing.Size(48, 48);
-            this.tile2_1.TabIndex = 1;
-            this.tile2_1.TabStop = false;
-            // 
-            // tile5_1
-            // 
-            this.tile5_1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile5_1.Location = new System.Drawing.Point(48, 264);
-            this.tile5_1.Name = "tile5_1";
-            this.tile5_1.Size = new System.Drawing.Size(48, 48);
-            this.tile5_1.TabIndex = 1;
-            this.tile5_1.TabStop = false;
-            // 
-            // tile1_1
-            // 
-            this.tile1_1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile1_1.Location = new System.Drawing.Point(48, 72);
-            this.tile1_1.Name = "tile1_1";
-            this.tile1_1.Size = new System.Drawing.Size(48, 48);
-            this.tile1_1.TabIndex = 1;
-            this.tile1_1.TabStop = false;
-            // 
-            // tile4_1
-            // 
-            this.tile4_1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile4_1.Location = new System.Drawing.Point(48, 216);
-            this.tile4_1.Name = "tile4_1";
-            this.tile4_1.Size = new System.Drawing.Size(48, 48);
-            this.tile4_1.TabIndex = 1;
-            this.tile4_1.TabStop = false;
-            // 
-            // tile0_1
-            // 
-            this.tile0_1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile0_1.Location = new System.Drawing.Point(48, 24);
-            this.tile0_1.Name = "tile0_1";
-            this.tile0_1.Size = new System.Drawing.Size(48, 48);
-            this.tile0_1.TabIndex = 1;
-            this.tile0_1.TabStop = false;
-            // 
-            // tile7_0
-            // 
-            this.tile7_0.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile7_0.Location = new System.Drawing.Point(0, 360);
-            this.tile7_0.Name = "tile7_0";
-            this.tile7_0.Size = new System.Drawing.Size(48, 48);
-            this.tile7_0.TabIndex = 0;
-            this.tile7_0.TabStop = false;
-            // 
-            // tile3_0
-            // 
-            this.tile3_0.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile3_0.Location = new System.Drawing.Point(0, 168);
-            this.tile3_0.Name = "tile3_0";
-            this.tile3_0.Size = new System.Drawing.Size(48, 48);
-            this.tile3_0.TabIndex = 0;
-            this.tile3_0.TabStop = false;
-            // 
-            // tile6_0
-            // 
-            this.tile6_0.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile6_0.Location = new System.Drawing.Point(0, 312);
-            this.tile6_0.Name = "tile6_0";
-            this.tile6_0.Size = new System.Drawing.Size(48, 48);
-            this.tile6_0.TabIndex = 0;
-            this.tile6_0.TabStop = false;
-            // 
-            // tile2_0
-            // 
-            this.tile2_0.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile2_0.Location = new System.Drawing.Point(0, 120);
-            this.tile2_0.Name = "tile2_0";
-            this.tile2_0.Size = new System.Drawing.Size(48, 48);
-            this.tile2_0.TabIndex = 0;
-            this.tile2_0.TabStop = false;
-            // 
-            // tile5_0
-            // 
-            this.tile5_0.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile5_0.Location = new System.Drawing.Point(0, 264);
-            this.tile5_0.Name = "tile5_0";
-            this.tile5_0.Size = new System.Drawing.Size(48, 48);
-            this.tile5_0.TabIndex = 0;
-            this.tile5_0.TabStop = false;
-            // 
-            // tile1_0
-            // 
-            this.tile1_0.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile1_0.Location = new System.Drawing.Point(0, 72);
-            this.tile1_0.Name = "tile1_0";
-            this.tile1_0.Size = new System.Drawing.Size(48, 48);
-            this.tile1_0.TabIndex = 0;
-            this.tile1_0.TabStop = false;
-            // 
-            // tile4_0
-            // 
-            this.tile4_0.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile4_0.Location = new System.Drawing.Point(0, 216);
-            this.tile4_0.Name = "tile4_0";
-            this.tile4_0.Size = new System.Drawing.Size(48, 48);
-            this.tile4_0.TabIndex = 0;
-            this.tile4_0.TabStop = false;
-            // 
-            // tile0_0
-            // 
-            this.tile0_0.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tile0_0.Location = new System.Drawing.Point(0, 24);
-            this.tile0_0.Name = "tile0_0";
-            this.tile0_0.Size = new System.Drawing.Size(48, 48);
-            this.tile0_0.TabIndex = 0;
-            this.tile0_0.TabStop = false;
-            // 
             // contextMenuStrip
             // 
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -972,92 +401,680 @@
             this.toolStripMenuItem6.Size = new System.Drawing.Size(116, 22);
             this.toolStripMenuItem6.Text = "Pause";
             // 
+            // tilesPanel
+            // 
+            this.tilesPanel.BackColor = System.Drawing.SystemColors.Window;
+            this.tilesPanel.Controls.Add(this.tile7_5);
+            this.tilesPanel.Controls.Add(this.tile3_5);
+            this.tilesPanel.Controls.Add(this.tile6_5);
+            this.tilesPanel.Controls.Add(this.tile2_5);
+            this.tilesPanel.Controls.Add(this.tile5_5);
+            this.tilesPanel.Controls.Add(this.tile1_5);
+            this.tilesPanel.Controls.Add(this.tile4_5);
+            this.tilesPanel.Controls.Add(this.tile0_5);
+            this.tilesPanel.Controls.Add(this.tile7_7);
+            this.tilesPanel.Controls.Add(this.tile3_7);
+            this.tilesPanel.Controls.Add(this.tile6_7);
+            this.tilesPanel.Controls.Add(this.tile2_7);
+            this.tilesPanel.Controls.Add(this.tile5_7);
+            this.tilesPanel.Controls.Add(this.tile1_7);
+            this.tilesPanel.Controls.Add(this.tile4_7);
+            this.tilesPanel.Controls.Add(this.tile0_7);
+            this.tilesPanel.Controls.Add(this.tile7_6);
+            this.tilesPanel.Controls.Add(this.tile3_6);
+            this.tilesPanel.Controls.Add(this.tile6_6);
+            this.tilesPanel.Controls.Add(this.tile2_6);
+            this.tilesPanel.Controls.Add(this.tile5_6);
+            this.tilesPanel.Controls.Add(this.tile1_6);
+            this.tilesPanel.Controls.Add(this.tile4_6);
+            this.tilesPanel.Controls.Add(this.tile0_6);
+            this.tilesPanel.Controls.Add(this.tile7_4);
+            this.tilesPanel.Controls.Add(this.tile3_4);
+            this.tilesPanel.Controls.Add(this.tile6_4);
+            this.tilesPanel.Controls.Add(this.tile2_4);
+            this.tilesPanel.Controls.Add(this.tile5_4);
+            this.tilesPanel.Controls.Add(this.tile1_4);
+            this.tilesPanel.Controls.Add(this.tile4_4);
+            this.tilesPanel.Controls.Add(this.tile0_4);
+            this.tilesPanel.Controls.Add(this.tile7_3);
+            this.tilesPanel.Controls.Add(this.tile3_3);
+            this.tilesPanel.Controls.Add(this.tile6_3);
+            this.tilesPanel.Controls.Add(this.tile2_3);
+            this.tilesPanel.Controls.Add(this.tile5_3);
+            this.tilesPanel.Controls.Add(this.tile1_3);
+            this.tilesPanel.Controls.Add(this.tile4_3);
+            this.tilesPanel.Controls.Add(this.tile0_3);
+            this.tilesPanel.Controls.Add(this.tile7_2);
+            this.tilesPanel.Controls.Add(this.tile3_2);
+            this.tilesPanel.Controls.Add(this.tile6_2);
+            this.tilesPanel.Controls.Add(this.tile2_2);
+            this.tilesPanel.Controls.Add(this.tile5_2);
+            this.tilesPanel.Controls.Add(this.tile1_2);
+            this.tilesPanel.Controls.Add(this.tile4_2);
+            this.tilesPanel.Controls.Add(this.tile0_2);
+            this.tilesPanel.Controls.Add(this.tile7_1);
+            this.tilesPanel.Controls.Add(this.tile3_1);
+            this.tilesPanel.Controls.Add(this.tile6_1);
+            this.tilesPanel.Controls.Add(this.tile2_1);
+            this.tilesPanel.Controls.Add(this.tile5_1);
+            this.tilesPanel.Controls.Add(this.tile1_1);
+            this.tilesPanel.Controls.Add(this.tile4_1);
+            this.tilesPanel.Controls.Add(this.tile0_1);
+            this.tilesPanel.Controls.Add(this.tile7_0);
+            this.tilesPanel.Controls.Add(this.tile3_0);
+            this.tilesPanel.Controls.Add(this.tile6_0);
+            this.tilesPanel.Controls.Add(this.tile2_0);
+            this.tilesPanel.Controls.Add(this.tile5_0);
+            this.tilesPanel.Controls.Add(this.tile1_0);
+            this.tilesPanel.Controls.Add(this.tile4_0);
+            this.tilesPanel.Controls.Add(this.tile0_0);
+            this.tilesPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tilesPanel.Location = new System.Drawing.Point(0, 24);
+            this.tilesPanel.Name = "tilesPanel";
+            this.tilesPanel.Size = new System.Drawing.Size(638, 545);
+            this.tilesPanel.TabIndex = 4;
+            // 
+            // tile7_5
+            // 
+            this.tile7_5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile7_5.Location = new System.Drawing.Point(248, 344);
+            this.tile7_5.Name = "tile7_5";
+            this.tile7_5.Size = new System.Drawing.Size(48, 48);
+            this.tile7_5.TabIndex = 65;
+            this.tile7_5.TabStop = false;
+            // 
+            // tile3_5
+            // 
+            this.tile3_5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile3_5.Location = new System.Drawing.Point(248, 152);
+            this.tile3_5.Name = "tile3_5";
+            this.tile3_5.Size = new System.Drawing.Size(48, 48);
+            this.tile3_5.TabIndex = 36;
+            this.tile3_5.TabStop = false;
+            // 
+            // tile6_5
+            // 
+            this.tile6_5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile6_5.Location = new System.Drawing.Point(248, 296);
+            this.tile6_5.Name = "tile6_5";
+            this.tile6_5.Size = new System.Drawing.Size(48, 48);
+            this.tile6_5.TabIndex = 37;
+            this.tile6_5.TabStop = false;
+            // 
+            // tile2_5
+            // 
+            this.tile2_5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile2_5.Location = new System.Drawing.Point(248, 104);
+            this.tile2_5.Name = "tile2_5";
+            this.tile2_5.Size = new System.Drawing.Size(48, 48);
+            this.tile2_5.TabIndex = 38;
+            this.tile2_5.TabStop = false;
+            // 
+            // tile5_5
+            // 
+            this.tile5_5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile5_5.Location = new System.Drawing.Point(248, 248);
+            this.tile5_5.Name = "tile5_5";
+            this.tile5_5.Size = new System.Drawing.Size(48, 48);
+            this.tile5_5.TabIndex = 39;
+            this.tile5_5.TabStop = false;
+            // 
+            // tile1_5
+            // 
+            this.tile1_5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile1_5.Location = new System.Drawing.Point(248, 56);
+            this.tile1_5.Name = "tile1_5";
+            this.tile1_5.Size = new System.Drawing.Size(48, 48);
+            this.tile1_5.TabIndex = 40;
+            this.tile1_5.TabStop = false;
+            // 
+            // tile4_5
+            // 
+            this.tile4_5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile4_5.Location = new System.Drawing.Point(248, 200);
+            this.tile4_5.Name = "tile4_5";
+            this.tile4_5.Size = new System.Drawing.Size(48, 48);
+            this.tile4_5.TabIndex = 41;
+            this.tile4_5.TabStop = false;
+            // 
+            // tile0_5
+            // 
+            this.tile0_5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile0_5.Location = new System.Drawing.Point(248, 8);
+            this.tile0_5.Name = "tile0_5";
+            this.tile0_5.Size = new System.Drawing.Size(48, 48);
+            this.tile0_5.TabIndex = 42;
+            this.tile0_5.TabStop = false;
+            // 
+            // tile7_7
+            // 
+            this.tile7_7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile7_7.Location = new System.Drawing.Point(344, 344);
+            this.tile7_7.Name = "tile7_7";
+            this.tile7_7.Size = new System.Drawing.Size(48, 48);
+            this.tile7_7.TabIndex = 43;
+            this.tile7_7.TabStop = false;
+            // 
+            // tile3_7
+            // 
+            this.tile3_7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile3_7.Location = new System.Drawing.Point(344, 152);
+            this.tile3_7.Name = "tile3_7";
+            this.tile3_7.Size = new System.Drawing.Size(48, 48);
+            this.tile3_7.TabIndex = 44;
+            this.tile3_7.TabStop = false;
+            // 
+            // tile6_7
+            // 
+            this.tile6_7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile6_7.Location = new System.Drawing.Point(344, 296);
+            this.tile6_7.Name = "tile6_7";
+            this.tile6_7.Size = new System.Drawing.Size(48, 48);
+            this.tile6_7.TabIndex = 45;
+            this.tile6_7.TabStop = false;
+            // 
+            // tile2_7
+            // 
+            this.tile2_7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile2_7.Location = new System.Drawing.Point(344, 104);
+            this.tile2_7.Name = "tile2_7";
+            this.tile2_7.Size = new System.Drawing.Size(48, 48);
+            this.tile2_7.TabIndex = 46;
+            this.tile2_7.TabStop = false;
+            // 
+            // tile5_7
+            // 
+            this.tile5_7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile5_7.Location = new System.Drawing.Point(344, 248);
+            this.tile5_7.Name = "tile5_7";
+            this.tile5_7.Size = new System.Drawing.Size(48, 48);
+            this.tile5_7.TabIndex = 47;
+            this.tile5_7.TabStop = false;
+            // 
+            // tile1_7
+            // 
+            this.tile1_7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile1_7.Location = new System.Drawing.Point(344, 56);
+            this.tile1_7.Name = "tile1_7";
+            this.tile1_7.Size = new System.Drawing.Size(48, 48);
+            this.tile1_7.TabIndex = 48;
+            this.tile1_7.TabStop = false;
+            // 
+            // tile4_7
+            // 
+            this.tile4_7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile4_7.Location = new System.Drawing.Point(344, 200);
+            this.tile4_7.Name = "tile4_7";
+            this.tile4_7.Size = new System.Drawing.Size(48, 48);
+            this.tile4_7.TabIndex = 50;
+            this.tile4_7.TabStop = false;
+            // 
+            // tile0_7
+            // 
+            this.tile0_7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile0_7.Location = new System.Drawing.Point(344, 8);
+            this.tile0_7.Name = "tile0_7";
+            this.tile0_7.Size = new System.Drawing.Size(48, 48);
+            this.tile0_7.TabIndex = 64;
+            this.tile0_7.TabStop = false;
+            // 
+            // tile7_6
+            // 
+            this.tile7_6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile7_6.Location = new System.Drawing.Point(296, 344);
+            this.tile7_6.Name = "tile7_6";
+            this.tile7_6.Size = new System.Drawing.Size(48, 48);
+            this.tile7_6.TabIndex = 51;
+            this.tile7_6.TabStop = false;
+            // 
+            // tile3_6
+            // 
+            this.tile3_6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile3_6.Location = new System.Drawing.Point(296, 152);
+            this.tile3_6.Name = "tile3_6";
+            this.tile3_6.Size = new System.Drawing.Size(48, 48);
+            this.tile3_6.TabIndex = 52;
+            this.tile3_6.TabStop = false;
+            // 
+            // tile6_6
+            // 
+            this.tile6_6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile6_6.Location = new System.Drawing.Point(296, 296);
+            this.tile6_6.Name = "tile6_6";
+            this.tile6_6.Size = new System.Drawing.Size(48, 48);
+            this.tile6_6.TabIndex = 53;
+            this.tile6_6.TabStop = false;
+            // 
+            // tile2_6
+            // 
+            this.tile2_6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile2_6.Location = new System.Drawing.Point(296, 104);
+            this.tile2_6.Name = "tile2_6";
+            this.tile2_6.Size = new System.Drawing.Size(48, 48);
+            this.tile2_6.TabIndex = 54;
+            this.tile2_6.TabStop = false;
+            // 
+            // tile5_6
+            // 
+            this.tile5_6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile5_6.Location = new System.Drawing.Point(296, 248);
+            this.tile5_6.Name = "tile5_6";
+            this.tile5_6.Size = new System.Drawing.Size(48, 48);
+            this.tile5_6.TabIndex = 55;
+            this.tile5_6.TabStop = false;
+            // 
+            // tile1_6
+            // 
+            this.tile1_6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile1_6.Location = new System.Drawing.Point(296, 56);
+            this.tile1_6.Name = "tile1_6";
+            this.tile1_6.Size = new System.Drawing.Size(48, 48);
+            this.tile1_6.TabIndex = 56;
+            this.tile1_6.TabStop = false;
+            // 
+            // tile4_6
+            // 
+            this.tile4_6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile4_6.Location = new System.Drawing.Point(296, 200);
+            this.tile4_6.Name = "tile4_6";
+            this.tile4_6.Size = new System.Drawing.Size(48, 48);
+            this.tile4_6.TabIndex = 57;
+            this.tile4_6.TabStop = false;
+            // 
+            // tile0_6
+            // 
+            this.tile0_6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile0_6.Location = new System.Drawing.Point(296, 8);
+            this.tile0_6.Name = "tile0_6";
+            this.tile0_6.Size = new System.Drawing.Size(48, 48);
+            this.tile0_6.TabIndex = 58;
+            this.tile0_6.TabStop = false;
+            // 
+            // tile7_4
+            // 
+            this.tile7_4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile7_4.Location = new System.Drawing.Point(200, 344);
+            this.tile7_4.Name = "tile7_4";
+            this.tile7_4.Size = new System.Drawing.Size(48, 48);
+            this.tile7_4.TabIndex = 59;
+            this.tile7_4.TabStop = false;
+            // 
+            // tile3_4
+            // 
+            this.tile3_4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile3_4.Location = new System.Drawing.Point(200, 152);
+            this.tile3_4.Name = "tile3_4";
+            this.tile3_4.Size = new System.Drawing.Size(48, 48);
+            this.tile3_4.TabIndex = 60;
+            this.tile3_4.TabStop = false;
+            // 
+            // tile6_4
+            // 
+            this.tile6_4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile6_4.Location = new System.Drawing.Point(200, 296);
+            this.tile6_4.Name = "tile6_4";
+            this.tile6_4.Size = new System.Drawing.Size(48, 48);
+            this.tile6_4.TabIndex = 61;
+            this.tile6_4.TabStop = false;
+            // 
+            // tile2_4
+            // 
+            this.tile2_4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile2_4.Location = new System.Drawing.Point(200, 104);
+            this.tile2_4.Name = "tile2_4";
+            this.tile2_4.Size = new System.Drawing.Size(48, 48);
+            this.tile2_4.TabIndex = 62;
+            this.tile2_4.TabStop = false;
+            // 
+            // tile5_4
+            // 
+            this.tile5_4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile5_4.Location = new System.Drawing.Point(200, 248);
+            this.tile5_4.Name = "tile5_4";
+            this.tile5_4.Size = new System.Drawing.Size(48, 48);
+            this.tile5_4.TabIndex = 63;
+            this.tile5_4.TabStop = false;
+            // 
+            // tile1_4
+            // 
+            this.tile1_4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile1_4.Location = new System.Drawing.Point(200, 56);
+            this.tile1_4.Name = "tile1_4";
+            this.tile1_4.Size = new System.Drawing.Size(48, 48);
+            this.tile1_4.TabIndex = 35;
+            this.tile1_4.TabStop = false;
+            // 
+            // tile4_4
+            // 
+            this.tile4_4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile4_4.Location = new System.Drawing.Point(200, 200);
+            this.tile4_4.Name = "tile4_4";
+            this.tile4_4.Size = new System.Drawing.Size(48, 48);
+            this.tile4_4.TabIndex = 49;
+            this.tile4_4.TabStop = false;
+            // 
+            // tile0_4
+            // 
+            this.tile0_4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile0_4.Location = new System.Drawing.Point(200, 8);
+            this.tile0_4.Name = "tile0_4";
+            this.tile0_4.Size = new System.Drawing.Size(48, 48);
+            this.tile0_4.TabIndex = 34;
+            this.tile0_4.TabStop = false;
+            // 
+            // tile7_3
+            // 
+            this.tile7_3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile7_3.Location = new System.Drawing.Point(152, 344);
+            this.tile7_3.Name = "tile7_3";
+            this.tile7_3.Size = new System.Drawing.Size(48, 48);
+            this.tile7_3.TabIndex = 23;
+            this.tile7_3.TabStop = false;
+            // 
+            // tile3_3
+            // 
+            this.tile3_3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile3_3.Location = new System.Drawing.Point(152, 152);
+            this.tile3_3.Name = "tile3_3";
+            this.tile3_3.Size = new System.Drawing.Size(48, 48);
+            this.tile3_3.TabIndex = 10;
+            this.tile3_3.TabStop = false;
+            // 
+            // tile6_3
+            // 
+            this.tile6_3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile6_3.Location = new System.Drawing.Point(152, 296);
+            this.tile6_3.Name = "tile6_3";
+            this.tile6_3.Size = new System.Drawing.Size(48, 48);
+            this.tile6_3.TabIndex = 11;
+            this.tile6_3.TabStop = false;
+            // 
+            // tile2_3
+            // 
+            this.tile2_3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile2_3.Location = new System.Drawing.Point(152, 104);
+            this.tile2_3.Name = "tile2_3";
+            this.tile2_3.Size = new System.Drawing.Size(48, 48);
+            this.tile2_3.TabIndex = 12;
+            this.tile2_3.TabStop = false;
+            // 
+            // tile5_3
+            // 
+            this.tile5_3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile5_3.Location = new System.Drawing.Point(152, 248);
+            this.tile5_3.Name = "tile5_3";
+            this.tile5_3.Size = new System.Drawing.Size(48, 48);
+            this.tile5_3.TabIndex = 13;
+            this.tile5_3.TabStop = false;
+            // 
+            // tile1_3
+            // 
+            this.tile1_3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile1_3.Location = new System.Drawing.Point(152, 56);
+            this.tile1_3.Name = "tile1_3";
+            this.tile1_3.Size = new System.Drawing.Size(48, 48);
+            this.tile1_3.TabIndex = 14;
+            this.tile1_3.TabStop = false;
+            // 
+            // tile4_3
+            // 
+            this.tile4_3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile4_3.Location = new System.Drawing.Point(152, 200);
+            this.tile4_3.Name = "tile4_3";
+            this.tile4_3.Size = new System.Drawing.Size(48, 48);
+            this.tile4_3.TabIndex = 15;
+            this.tile4_3.TabStop = false;
+            // 
+            // tile0_3
+            // 
+            this.tile0_3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile0_3.Location = new System.Drawing.Point(152, 8);
+            this.tile0_3.Name = "tile0_3";
+            this.tile0_3.Size = new System.Drawing.Size(48, 48);
+            this.tile0_3.TabIndex = 16;
+            this.tile0_3.TabStop = false;
+            // 
+            // tile7_2
+            // 
+            this.tile7_2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile7_2.Location = new System.Drawing.Point(104, 344);
+            this.tile7_2.Name = "tile7_2";
+            this.tile7_2.Size = new System.Drawing.Size(48, 48);
+            this.tile7_2.TabIndex = 17;
+            this.tile7_2.TabStop = false;
+            // 
+            // tile3_2
+            // 
+            this.tile3_2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile3_2.Location = new System.Drawing.Point(104, 152);
+            this.tile3_2.Name = "tile3_2";
+            this.tile3_2.Size = new System.Drawing.Size(48, 48);
+            this.tile3_2.TabIndex = 18;
+            this.tile3_2.TabStop = false;
+            // 
+            // tile6_2
+            // 
+            this.tile6_2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile6_2.Location = new System.Drawing.Point(104, 296);
+            this.tile6_2.Name = "tile6_2";
+            this.tile6_2.Size = new System.Drawing.Size(48, 48);
+            this.tile6_2.TabIndex = 19;
+            this.tile6_2.TabStop = false;
+            // 
+            // tile2_2
+            // 
+            this.tile2_2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile2_2.Location = new System.Drawing.Point(104, 104);
+            this.tile2_2.Name = "tile2_2";
+            this.tile2_2.Size = new System.Drawing.Size(48, 48);
+            this.tile2_2.TabIndex = 20;
+            this.tile2_2.TabStop = false;
+            // 
+            // tile5_2
+            // 
+            this.tile5_2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile5_2.Location = new System.Drawing.Point(104, 248);
+            this.tile5_2.Name = "tile5_2";
+            this.tile5_2.Size = new System.Drawing.Size(48, 48);
+            this.tile5_2.TabIndex = 21;
+            this.tile5_2.TabStop = false;
+            // 
+            // tile1_2
+            // 
+            this.tile1_2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile1_2.Location = new System.Drawing.Point(104, 56);
+            this.tile1_2.Name = "tile1_2";
+            this.tile1_2.Size = new System.Drawing.Size(48, 48);
+            this.tile1_2.TabIndex = 32;
+            this.tile1_2.TabStop = false;
+            // 
+            // tile4_2
+            // 
+            this.tile4_2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile4_2.Location = new System.Drawing.Point(104, 200);
+            this.tile4_2.Name = "tile4_2";
+            this.tile4_2.Size = new System.Drawing.Size(48, 48);
+            this.tile4_2.TabIndex = 22;
+            this.tile4_2.TabStop = false;
+            // 
+            // tile0_2
+            // 
+            this.tile0_2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile0_2.Location = new System.Drawing.Point(104, 8);
+            this.tile0_2.Name = "tile0_2";
+            this.tile0_2.Size = new System.Drawing.Size(48, 48);
+            this.tile0_2.TabIndex = 33;
+            this.tile0_2.TabStop = false;
+            // 
+            // tile7_1
+            // 
+            this.tile7_1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile7_1.Location = new System.Drawing.Point(56, 344);
+            this.tile7_1.Name = "tile7_1";
+            this.tile7_1.Size = new System.Drawing.Size(48, 48);
+            this.tile7_1.TabIndex = 24;
+            this.tile7_1.TabStop = false;
+            // 
+            // tile3_1
+            // 
+            this.tile3_1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile3_1.Location = new System.Drawing.Point(56, 152);
+            this.tile3_1.Name = "tile3_1";
+            this.tile3_1.Size = new System.Drawing.Size(48, 48);
+            this.tile3_1.TabIndex = 25;
+            this.tile3_1.TabStop = false;
+            // 
+            // tile6_1
+            // 
+            this.tile6_1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile6_1.Location = new System.Drawing.Point(56, 296);
+            this.tile6_1.Name = "tile6_1";
+            this.tile6_1.Size = new System.Drawing.Size(48, 48);
+            this.tile6_1.TabIndex = 26;
+            this.tile6_1.TabStop = false;
+            // 
+            // tile2_1
+            // 
+            this.tile2_1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile2_1.Location = new System.Drawing.Point(56, 104);
+            this.tile2_1.Name = "tile2_1";
+            this.tile2_1.Size = new System.Drawing.Size(48, 48);
+            this.tile2_1.TabIndex = 27;
+            this.tile2_1.TabStop = false;
+            // 
+            // tile5_1
+            // 
+            this.tile5_1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile5_1.Location = new System.Drawing.Point(56, 248);
+            this.tile5_1.Name = "tile5_1";
+            this.tile5_1.Size = new System.Drawing.Size(48, 48);
+            this.tile5_1.TabIndex = 28;
+            this.tile5_1.TabStop = false;
+            // 
+            // tile1_1
+            // 
+            this.tile1_1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile1_1.Location = new System.Drawing.Point(56, 56);
+            this.tile1_1.Name = "tile1_1";
+            this.tile1_1.Size = new System.Drawing.Size(48, 48);
+            this.tile1_1.TabIndex = 29;
+            this.tile1_1.TabStop = false;
+            // 
+            // tile4_1
+            // 
+            this.tile4_1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile4_1.Location = new System.Drawing.Point(56, 200);
+            this.tile4_1.Name = "tile4_1";
+            this.tile4_1.Size = new System.Drawing.Size(48, 48);
+            this.tile4_1.TabIndex = 30;
+            this.tile4_1.TabStop = false;
+            // 
+            // tile0_1
+            // 
+            this.tile0_1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile0_1.Location = new System.Drawing.Point(56, 8);
+            this.tile0_1.Name = "tile0_1";
+            this.tile0_1.Size = new System.Drawing.Size(48, 48);
+            this.tile0_1.TabIndex = 31;
+            this.tile0_1.TabStop = false;
+            // 
+            // tile7_0
+            // 
+            this.tile7_0.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile7_0.Location = new System.Drawing.Point(8, 344);
+            this.tile7_0.Name = "tile7_0";
+            this.tile7_0.Size = new System.Drawing.Size(48, 48);
+            this.tile7_0.TabIndex = 3;
+            this.tile7_0.TabStop = false;
+            // 
+            // tile3_0
+            // 
+            this.tile3_0.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile3_0.Location = new System.Drawing.Point(8, 152);
+            this.tile3_0.Name = "tile3_0";
+            this.tile3_0.Size = new System.Drawing.Size(48, 48);
+            this.tile3_0.TabIndex = 4;
+            this.tile3_0.TabStop = false;
+            // 
+            // tile6_0
+            // 
+            this.tile6_0.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile6_0.Location = new System.Drawing.Point(8, 296);
+            this.tile6_0.Name = "tile6_0";
+            this.tile6_0.Size = new System.Drawing.Size(48, 48);
+            this.tile6_0.TabIndex = 5;
+            this.tile6_0.TabStop = false;
+            // 
+            // tile2_0
+            // 
+            this.tile2_0.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile2_0.Location = new System.Drawing.Point(8, 104);
+            this.tile2_0.Name = "tile2_0";
+            this.tile2_0.Size = new System.Drawing.Size(48, 48);
+            this.tile2_0.TabIndex = 9;
+            this.tile2_0.TabStop = false;
+            // 
+            // tile5_0
+            // 
+            this.tile5_0.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile5_0.Location = new System.Drawing.Point(8, 248);
+            this.tile5_0.Name = "tile5_0";
+            this.tile5_0.Size = new System.Drawing.Size(48, 48);
+            this.tile5_0.TabIndex = 7;
+            this.tile5_0.TabStop = false;
+            // 
+            // tile1_0
+            // 
+            this.tile1_0.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile1_0.Location = new System.Drawing.Point(8, 56);
+            this.tile1_0.Name = "tile1_0";
+            this.tile1_0.Size = new System.Drawing.Size(48, 48);
+            this.tile1_0.TabIndex = 8;
+            this.tile1_0.TabStop = false;
+            // 
+            // tile4_0
+            // 
+            this.tile4_0.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile4_0.Location = new System.Drawing.Point(8, 200);
+            this.tile4_0.Name = "tile4_0";
+            this.tile4_0.Size = new System.Drawing.Size(48, 48);
+            this.tile4_0.TabIndex = 6;
+            this.tile4_0.TabStop = false;
+            // 
+            // tile0_0
+            // 
+            this.tile0_0.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tile0_0.Location = new System.Drawing.Point(8, 8);
+            this.tile0_0.Name = "tile0_0";
+            this.tile0_0.Size = new System.Drawing.Size(48, 48);
+            this.tile0_0.TabIndex = 2;
+            this.tile0_0.TabStop = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Desktop;
-            this.ClientSize = new System.Drawing.Size(384, 430);
+            this.ClientSize = new System.Drawing.Size(638, 591);
+            this.Controls.Add(this.tilesPanel);
             this.Controls.Add(this.statusStrip);
-            this.Controls.Add(this.tile7_5);
-            this.Controls.Add(this.tile3_5);
-            this.Controls.Add(this.tile6_5);
-            this.Controls.Add(this.tile2_5);
-            this.Controls.Add(this.tile5_5);
-            this.Controls.Add(this.tile1_5);
-            this.Controls.Add(this.tile4_5);
-            this.Controls.Add(this.tile0_5);
-            this.Controls.Add(this.tile7_7);
-            this.Controls.Add(this.tile3_7);
-            this.Controls.Add(this.tile6_7);
-            this.Controls.Add(this.tile2_7);
-            this.Controls.Add(this.tile5_7);
-            this.Controls.Add(this.tile1_7);
-            this.Controls.Add(this.tile4_7);
-            this.Controls.Add(this.tile0_7);
-            this.Controls.Add(this.tile7_6);
-            this.Controls.Add(this.tile3_6);
-            this.Controls.Add(this.tile6_6);
-            this.Controls.Add(this.tile2_6);
-            this.Controls.Add(this.tile5_6);
-            this.Controls.Add(this.tile1_6);
-            this.Controls.Add(this.tile4_6);
-            this.Controls.Add(this.tile0_6);
-            this.Controls.Add(this.tile7_4);
-            this.Controls.Add(this.tile3_4);
-            this.Controls.Add(this.tile6_4);
-            this.Controls.Add(this.tile2_4);
-            this.Controls.Add(this.tile5_4);
-            this.Controls.Add(this.tile1_4);
-            this.Controls.Add(this.tile4_4);
-            this.Controls.Add(this.tile0_4);
-            this.Controls.Add(this.tile7_3);
-            this.Controls.Add(this.tile3_3);
-            this.Controls.Add(this.tile6_3);
-            this.Controls.Add(this.tile2_3);
-            this.Controls.Add(this.tile5_3);
-            this.Controls.Add(this.tile1_3);
-            this.Controls.Add(this.tile4_3);
-            this.Controls.Add(this.tile0_3);
-            this.Controls.Add(this.tile7_2);
-            this.Controls.Add(this.tile3_2);
-            this.Controls.Add(this.tile6_2);
-            this.Controls.Add(this.tile2_2);
-            this.Controls.Add(this.tile5_2);
-            this.Controls.Add(this.tile1_2);
-            this.Controls.Add(this.tile4_2);
-            this.Controls.Add(this.tile0_2);
-            this.Controls.Add(this.tile7_1);
-            this.Controls.Add(this.tile3_1);
-            this.Controls.Add(this.tile6_1);
-            this.Controls.Add(this.tile2_1);
-            this.Controls.Add(this.tile5_1);
-            this.Controls.Add(this.tile1_1);
-            this.Controls.Add(this.tile4_1);
-            this.Controls.Add(this.tile0_1);
-            this.Controls.Add(this.tile7_0);
-            this.Controls.Add(this.tile3_0);
-            this.Controls.Add(this.tile6_0);
-            this.Controls.Add(this.tile2_0);
-            this.Controls.Add(this.tile5_0);
-            this.Controls.Add(this.tile1_0);
-            this.Controls.Add(this.tile4_0);
-            this.Controls.Add(this.tile0_0);
             this.Controls.Add(this.menuStrip);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip;
-            this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Какуро";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.ResizeEnd += new System.EventHandler(this.MainForm_ResizeEnd);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
+            this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
+            this.contextMenuStrip.ResumeLayout(false);
+            this.tilesPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tile7_5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tile3_5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tile6_5)).EndInit();
@@ -1122,78 +1139,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.tile1_0)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tile4_0)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tile0_0)).EndInit();
-            this.contextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.PictureBox tile0_0;
-        private System.Windows.Forms.PictureBox tile0_1;
-        private System.Windows.Forms.PictureBox tile0_2;
-        private System.Windows.Forms.PictureBox tile0_3;
-        private System.Windows.Forms.PictureBox tile0_4;
-        private System.Windows.Forms.PictureBox tile0_6;
-        private System.Windows.Forms.PictureBox tile0_5;
-        private System.Windows.Forms.PictureBox tile0_7;
-        private System.Windows.Forms.PictureBox tile1_0;
-        private System.Windows.Forms.PictureBox tile1_1;
-        private System.Windows.Forms.PictureBox tile1_2;
-        private System.Windows.Forms.PictureBox tile1_3;
-        private System.Windows.Forms.PictureBox tile1_4;
-        private System.Windows.Forms.PictureBox tile1_6;
-        private System.Windows.Forms.PictureBox tile1_7;
-        private System.Windows.Forms.PictureBox tile1_5;
-        private System.Windows.Forms.PictureBox tile2_0;
-        private System.Windows.Forms.PictureBox tile2_1;
-        private System.Windows.Forms.PictureBox tile2_2;
-        private System.Windows.Forms.PictureBox tile2_3;
-        private System.Windows.Forms.PictureBox tile2_4;
-        private System.Windows.Forms.PictureBox tile2_6;
-        private System.Windows.Forms.PictureBox tile2_7;
-        private System.Windows.Forms.PictureBox tile2_5;
-        private System.Windows.Forms.PictureBox tile3_0;
-        private System.Windows.Forms.PictureBox tile3_1;
-        private System.Windows.Forms.PictureBox tile3_2;
-        private System.Windows.Forms.PictureBox tile3_3;
-        private System.Windows.Forms.PictureBox tile3_4;
-        private System.Windows.Forms.PictureBox tile3_6;
-        private System.Windows.Forms.PictureBox tile3_7;
-        private System.Windows.Forms.PictureBox tile3_5;
-        private System.Windows.Forms.PictureBox tile4_0;
-        private System.Windows.Forms.PictureBox tile5_0;
-        private System.Windows.Forms.PictureBox tile6_0;
-        private System.Windows.Forms.PictureBox tile7_0;
-        private System.Windows.Forms.PictureBox tile4_1;
-        private System.Windows.Forms.PictureBox tile5_1;
-        private System.Windows.Forms.PictureBox tile6_1;
-        private System.Windows.Forms.PictureBox tile7_1;
-        private System.Windows.Forms.PictureBox tile4_2;
-        private System.Windows.Forms.PictureBox tile5_2;
-        private System.Windows.Forms.PictureBox tile6_2;
-        private System.Windows.Forms.PictureBox tile7_2;
-        private System.Windows.Forms.PictureBox tile4_3;
-        private System.Windows.Forms.PictureBox tile5_3;
-        private System.Windows.Forms.PictureBox tile6_3;
-        private System.Windows.Forms.PictureBox tile7_3;
-        private System.Windows.Forms.PictureBox tile4_4;
-        private System.Windows.Forms.PictureBox tile5_4;
-        private System.Windows.Forms.PictureBox tile6_4;
-        private System.Windows.Forms.PictureBox tile7_4;
-        private System.Windows.Forms.PictureBox tile4_6;
-        private System.Windows.Forms.PictureBox tile5_6;
-        private System.Windows.Forms.PictureBox tile6_6;
-        private System.Windows.Forms.PictureBox tile7_6;
-        private System.Windows.Forms.PictureBox tile4_7;
-        private System.Windows.Forms.PictureBox tile5_7;
-        private System.Windows.Forms.PictureBox tile6_7;
-        private System.Windows.Forms.PictureBox tile7_7;
-        private System.Windows.Forms.PictureBox tile4_5;
-        private System.Windows.Forms.PictureBox tile5_5;
-        private System.Windows.Forms.PictureBox tile6_5;
-        private System.Windows.Forms.PictureBox tile7_5;
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
@@ -1220,6 +1171,71 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem6;
         private System.Windows.Forms.ToolStripStatusLabel statusInPause;
+        private System.Windows.Forms.Panel tilesPanel;
+        private System.Windows.Forms.PictureBox tile7_5;
+        private System.Windows.Forms.PictureBox tile3_5;
+        private System.Windows.Forms.PictureBox tile6_5;
+        private System.Windows.Forms.PictureBox tile2_5;
+        private System.Windows.Forms.PictureBox tile5_5;
+        private System.Windows.Forms.PictureBox tile1_5;
+        private System.Windows.Forms.PictureBox tile4_5;
+        private System.Windows.Forms.PictureBox tile0_5;
+        private System.Windows.Forms.PictureBox tile7_7;
+        private System.Windows.Forms.PictureBox tile3_7;
+        private System.Windows.Forms.PictureBox tile6_7;
+        private System.Windows.Forms.PictureBox tile2_7;
+        private System.Windows.Forms.PictureBox tile5_7;
+        private System.Windows.Forms.PictureBox tile1_7;
+        private System.Windows.Forms.PictureBox tile4_7;
+        private System.Windows.Forms.PictureBox tile0_7;
+        private System.Windows.Forms.PictureBox tile7_6;
+        private System.Windows.Forms.PictureBox tile3_6;
+        private System.Windows.Forms.PictureBox tile6_6;
+        private System.Windows.Forms.PictureBox tile2_6;
+        private System.Windows.Forms.PictureBox tile5_6;
+        private System.Windows.Forms.PictureBox tile1_6;
+        private System.Windows.Forms.PictureBox tile4_6;
+        private System.Windows.Forms.PictureBox tile0_6;
+        private System.Windows.Forms.PictureBox tile7_4;
+        private System.Windows.Forms.PictureBox tile3_4;
+        private System.Windows.Forms.PictureBox tile6_4;
+        private System.Windows.Forms.PictureBox tile2_4;
+        private System.Windows.Forms.PictureBox tile5_4;
+        private System.Windows.Forms.PictureBox tile1_4;
+        private System.Windows.Forms.PictureBox tile4_4;
+        private System.Windows.Forms.PictureBox tile0_4;
+        private System.Windows.Forms.PictureBox tile7_3;
+        private System.Windows.Forms.PictureBox tile3_3;
+        private System.Windows.Forms.PictureBox tile6_3;
+        private System.Windows.Forms.PictureBox tile2_3;
+        private System.Windows.Forms.PictureBox tile5_3;
+        private System.Windows.Forms.PictureBox tile1_3;
+        private System.Windows.Forms.PictureBox tile4_3;
+        private System.Windows.Forms.PictureBox tile0_3;
+        private System.Windows.Forms.PictureBox tile7_2;
+        private System.Windows.Forms.PictureBox tile3_2;
+        private System.Windows.Forms.PictureBox tile6_2;
+        private System.Windows.Forms.PictureBox tile2_2;
+        private System.Windows.Forms.PictureBox tile5_2;
+        private System.Windows.Forms.PictureBox tile1_2;
+        private System.Windows.Forms.PictureBox tile4_2;
+        private System.Windows.Forms.PictureBox tile0_2;
+        private System.Windows.Forms.PictureBox tile7_1;
+        private System.Windows.Forms.PictureBox tile3_1;
+        private System.Windows.Forms.PictureBox tile6_1;
+        private System.Windows.Forms.PictureBox tile2_1;
+        private System.Windows.Forms.PictureBox tile5_1;
+        private System.Windows.Forms.PictureBox tile1_1;
+        private System.Windows.Forms.PictureBox tile4_1;
+        private System.Windows.Forms.PictureBox tile0_1;
+        private System.Windows.Forms.PictureBox tile7_0;
+        private System.Windows.Forms.PictureBox tile3_0;
+        private System.Windows.Forms.PictureBox tile6_0;
+        private System.Windows.Forms.PictureBox tile2_0;
+        private System.Windows.Forms.PictureBox tile5_0;
+        private System.Windows.Forms.PictureBox tile1_0;
+        private System.Windows.Forms.PictureBox tile4_0;
+        private System.Windows.Forms.PictureBox tile0_0;
     }
 }
 

@@ -30,14 +30,12 @@ namespace KAKURO
                 IsPaused = value;
                 if (value)
                 {
-                    timer.Stop();
-                    statusInPause.Text = "Пауза";
+                    statusInPause.Visible = true;
                     pauseToolStripMenuItem.Enabled = false;
                     resumeToolStripMenuItem.Enabled = true;
                 } else
                 {
-                    timer.Start();
-                    statusInPause.Text = "";
+                    statusInPause.Visible = false;
                     pauseToolStripMenuItem.Enabled = true;
                     resumeToolStripMenuItem.Enabled = false;
                 }
@@ -51,9 +49,16 @@ namespace KAKURO
 
         private void timer_Tick(object sender, EventArgs e)
         {
-            // Оновлюємо час кожну секунду
-            statusTime.Text = CurrentTime.ToString("HH:mm:ss");
-            CurrentTime = CurrentTime.AddSeconds(1);
+            if (!Paused)
+            {
+                // Оновлюємо час кожну секунду
+                statusTime.Text = CurrentTime.ToString("HH:mm:ss");
+                CurrentTime = CurrentTime.AddSeconds(1);
+            } else
+            {
+                statusInPause.Visible = !statusInPause.Visible;
+            }
+            
         }
 
         private void MainForm_Load(object sender, EventArgs e)

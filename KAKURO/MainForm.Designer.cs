@@ -357,8 +357,9 @@
             // 
             // statusInPause
             // 
+            this.statusInPause.Image = global::KAKURO.Properties.Resources.control_pause;
             this.statusInPause.Name = "statusInPause";
-            this.statusInPause.Size = new System.Drawing.Size(53, 17);
+            this.statusInPause.Size = new System.Drawing.Size(69, 17);
             this.statusInPause.Text = "IsPaused";
             // 
             // timer

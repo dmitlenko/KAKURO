@@ -43,7 +43,7 @@ namespace KAKURO
                 for (int j = 0; j < boxTiles.GetLength(1); j++)
                 {
                     boxTiles[j, i].BorderStyle = BorderStyle.None; // Прибираємо краї у PictureBox'у
-                    boxTiles[j, i].BackColor = Color.Transparent; // Задаємо прозорий фон
+                    boxTiles[j, i].BackColor = Color.Black; // Задаємо прозорий фон
                     boxTiles[j, i].Click += new EventHandler(Tile_Click); // Додаємо подію кліку
                     boxTiles[j, i].Tag = j + ":" + i; // Додаємо тег з координатами
                 }

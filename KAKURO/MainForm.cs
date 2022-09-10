@@ -18,6 +18,7 @@ namespace KAKURO
         private Point SelectedTile = new Point(0, 0);
         private bool IsPaused { get; set; }
         private TileController tileController;
+        private PictureBox[,] boxTiles;
 
         private bool Paused
         {
@@ -31,11 +32,13 @@ namespace KAKURO
                 if (value)
                 {
                     statusInPause.Visible = true;
+                    tileController.DisableTiles();
                     pauseToolStripMenuItem.Enabled = false;
                     resumeToolStripMenuItem.Enabled = true;
                 } else
                 {
                     statusInPause.Visible = false;
+                    tileController.EnableTiles();
                     pauseToolStripMenuItem.Enabled = true;
                     resumeToolStripMenuItem.Enabled = false;
                 }
@@ -68,7 +71,7 @@ namespace KAKURO
 
             // Підготувати тайли
             // Я це все руками писав :|
-            PictureBox[,] boxTiles = new PictureBox[,]
+            boxTiles = new PictureBox[,]
             {
                 {tile0_0, tile0_1, tile0_2, tile0_3, tile0_4, tile0_5, tile0_6, tile0_7},
                 {tile1_0, tile1_1, tile1_2, tile1_3, tile1_4, tile1_5, tile1_6, tile1_7},
@@ -81,6 +84,17 @@ namespace KAKURO
             };
 
             tileController = new TileController(boxTiles);
+
+            MainForm_ResizeEnd(sender, e);
+
+            BlackGraphicTile blackGraphicTile = new BlackGraphicTile(tile0_0);
+            blackGraphicTile.Draw();
+
+            HintGraphicTile hintGraphicTile = new HintGraphicTile(tile0_1, 24, 44);
+            hintGraphicTile.Draw();
+
+            NumberGraphicTile numberGraphicTile = new NumberGraphicTile(tile0_2, 4);
+            numberGraphicTile.Draw();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -150,6 +164,36 @@ namespace KAKURO
         private void resumeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Paused = false;
+        }
+
+        FormWindowState LastWindowState = FormWindowState.Minimized;
+        private void MainForm_Resize(object sender, EventArgs e)
+        {
+            if (WindowState != LastWindowState)
+            {
+                LastWindowState = WindowState;
+                if (WindowState == FormWindowState.Maximized || WindowState == FormWindowState.Normal)
+                {
+                    MainForm_ResizeEnd(sender , e);
+                }
+            }   
+        }
+
+        private void MainForm_ResizeEnd(object sender, EventArgs e)
+        {
+            int tileHW = tilesPanel.Height / 8;
+            int tileStartX = (tilesPanel.Width / 2) - tileHW * 4;
+
+            for (int i = 0; i < boxTiles.GetLength(0); i++)
+            {
+                for (int j = 0; j < boxTiles.GetLength(1); j++)
+                {
+                    boxTiles[j, i].Left = tileStartX + (tileHW * i);
+                    boxTiles[j, i].Top = (tileHW * j);
+                    boxTiles[j, i].Width = boxTiles[j, i].Height = tileHW;
+                    boxTiles[j, i].Refresh();
+                }
+            }
         }
     }
 }

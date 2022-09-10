@@ -28,7 +28,7 @@ namespace KAKURO
 
         private void Paint(object sender, System.Windows.Forms.PaintEventArgs e)
         {
-            e.Graphics.FillRectangle(Brushes.Black, new Rectangle(0, 0, Picture.Width, Picture.Height));
+            e.Graphics.Clear(Color.Black);
         }
 
         public override void Draw() {
@@ -70,7 +70,7 @@ namespace KAKURO
 
         private void Paint(object sender, System.Windows.Forms.PaintEventArgs e)
         {
-            e.Graphics.FillRectangle(Brushes.Black, new Rectangle(0, 0, Picture.Width, Picture.Height));
+            e.Graphics.Clear(Color.Black);
             e.Graphics.DrawLine(new Pen(Color.White, 2), new Point(-2, -2), new Point(Picture.Width + 2, Picture.Height + 2));
 
             int padding = 2;
@@ -79,7 +79,6 @@ namespace KAKURO
 
             e.Graphics.DrawString(SumLeft == 0 ? "" : SumLeft.ToString(), drawFont , Brushes.White, padding, Picture.Height - GetStringWidth(SumRight.ToString(), drawFont).Item2);
             e.Graphics.DrawString(SumRight == 0 ? "" : SumRight.ToString(), drawFont , Brushes.White, Picture.Width - GetStringWidth(SumRight.ToString(), drawFont).Item1, padding);
-
         }
 
         public override void Draw()
@@ -107,6 +106,7 @@ namespace KAKURO
 
         private void Paint(object sender, System.Windows.Forms.PaintEventArgs e)
         {
+            e.Graphics.Clear(Color.Black);
             e.Graphics.FillRectangle(Brushes.White, new Rectangle(3, 3, Picture.Width-3, Picture.Height-3));
 
             int fontSize = 48;
@@ -117,7 +117,7 @@ namespace KAKURO
 
         public override void Draw()
         {
-            if(Picture == null)
+            if(Picture != null)
                 Picture.Paint += new PaintEventHandler(Paint);
         }
     }

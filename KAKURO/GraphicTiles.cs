@@ -11,6 +11,7 @@ namespace KAKURO
 {
     public struct TileTypes
     {
+        public static TileType Empty { get => new TileType("empty"); }
         public static TileType Black { get => new TileType("black"); }
         public static TileType Hint { get => new TileType("hint"); }
         public static TileType Number { get => new TileType("number"); }
@@ -27,23 +28,22 @@ namespace KAKURO
 
     internal class GraphicTile
     {
-        public PictureBox Canvas { get; set; }
+        //public PictureBox canvas { get; set; }
         public Bitmap buffer { get; set; }
         public TileType Type { get; }
 
-        public Point Position { get; set; }
-        public Size Size { get; set; }
+        public Point Position;
+        public Size Size;
 
         public bool Selected { get; set; }
 
-        public GraphicTile(TileType type) { Canvas = null; Type = type; Selected = false; Position = Point.Empty; Size = Size.Empty; }
-        public GraphicTile(PictureBox pb, TileType type) { Canvas = pb; Type = type; Selected = false; Position = Point.Empty; Size = Size.Empty; }
+        public GraphicTile() { Type = TileTypes.Empty; Selected = false; Position = Point.Empty; Size = Size.Empty; }
+        public GraphicTile(TileType type) { /*Canvas = null;*/ Type = type; Selected = false; Position = Point.Empty; Size = Size.Empty; }
+        public GraphicTile(PictureBox pb, TileType type) { /*Canvas = pb;*/ Type = type; Selected = false; Position = Point.Empty; Size = Size.Empty; }
 
-        public GraphicTile(PictureBox pb) { Canvas = pb; Type = null; Selected = false; Position = Point.Empty; Size = Size.Empty; }
+        public GraphicTile(PictureBox pb) { /*Canvas = pb;*/ Type = TileTypes.Empty; Selected = false; Position = Point.Empty; Size = Size.Empty; }
 
-
-
-        public virtual void Draw() { }
+        public virtual void Draw(Graphics ctx) { }
     }
 
     class BlackGraphicTile : GraphicTile
@@ -51,28 +51,12 @@ namespace KAKURO
         public BlackGraphicTile(PictureBox pictureBox) : base(pictureBox, TileTypes.Black) { }
         public BlackGraphicTile() : base(TileTypes.Black) { }
 
-        public override void Draw() {
-            buffer = new Bitmap(Canvas.Image);
+        public override void Draw(Graphics graphics) {
+            //g.DrawRectangle(new Pen(Brushes.Black), new Rectangle(Position, Size));
 
-            Task.Factory.StartNew(() =>
-            {
-                using (Graphics g = Graphics.FromImage(buffer))
-                {
-                    g.DrawRectangle(new Pen(Brushes.Black), new Rectangle(Position, Size));
-
-                    if (Selected)
-                    {
-                        Pen pen = new Pen(Color.White, 2);
-                        pen.Alignment = PenAlignment.Inset;
-                        g.DrawRectangle(pen, new Rectangle(Position, Size));
-                    }
-                }
-
-                Canvas.Invoke(new Action(() =>
-                {
-                    Canvas.Image = buffer;
-                }));
-            });
+            Pen pen = new Pen(Color.Gray, 1);
+            pen.Alignment = PenAlignment.Inset;
+            graphics.DrawRectangle(pen, new Rectangle(Position, Size));
         }
     }
 
@@ -107,37 +91,24 @@ namespace KAKURO
             return Tuple.Create((int)stringSize.Width, (int)stringSize.Height);
         }
 
-        public override void Draw()
+        public override void Draw(Graphics graphics)
         {
-            buffer = new Bitmap(Canvas.Image);
+            //g.DrawRectangle(new Pen(Brushes.Black), new Rectangle(Position, Size));
+            graphics.DrawLine(new Pen(Color.White, 2), Position, Point.Add(Position, Size));
 
-            Task.Factory.StartNew(() =>
+            int padding = 2;
+            int fontSize = 16;
+            Font drawFont = new Font(FontFamily.GenericMonospace, fontSize, FontStyle.Bold, GraphicsUnit.Pixel);
+
+            graphics.DrawString(SumLeft == 0 ? "" : SumLeft.ToString(), drawFont, Brushes.White, Position.X + padding, Size.Height - GetStringWidth(SumRight.ToString(), drawFont).Item2);
+            graphics.DrawString(SumRight == 0 ? "" : SumRight.ToString(), drawFont, Brushes.White, Size.Width - GetStringWidth(SumRight.ToString(), drawFont).Item1, Size.Height + padding);
+
+            if (Selected)
             {
-                using (Graphics g = Graphics.FromImage(buffer))
-                {
-                    g.Clear(Color.Black);
-                    g.DrawLine(new Pen(Color.White, 2), new Point(-2, -2), new Point(Canvas.Width + 2, Canvas.Height + 2));
-
-                    int padding = 2;
-                    int fontSize = 16;
-                    Font drawFont = new Font(FontFamily.GenericMonospace, fontSize, FontStyle.Bold, GraphicsUnit.Pixel);
-
-                    g.DrawString(SumLeft == 0 ? "" : SumLeft.ToString(), drawFont, Brushes.White, padding, Canvas.Height - GetStringWidth(SumRight.ToString(), drawFont).Item2);
-                    g.DrawString(SumRight == 0 ? "" : SumRight.ToString(), drawFont, Brushes.White, Canvas.Width - GetStringWidth(SumRight.ToString(), drawFont).Item1, padding);
-
-                    if (Selected)
-                    {
-                        Pen pen = new Pen(Color.White, 2);
-                        pen.Alignment = PenAlignment.Inset;
-                        g.DrawRectangle(pen, new Rectangle(Position, Size));
-                    }
-                }
-
-                Canvas.Invoke(new Action(() =>
-                {
-                    Canvas.Image = buffer;
-                }));
-            });
+                Pen pen = new Pen(Color.Gray, 1);
+                pen.Alignment = PenAlignment.Inset;
+                graphics.DrawRectangle(pen, new Rectangle(Position, Size));
+            }
         }
     }
 
@@ -157,35 +128,21 @@ namespace KAKURO
             DrawnNumber = drawnNumber;
         }
 
-        public override void Draw()
+        public override void Draw(Graphics graphics)
         {
-            buffer = new Bitmap(Canvas.Image);
+            graphics.FillRectangle(Brushes.White, new Rectangle(Point.Add(Position, new Size(3, 3)), Size.Subtract(Size, new Size(6, 6))));
 
-            Task.Factory.StartNew(() =>
+            int fontSize = 48;
+            Font drawFont = new Font(FontFamily.GenericMonospace, fontSize, FontStyle.Bold, GraphicsUnit.Pixel);
+
+            graphics.DrawString(DrawnNumber == 0 ? "" : DrawnNumber.ToString(), drawFont, Brushes.Blue, Position.X, Position.Y);
+
+            if (Selected)
             {
-                using (Graphics g = Graphics.FromImage(buffer))
-                {
-                    g.Clear(Color.Black);
-                    g.FillRectangle(Brushes.White, new Rectangle(3, 3, Canvas.Width - 3, Canvas.Height - 3));
-
-                    int fontSize = 48;
-                    Font drawFont = new Font(FontFamily.GenericMonospace, fontSize, FontStyle.Bold, GraphicsUnit.Pixel);
-
-                    g.DrawString(DrawnNumber == 0 ? "" : DrawnNumber.ToString(), drawFont, Brushes.Blue, 0, 0);
-
-                    if (Selected)
-                    {
-                        Pen pen = new Pen(Color.White, 2);
-                        pen.Alignment = PenAlignment.Inset;
-                        g.DrawRectangle(pen, new Rectangle(Position, Size));
-                    }
-                }
-
-                Canvas.Invoke(new Action(() =>
-                {
-                    Canvas.Image = buffer;
-                }));
-            });
+                Pen pen = new Pen(Color.Gray, 1);
+                pen.Alignment = PenAlignment.Inset;
+                graphics.DrawRectangle(pen, new Rectangle(Position, Size));
+            }
         }
     }
 }

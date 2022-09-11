@@ -200,7 +200,7 @@
             this.допомогаToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(638, 24);
+            this.menuStrip.Size = new System.Drawing.Size(401, 24);
             this.menuStrip.TabIndex = 2;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -346,10 +346,10 @@
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusTime,
             this.statusInPause});
-            this.statusStrip.Location = new System.Drawing.Point(0, 569);
+            this.statusStrip.Location = new System.Drawing.Point(0, 425);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.statusStrip.Size = new System.Drawing.Size(638, 22);
+            this.statusStrip.Size = new System.Drawing.Size(401, 22);
             this.statusStrip.TabIndex = 3;
             this.statusStrip.Text = "statusStrip1";
             // 
@@ -471,7 +471,7 @@
             this.tilesPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tilesPanel.Location = new System.Drawing.Point(0, 24);
             this.tilesPanel.Name = "tilesPanel";
-            this.tilesPanel.Size = new System.Drawing.Size(638, 545);
+            this.tilesPanel.Size = new System.Drawing.Size(401, 401);
             this.tilesPanel.TabIndex = 4;
             // 
             // tile7_5
@@ -1055,12 +1055,13 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Desktop;
-            this.ClientSize = new System.Drawing.Size(638, 591);
+            this.ClientSize = new System.Drawing.Size(401, 447);
             this.Controls.Add(this.tilesPanel);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.menuStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip;
+            this.MinimumSize = new System.Drawing.Size(417, 486);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Какуро";

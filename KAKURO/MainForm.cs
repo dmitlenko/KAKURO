@@ -57,7 +57,6 @@ namespace KAKURO
             {
                 statusInPause.Visible = !statusInPause.Visible;
             }
-            
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -80,14 +79,8 @@ namespace KAKURO
 
             MainForm_ResizeEnd(sender, e);
 
-            BlackGraphicTile blackGraphicTile = new BlackGraphicTile(tile0_0);
-            blackGraphicTile.Draw();
-
-            HintGraphicTile hintGraphicTile = new HintGraphicTile(tile0_1, 24, 44);
-            hintGraphicTile.Draw();
-
-            NumberGraphicTile numberGraphicTile = new NumberGraphicTile(tile0_2, 4);
-            numberGraphicTile.Draw();
+            GraphicTile[,] tt = new GraphicTile[,] { { new BlackGraphicTile(), new HintGraphicTile(21, 33), new NumberGraphicTile(4) } };
+            tileController.AssignTiles(ref tt);
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -140,9 +133,7 @@ namespace KAKURO
         {
             Generator generator = new Generator();
             Cell[,] board = generator.GenerateBoard(6, 6, 0.2);
-            GraphicTile[,] tiles = generator.CellsToGraphicTiles(board);
-
-            tileController.AssignTiles(ref tiles);
+            tileController.AssignTiles(generator.CellsToGraphicTiles(board));
         }
 
         private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
@@ -172,6 +163,8 @@ namespace KAKURO
         {
             int tileHW = tilesPanel.Height / 8;
             int tileStartX = (tilesPanel.Width / 2) - tileHW * 4;
+
+            MinimumSize = new Size(tileHW * 8, MinimumSize.Height);
 
             for (int i = 0; i < tileController.SizeY; i++)
             {

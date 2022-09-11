@@ -278,12 +278,12 @@
             // 
             // canvas
             // 
-            this.canvas.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.canvas.Location = new System.Drawing.Point(8, 8);
             this.canvas.Name = "canvas";
             this.canvas.Size = new System.Drawing.Size(386, 386);
             this.canvas.TabIndex = 2;
             this.canvas.TabStop = false;
+            this.canvas.SizeChanged += new System.EventHandler(this.UpdateCanvasEvent);
             // 
             // canvasPanel
             // 
@@ -313,7 +313,9 @@
             this.Text = "Какуро";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
-            this.ResizeEnd += new System.EventHandler(this.MainForm_ResizeEnd);
+            this.Shown += new System.EventHandler(this.UpdateCanvasEvent);
+            this.ResizeEnd += new System.EventHandler(this.UpdateCanvasEvent);
+            this.SizeChanged += new System.EventHandler(this.MainForm_Resize);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.menuStrip.ResumeLayout(false);

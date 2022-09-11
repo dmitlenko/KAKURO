@@ -61,13 +61,10 @@ namespace KAKURO
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            tileController = new TileController(canvas, 8, 8, new GraphicTile[,] { {
-                    new BlackGraphicTile(), 
-                    new HintGraphicTile(21, 33), 
-                    new NumberGraphicTile(4)
-            }}) ;
-
-            MainForm_ResizeEnd(sender, e);
+            tileController = new TileController(canvas, 8, 8, new GraphicTile[,] { 
+                { new BlackGraphicTile(),  new HintGraphicTile(21, 33),  new NumberGraphicTile(4)},
+                { new BlackGraphicTile(),  new HintGraphicTile(22, 66),  new NumberGraphicTile(9)},
+            });
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -136,32 +133,37 @@ namespace KAKURO
         FormWindowState LastWindowState = FormWindowState.Minimized;
         private void MainForm_Resize(object sender, EventArgs e)
         {
-            if (WindowState != LastWindowState)
-            {
-                LastWindowState = WindowState;
-                if (WindowState == FormWindowState.Maximized || WindowState == FormWindowState.Normal)
-                {
-                    MainForm_ResizeEnd(sender , e);
-                }
-            }   
-        }
+            int padding = 8;
+            int paddX2 = padding * 2;
 
-        private void MainForm_ResizeEnd(object sender, EventArgs e)
-        {
-            if(canvasPanel.Width < MinSize.Width)
+            if (canvasPanel.Width - paddX2 < canvas.Height || canvasPanel.Height - paddX2 > canvasPanel.Width)
             {
-                canvas.Height = canvasPanel.Width - 16;
-                canvas.Width = canvasPanel.Width - 16;
-                canvas.Left = 8;
+                canvas.Height = canvasPanel.Width - paddX2;
+                canvas.Width = canvasPanel.Width - paddX2;
+                canvas.Left = padding;
                 canvas.Top = (canvasPanel.Height / 2) - (canvas.Height / 2);
-            } else
+            }
+            else
             {
-                canvas.Height = canvasPanel.Height - 16;
-                canvas.Width = canvasPanel.Height - 16;
-                canvas.Top = 8;
+                canvas.Height = canvasPanel.Height - paddX2;
+                canvas.Width = canvasPanel.Height - paddX2;
+                canvas.Top = padding;
                 canvas.Left = (canvasPanel.Width / 2) - (canvas.Width / 2);
             }
 
+            if (WindowState != LastWindowState)
+            {
+                LastWindowState = WindowState;
+
+                if (WindowState == FormWindowState.Maximized || WindowState == FormWindowState.Normal)
+                {
+                    tileController.Update();
+                }
+            }
+        }
+
+        private void UpdateCanvasEvent(object sender, EventArgs e)
+        {
             tileController.Update();
         }
     }

@@ -14,9 +14,8 @@ namespace KAKURO
     public partial class MainForm : Form
     {
         private DateTime CurrentTime = new DateTime();
-        private bool Saved { get; set; }
-        private Point SelectedTile = new Point(0, 0);
-        private bool IsPaused { get; set; }
+        private bool Saved = false;
+        private bool _paused = false;
         private TileController tileController;
         private PictureBox[,] boxTiles;
 
@@ -24,21 +23,21 @@ namespace KAKURO
         {
             get
             {
-                return IsPaused;
+                return _paused;
             }
             set
             {
-                IsPaused = value;
+                _paused = value;
                 if (value)
                 {
                     statusInPause.Visible = true;
-                    tileController.DisableTiles();
+                    tileController.Enabled = false;
                     pauseToolStripMenuItem.Enabled = false;
                     resumeToolStripMenuItem.Enabled = true;
                 } else
                 {
                     statusInPause.Visible = false;
-                    tileController.EnableTiles();
+                    tileController.Enabled = true;
                     pauseToolStripMenuItem.Enabled = true;
                     resumeToolStripMenuItem.Enabled = false;
                 }
@@ -66,9 +65,6 @@ namespace KAKURO
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            // Просвоюємо змінній Saved "false" так як гра ще не збережена
-            Saved = false;
-
             // Підготувати тайли
             // Я це все руками писав :|
             boxTiles = new PictureBox[,]
@@ -115,25 +111,21 @@ namespace KAKURO
 
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
-            // Якщо гра не в паузі
-            if (!Paused)
+            switch (e.KeyCode)
             {
-                switch (e.KeyCode)
-                {
-                    case Keys.Up: // При натисканні на стрілку вгору здвинути координату вгору
-                        tileController.MoveSelectionUp();
-                        break;
-                    case Keys.Down: // При натисканні на стрілку вниз здвинути координату вниз
-                        tileController.MoveSelectionDown();
-                        break;
-                    case Keys.Left: // При натисканні на стрілку вліво здвинути координату вліво
-                        tileController.MoveSelectionLeft();
-                        break;
-                    case Keys.Right: // При натисканні на стрілку вправо здвинути координату вправо
-                        tileController.MoveSelectionRight();
-                        break;
-                }
-            } 
+                case Keys.Up: // При натисканні на стрілку вгору здвинути координату вгору
+                    tileController.MoveSelectionUp();
+                    break;
+                case Keys.Down: // При натисканні на стрілку вниз здвинути координату вниз
+                    tileController.MoveSelectionDown();
+                    break;
+                case Keys.Left: // При натисканні на стрілку вліво здвинути координату вліво
+                    tileController.MoveSelectionLeft();
+                    break;
+                case Keys.Right: // При натисканні на стрілку вправо здвинути координату вправо
+                    tileController.MoveSelectionRight();
+                    break;
+            }
         }
 
         private void rulesToolStripMenuItem_Click(object sender, EventArgs e)

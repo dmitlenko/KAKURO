@@ -10,10 +10,27 @@ namespace KAKURO
 {
     internal class TileController
     {
-        private PictureBox[,] boxTiles;
         public PictureBox[,] BoxTiles { get { return boxTiles; } }
         public Point Selected = new Point(0,0);
+
+        private PictureBox[,] boxTiles;
         private Point PrevSelected = new Point(0, 0);
+
+        private bool _enabled = true;
+
+        public bool Enabled
+        {
+            get
+            {
+                return _enabled;
+            }
+            set
+            {
+                _enabled = value;
+                if (value) EnableTiles();
+                else DisableTiles();
+            }
+        }
 
         public TileController(PictureBox[,] tiles)
         {
@@ -57,14 +74,14 @@ namespace KAKURO
             PrevSelected = new Point(Selected.X, Selected.Y);
         }
 
-        public void DisableTiles() // Вимкнути всі тайли
+        private void DisableTiles() // Вимкнути всі тайли
         {
             for (int i = 0; i < boxTiles.GetLength(0); i++)
                 for (int j = 0; j < boxTiles.GetLength(1); j++)
                     boxTiles[j, i].Enabled = false;
         }
 
-        public void EnableTiles() // Ввімкнути всі тайли
+        private void EnableTiles() // Ввімкнути всі тайли
         {
             for (int i = 0; i < boxTiles.GetLength(0); i++)
                 for (int j = 0; j < boxTiles.GetLength(1); j++)
@@ -80,34 +97,46 @@ namespace KAKURO
 
         public void MoveSelectionUp()
         {
-            if (Selected == Point.Empty) Selected = new Point(0, 0);
+            if (Enabled)
+            {
+                if (Selected == Point.Empty) Selected = new Point(0, 0);
 
-            if (Selected.Y > 0) Selected.Y -= 1;
-            BorderSelected();
+                if (Selected.Y > 0) Selected.Y -= 1;
+                BorderSelected();
+            }
         }
 
         public void MoveSelectionDown()
         {
-            if (Selected == Point.Empty) Selected = new Point(0, 0);
+            if (Enabled)
+            {
+                if (Selected == Point.Empty) Selected = new Point(0, 0);
 
-            if (Selected.Y < boxTiles.GetLength(0) - 1) Selected.Y += 1;
-            BorderSelected();
+                if (Selected.Y < boxTiles.GetLength(0) - 1) Selected.Y += 1;
+                BorderSelected();
+            }
         }
 
         public void MoveSelectionLeft()
         {
-            if (Selected == Point.Empty) Selected = new Point(0, 0);
+            if (Enabled)
+            {
+                if (Selected == Point.Empty) Selected = new Point(0, 0);
 
-            if (Selected.X > 0) Selected.X -= 1;
-            BorderSelected();
+                if (Selected.X > 0) Selected.X -= 1;
+                BorderSelected();
+            }
         }
 
         public void MoveSelectionRight()
         {
-            if (Selected == Point.Empty) Selected = new Point(0, 0);
+            if (Enabled)
+            {
+                if (Selected == Point.Empty) Selected = new Point(0, 0);
 
-            if (Selected.X < boxTiles.GetLength(1) - 1) Selected.X += 1;
-            BorderSelected();
+                if (Selected.X < boxTiles.GetLength(1) - 1) Selected.X += 1;
+                BorderSelected();
+            }
         }
     }
 }

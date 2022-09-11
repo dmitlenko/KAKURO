@@ -24,6 +24,22 @@ namespace KAKURO
         public TileType(string type) => Type = type;
 
         public override string ToString() => Type;
+        public override int GetHashCode()
+        {
+            return Type.GetHashCode();
+        }
+        public override bool Equals(object obj)
+        {
+            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+            {
+                return false;
+            }
+            else
+            {
+                TileType p = (TileType)obj;
+                return Type == p.Type;
+            }
+        }
     }
 
     internal class GraphicTile
@@ -39,15 +55,22 @@ namespace KAKURO
         public bool Selected { get; set; }
 
         public GraphicTile() { Type = TileTypes.Empty; Selected = false; Position = Point.Empty; Size = Size.Empty; }
-        public GraphicTile(TileType type) { /*Canvas = null;*/ Type = type; Selected = false; Position = Point.Empty; Size = Size.Empty; }
-        public GraphicTile(PictureBox pb, TileType type) { /*Canvas = pb;*/ Type = type; Selected = false; Position = Point.Empty; Size = Size.Empty; }
+        public GraphicTile(TileType type) { Type = type; Selected = false; Position = Point.Empty; Size = Size.Empty; }
+        public GraphicTile(PictureBox pb, TileType type) { Type = type; Selected = false; Position = Point.Empty; Size = Size.Empty; }
 
-        public GraphicTile(PictureBox pb) { /*Canvas = pb;*/ Type = TileTypes.Empty; Selected = false; Position = Point.Empty; Size = Size.Empty; }
+        public GraphicTile(PictureBox pb) { Type = TileTypes.Empty; Selected = false; Position = Point.Empty; Size = Size.Empty; }
 
         public virtual void Draw(Graphics graphics) { }
 
-        public void DrawOutline(Graphics graphics, Color color) {
-            Pen pen = new Pen(color, 1);
+        public void DrawSelection(Graphics graphics, Color color) {
+            Pen pen = new Pen(color, 2);
+            pen.Alignment = PenAlignment.Inset;
+            graphics.DrawRectangle(pen, new Rectangle(Position, Size));
+        }
+
+        public void DrawOutline(Graphics graphics)
+        {
+            Pen pen = new Pen(Color.Black, 1);
             pen.Alignment = PenAlignment.Inset;
             graphics.DrawRectangle(pen, new Rectangle(Position, Size));
         }
@@ -59,16 +82,14 @@ namespace KAKURO
         public BlackGraphicTile() : base(TileTypes.Black) { }
 
         public override void Draw(Graphics graphics) {
-            // graphics.DrawRectangle(new Pen(Brushes.Gray), new Rectangle(Position, Size));
-
-            if (Selected) DrawOutline(graphics, Color.Gray);
+            if (Selected) DrawSelection(graphics, Color.Gray);
         }
     }
 
     class HintGraphicTile : GraphicTile
     {
-        public int SumLeft {get;set;}
-        public int SumRight {get;set;}
+        public int SumLeft { get; set; }
+        public int SumRight { get; set; }
 
         public HintGraphicTile() : base(TileTypes.Hint)
         {
@@ -102,13 +123,14 @@ namespace KAKURO
             graphics.DrawString(SumLeft == 0 ? "" : SumLeft.ToString(), drawFont, Brushes.White, Position.X, Position.Y + Size.Height - str1sz.Height);
             graphics.DrawString(SumRight == 0 ? "" : SumRight.ToString(), drawFont, Brushes.White, Position.X + Size.Width - str2sz.Width, Position.Y);
 
-            if (Selected) DrawOutline(graphics, Color.Gray);
+            DrawOutline(graphics);
+            if (Selected) DrawSelection(graphics, Color.Gray);
         }
     }
 
     class NumberGraphicTile : GraphicTile
     {
-        private int DrawnNumber { get; set; }
+        public int DrawnNumber { get; set; }
 
         public NumberGraphicTile(): base(TileTypes.Number) { DrawnNumber = 0; }
 
@@ -132,9 +154,10 @@ namespace KAKURO
             SizeF textSize = graphics.MeasureString(DrawnNumber.ToString(), drawFont);
             Size textSize1 = new Size(Size.Width / 2 - (int)textSize.Width / 2, Size.Height / 2 - (int)textSize.Height / 2);
 
-            graphics.DrawString(DrawnNumber == 0 ? "" : DrawnNumber.ToString(), drawFont, Brushes.Blue, Point.Add(Position,textSize1));
+            graphics.DrawString(DrawnNumber == 0 ? "" : DrawnNumber.ToString(), drawFont, Brushes.SteelBlue, Point.Add(Position,textSize1));
 
-            if (Selected) DrawOutline(graphics, Color.Gray);
+            DrawOutline(graphics);
+            if (Selected) DrawSelection(graphics, Color.Gray);
         }
     }
 }

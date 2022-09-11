@@ -80,7 +80,7 @@ namespace KAKURO
             MainForm_ResizeEnd(sender, e);
 
             GraphicTile[,] tt = new GraphicTile[,] { { new BlackGraphicTile(), new HintGraphicTile(21, 33), new NumberGraphicTile(4) } };
-            tileController.AssignTiles(ref tt);
+            tileController.AssignTiles(tt);
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)

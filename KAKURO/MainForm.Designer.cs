@@ -75,7 +75,7 @@
             this.допомогаToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(401, 24);
+            this.menuStrip.Size = new System.Drawing.Size(402, 24);
             this.menuStrip.TabIndex = 2;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -224,7 +224,7 @@
             this.statusStrip.Location = new System.Drawing.Point(0, 426);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.statusStrip.Size = new System.Drawing.Size(401, 22);
+            this.statusStrip.Size = new System.Drawing.Size(402, 22);
             this.statusStrip.TabIndex = 3;
             this.statusStrip.Text = "statusStrip1";
             // 
@@ -279,10 +279,9 @@
             // canvas
             // 
             this.canvas.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.canvas.Dock = System.Windows.Forms.DockStyle.Fill;
             this.canvas.Location = new System.Drawing.Point(8, 8);
             this.canvas.Name = "canvas";
-            this.canvas.Size = new System.Drawing.Size(385, 386);
+            this.canvas.Size = new System.Drawing.Size(386, 386);
             this.canvas.TabIndex = 2;
             this.canvas.TabStop = false;
             // 
@@ -294,7 +293,7 @@
             this.canvasPanel.Location = new System.Drawing.Point(0, 24);
             this.canvasPanel.Name = "canvasPanel";
             this.canvasPanel.Padding = new System.Windows.Forms.Padding(8);
-            this.canvasPanel.Size = new System.Drawing.Size(401, 402);
+            this.canvasPanel.Size = new System.Drawing.Size(402, 402);
             this.canvasPanel.TabIndex = 4;
             // 
             // MainForm
@@ -302,13 +301,13 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Desktop;
-            this.ClientSize = new System.Drawing.Size(401, 448);
+            this.ClientSize = new System.Drawing.Size(402, 448);
             this.Controls.Add(this.canvasPanel);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.menuStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip;
-            this.MinimumSize = new System.Drawing.Size(417, 486);
+            this.MinimumSize = new System.Drawing.Size(240, 240);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Какуро";

@@ -34,11 +34,6 @@ namespace KAKURO
             {
                 tile.Size = new Size(width, height);
             }
-
-            public void Update()
-            {
-                //tile.Refresh();
-            }
         }
 
         private bool _enabled = true;
@@ -127,8 +122,6 @@ namespace KAKURO
         {
             if (Enabled)
             {
-                if (Selected == Point.Empty) Selected = new Point(0, 0);
-
                 if (Selected.Y > 0) Selected.Y -= 1;
 
                 ChangeSelected();
@@ -140,8 +133,6 @@ namespace KAKURO
         {
             if (Enabled)
             {
-                if (Selected == Point.Empty) Selected = new Point(0, 0);
-
                 if (Selected.Y < GraphicTiles.GetLength(0) - 1) Selected.Y += 1;
 
                 ChangeSelected();
@@ -153,8 +144,6 @@ namespace KAKURO
         {
             if (Enabled)
             {
-                if (Selected == Point.Empty) Selected = new Point(0, 0);
-
                 if (Selected.X > 0) Selected.X -= 1;
 
                 ChangeSelected();
@@ -166,11 +155,20 @@ namespace KAKURO
         {
             if (Enabled)
             {
-                if (Selected == Point.Empty) Selected = new Point(0, 0);
-
                 if (Selected.X < GraphicTiles.GetLength(1) - 1) Selected.X += 1;
 
                 ChangeSelected();
+                Update();
+            }
+        }
+
+        public void SetTileNumber(int number)
+        {
+            if (Enabled)
+            {
+                if (GraphicTiles[Selected.Y, Selected.X].Type.ToString() == "number")
+                    ((NumberGraphicTile)GraphicTiles[Selected.Y, Selected.X]).DrawnNumber = number;
+
                 Update();
             }
         }
@@ -192,12 +190,6 @@ namespace KAKURO
                             GraphicTiles[i, j].Size = new Size(tileHW, tileHW);
                             GraphicTiles[i, j].Position = new Point(j * tileHW, i * tileHW);
                         }
-                    }
-
-                    for (int i = 0; i <= Size.Height; i++)
-                    {
-                        g.DrawLine(Pens.Gray, new Point(0, i * tileHW), new Point(0, Size.Width * tileHW));
-                        g.DrawLine(Pens.Gray, new Point(i * tileHW, 0), new Point(Size.Height * tileHW, 0));
                     }
                 }
 

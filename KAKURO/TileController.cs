@@ -118,7 +118,7 @@ namespace KAKURO
         {
             for (int i = 0; i < tiles.GetLength(0); i++)
                 for (int j = 0; j < tiles.GetLength(1); j++)
-                    tiles[i,j].Picture = boxTiles[i,j];
+                    tiles[i,j].Canvas = boxTiles[i,j];
         }
 
         public void MoveSelectionUp()

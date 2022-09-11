@@ -10,38 +10,36 @@ namespace KAKURO
 {
     internal class TileController
     {
-        public PictureBox[,] BoxTiles { get { return boxTiles; } }
+        private Point PrevSelected = new Point(0, 0);
+
+        public PictureBox Canvas { get; }
+        public GraphicTile[,] GraphicTiles;
+
         public Point Selected = new Point(0,0);
-        public int SizeX { get => BoxTiles.GetLength(1); }
-        public int SizeY { get => BoxTiles.GetLength(0); }
+        public Size Size { get; set; }
+        public int SizeX { get => GraphicTiles.GetLength(1); }
+        public int SizeY { get => GraphicTiles.GetLength(0); }
 
         public struct Box
         {
-            private PictureBox box;
-            public Box(ref PictureBox b) => box = b;
+            private GraphicTile tile;
+            public Box(ref GraphicTile b) => tile = b;
 
             public void Move(int x, int y)
             {
-                box.Left = x;
-                box.Top = y;
-
-                box.Tag = y + ":" + x;
+                tile.Position = new Point(x, y);
             }
 
             public void Resize(int width, int height)
             {
-                box.Width = width;
-                box.Height = height;
+                tile.Size = new Size(width, height);
             }
 
             public void Update()
             {
-                box.Refresh();
+                //tile.Refresh();
             }
         }
-
-        private PictureBox[,] boxTiles;
-        private Point PrevSelected = new Point(0, 0);
 
         private bool _enabled = true;
 
@@ -50,76 +48,76 @@ namespace KAKURO
             get => _enabled;
             set
             {
-                _enabled = value;
-                if (value) EnableTiles();
-                else DisableTiles();
+                if (_enabled = value) EnableCanvas();
+                else DisableCanvas();
             }
         }
 
-        public Box this[int x, int y] { get => new Box(ref boxTiles[y, x]); }
-
-        public TileController(PictureBox[,] tiles)
+        public TileController(PictureBox canvas, int tilesX, int tilesY, GraphicTile[,] tiles)
         {
-            boxTiles = tiles;
+            GraphicTiles = new GraphicTile[tilesY, tilesX];
+            Canvas = canvas;
+            Size = new Size(tilesX, tilesY);
 
             PrepareBoxTiles();
 
-            BorderSelected();
+            for (int i = 0; i < tiles.GetLength(0); i++)
+                for (int j = 0; j < tiles.GetLength(1); j++)
+                    GraphicTiles[i, j] = tiles[i, j];
+
+            PrepareCanvas();
+            ChangeSelected();
+            Update();
         }
 
-        private void Tile_Click(object sender, EventArgs e)
+        private void Canvas_MouseUp(object sender, MouseEventArgs e)
         {
-            string[] coords = ((PictureBox)sender).Tag.ToString().Split(':');
-            int y = Convert.ToInt32(coords[0]);
-            int x = Convert.ToInt32(coords[1]);
+            Selected = TileCoordsByPoint(new Point(e.X, e.Y));
+            MessageBox.Show(String.Format("{0} {1}", e.X, e.Y));
 
-            // Записати координати в точку
-            Selected = new Point(x,y);
-
-            BorderSelected();
+            ChangeSelected();
+            Update();
         }
 
         private void PrepareBoxTiles()
         {
-            for (int i = 0; i < boxTiles.GetLength(0); i++)
-            {
-                for (int j = 0; j < boxTiles.GetLength(1); j++)
+            int tileHW = Canvas.Height / Size.Height;
+            for (int i = 0; i < GraphicTiles.GetLength(0); i++)
+                for(int j = 0; j < GraphicTiles.GetLength(1); j++)
                 {
-                    boxTiles[j, i].BorderStyle = BorderStyle.None; // Прибираємо краї у PictureBox'у
-                    boxTiles[j, i].BackColor = Color.Black; // Задаємо прозорий фон
-                    boxTiles[j, i].Click += new EventHandler(Tile_Click); // Додаємо подію кліку
-                    boxTiles[j, i].Tag = j + ":" + i; // Додаємо тег з координатами
+                    GraphicTiles[i, j] = new GraphicTile();
+                    GraphicTiles[i, j].Position = new Point(i * tileHW, j * tileHW);
+                    GraphicTiles[i, j].Size = new Size(tileHW, tileHW);
                 }
-            }
         }
 
-        private void BorderSelected()
+        private void PrepareCanvas()
         {
-            boxTiles[PrevSelected.Y, PrevSelected.X].BorderStyle = BorderStyle.None;
-            boxTiles[Selected.Y, Selected.X].BorderStyle = BorderStyle.FixedSingle;
+            Canvas.BackColor = Color.Black;
+            Canvas.MouseUp += new MouseEventHandler(Canvas_MouseUp);
+            Canvas.Image = new Bitmap(Canvas.Width, Canvas.Height);
+        }
+
+        private void ChangeSelected()
+        {
+            GraphicTiles[PrevSelected.Y, PrevSelected.X].Selected = false;
+            GraphicTiles[Selected.Y, Selected.X].Selected = true;
             PrevSelected = new Point(Selected.X, Selected.Y);
         }
 
-        private void DisableTiles() // Вимкнути всі тайли
+        private Point TileCoordsByPoint(Point p)
         {
-            for (int i = 0; i < boxTiles.GetLength(0); i++)
-                for (int j = 0; j < boxTiles.GetLength(1); j++)
-                    boxTiles[j, i].Enabled = false;
+            float tileHW = Canvas.Height / Size.Height;
+
+            return new Point((int) Math.Floor(p.X / tileHW), (int) Math.Floor(p.Y / tileHW));
         }
 
-        private void EnableTiles() // Ввімкнути всі тайли
-        {
-            for (int i = 0; i < boxTiles.GetLength(0); i++)
-                for (int j = 0; j < boxTiles.GetLength(1); j++)
-                    boxTiles[j, i].Enabled = true;
-        }
+        private void DisableCanvas() => Canvas.Enabled = false;
+        private void EnableCanvas() => Canvas.Enabled = true;
 
-        public void AssignTiles(GraphicTile[,] tiles)
-        {
-            for (int i = 0; i < tiles.GetLength(0); i++)
-                for (int j = 0; j < tiles.GetLength(1); j++)
-                    tiles[i,j].Canvas = boxTiles[i,j];
-        }
+        public Box this[int x, int y] { get => new Box(ref GraphicTiles[y, x]); }
+
+        public void AssignTiles(GraphicTile[,] tiles) =>  GraphicTiles = tiles;
 
         public void MoveSelectionUp()
         {
@@ -128,7 +126,9 @@ namespace KAKURO
                 if (Selected == Point.Empty) Selected = new Point(0, 0);
 
                 if (Selected.Y > 0) Selected.Y -= 1;
-                BorderSelected();
+
+                ChangeSelected();
+                Update();
             }
         }
 
@@ -138,8 +138,10 @@ namespace KAKURO
             {
                 if (Selected == Point.Empty) Selected = new Point(0, 0);
 
-                if (Selected.Y < boxTiles.GetLength(0) - 1) Selected.Y += 1;
-                BorderSelected();
+                if (Selected.Y < GraphicTiles.GetLength(0) - 1) Selected.Y += 1;
+
+                ChangeSelected();
+                Update();
             }
         }
 
@@ -150,7 +152,9 @@ namespace KAKURO
                 if (Selected == Point.Empty) Selected = new Point(0, 0);
 
                 if (Selected.X > 0) Selected.X -= 1;
-                BorderSelected();
+
+                ChangeSelected();
+                Update();
             }
         }
 
@@ -160,9 +164,39 @@ namespace KAKURO
             {
                 if (Selected == Point.Empty) Selected = new Point(0, 0);
 
-                if (Selected.X < boxTiles.GetLength(1) - 1) Selected.X += 1;
-                BorderSelected();
+                if (Selected.X < GraphicTiles.GetLength(1) - 1) Selected.X += 1;
+
+                ChangeSelected();
+                Update();
             }
+        }
+
+        public void Update()
+        {
+            Bitmap buffer = new Bitmap(Canvas.Width, Canvas.Height);
+
+            Task.Factory.StartNew(() =>
+            {
+                int tileHW = Canvas.Width / Size.Width;
+                using (Graphics g = Graphics.FromImage(buffer))
+                {
+                    for (int i = 0; i < GraphicTiles.GetLength(0); i++)
+                    {
+                        for (int j = 0; j < GraphicTiles.GetLength(1); j++)
+                        {
+                            GraphicTiles[i, j].Draw(g);
+                            GraphicTiles[i, j].Size = new Size(tileHW, tileHW);
+                            GraphicTiles[i, j].Position = new Point(j * tileHW, i * tileHW);
+                        }
+                    }
+                }
+
+                Canvas.Invoke(new Action(() =>
+                {
+                    Canvas.Image = buffer;
+                }));
+            });
+
         }
     }
 }

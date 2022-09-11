@@ -70,13 +70,17 @@ namespace KAKURO
             Update();
         }
 
+        // Canvas click
         private void Canvas_MouseUp(object sender, MouseEventArgs e)
         {
-            Selected = TileCoordsByPoint(new Point(e.X, e.Y));
-            MessageBox.Show(String.Format("{0} {1}", e.X, e.Y));
+            Point sel = TileCoordsByPoint(new Point(e.X, e.Y));
+            if (sel.X > -1 && sel.X < Size.Width && sel.Y > -1 && sel.Y < Size.Height)
+            {
+                Selected = sel;
 
-            ChangeSelected();
-            Update();
+                ChangeSelected();
+                Update();
+            }
         }
 
         private void PrepareBoxTiles()
@@ -85,7 +89,7 @@ namespace KAKURO
             for (int i = 0; i < GraphicTiles.GetLength(0); i++)
                 for(int j = 0; j < GraphicTiles.GetLength(1); j++)
                 {
-                    GraphicTiles[i, j] = new GraphicTile();
+                    GraphicTiles[i, j] = new BlackGraphicTile(Canvas);
                     GraphicTiles[i, j].Position = new Point(i * tileHW, j * tileHW);
                     GraphicTiles[i, j].Size = new Size(tileHW, tileHW);
                 }
@@ -173,7 +177,7 @@ namespace KAKURO
 
         public void Update()
         {
-            Bitmap buffer = new Bitmap(Canvas.Width, Canvas.Height);
+            Bitmap buffer = new Bitmap(Canvas.Width + 1, Canvas.Height + 1);
 
             Task.Factory.StartNew(() =>
             {
@@ -189,10 +193,15 @@ namespace KAKURO
                             GraphicTiles[i, j].Position = new Point(j * tileHW, i * tileHW);
                         }
                     }
+
+                    for (int i = 0; i <= Size.Height; i++)
+                    {
+                        g.DrawLine(Pens.Gray, new Point(0, i * tileHW), new Point(0, Size.Width * tileHW));
+                        g.DrawLine(Pens.Gray, new Point(i * tileHW, 0), new Point(Size.Height * tileHW, 0));
+                    }
                 }
 
-                Canvas.Invoke(new Action(() =>
-                {
+                Canvas.Invoke(new Action(() => {
                     Canvas.Image = buffer;
                 }));
             });

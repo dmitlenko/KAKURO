@@ -62,8 +62,8 @@ namespace KAKURO
         private void MainForm_Load(object sender, EventArgs e)
         {
             tileController = new TileController(canvas, 8, 8, new GraphicTile[,] { 
-                { new BlackGraphicTile(),  new HintGraphicTile(21, 33),  new NumberGraphicTile(4)},
-                { new BlackGraphicTile(),  new HintGraphicTile(22, 66),  new NumberGraphicTile(9)},
+                { new BlackGraphicTile(),  new HintGraphicTile(21, 33),  new NumberGraphicTile(4), new BlackGraphicTile(),new BlackGraphicTile()},
+                { new BlackGraphicTile(), new BlackGraphicTile(), new NumberGraphicTile(1),  new NumberGraphicTile(2),  new NumberGraphicTile(3)},
             });
         }
 
@@ -98,6 +98,18 @@ namespace KAKURO
                     break;
                 case Keys.Right: // При натисканні на стрілку вправо здвинути координату вправо
                     tileController.MoveSelectionRight();
+                    break;
+                case Keys.D0:
+                case Keys.D1:
+                case Keys.D2:
+                case Keys.D3:
+                case Keys.D4:
+                case Keys.D5:
+                case Keys.D6:
+                case Keys.D7:
+                case Keys.D8:
+                case Keys.D9:
+                    tileController.SetTileNumber(e.KeyValue - 48);
                     break;
             }
         }

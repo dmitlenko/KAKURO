@@ -10,8 +10,36 @@ namespace KAKURO
 {
     internal class TileController
     {
-        public PictureBox[,] BoxTiles { get { return boxTiles; } }
+        public PictureBox[,] BoxTiles { get => boxTiles; }
         public Point Selected = new Point(0,0);
+        public int SizeX { get => BoxTiles.GetLength(1); }
+        public int SizeY { get => BoxTiles.GetLength(0); }
+
+        public struct Box
+        {
+            private PictureBox box;
+
+            public Box(ref PictureBox b) => box = b;
+
+            public void Move(int x, int y)
+            {
+                box.Left = x;
+                box.Top = y;
+
+                box.Tag = y + ":" + x;
+            }
+
+            public void Resize(int width, int height)
+            {
+                box.Width = width;
+                box.Height = height;
+            }
+
+            public void Update()
+            {
+                box.Refresh();
+            }
+        }
 
         private PictureBox[,] boxTiles;
         private Point PrevSelected = new Point(0, 0);
@@ -20,10 +48,7 @@ namespace KAKURO
 
         public bool Enabled
         {
-            get
-            {
-                return _enabled;
-            }
+            get => _enabled;
             set
             {
                 _enabled = value;
@@ -31,6 +56,8 @@ namespace KAKURO
                 else DisableTiles();
             }
         }
+
+        public Box this[int x, int y] { get => new Box(ref boxTiles[y, x]); }
 
         public TileController(PictureBox[,] tiles)
         {

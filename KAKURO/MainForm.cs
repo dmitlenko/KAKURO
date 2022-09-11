@@ -21,10 +21,7 @@ namespace KAKURO
 
         private bool Paused
         {
-            get
-            {
-                return _paused;
-            }
+            get => _paused;
             set
             {
                 _paused = value;
@@ -176,14 +173,13 @@ namespace KAKURO
             int tileHW = tilesPanel.Height / 8;
             int tileStartX = (tilesPanel.Width / 2) - tileHW * 4;
 
-            for (int i = 0; i < boxTiles.GetLength(0); i++)
+            for (int i = 0; i < tileController.SizeY; i++)
             {
-                for (int j = 0; j < boxTiles.GetLength(1); j++)
+                for (int j = 0; j < tileController.SizeX; j++)
                 {
-                    boxTiles[j, i].Left = tileStartX + (tileHW * i);
-                    boxTiles[j, i].Top = (tileHW * j);
-                    boxTiles[j, i].Width = boxTiles[j, i].Height = tileHW;
-                    boxTiles[j, i].Refresh();
+                    tileController[i,j].Move(tileStartX + (tileHW * i), (tileHW * j));
+                    tileController[i,j].Resize(tileHW, tileHW);
+                    tileController[i,j].Update();
                 }
             }
         }

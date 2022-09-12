@@ -62,8 +62,76 @@ namespace KAKURO
         private void MainForm_Load(object sender, EventArgs e)
         {
             tileController = new TileController(canvas, 8, 8, new GraphicTile[,] { 
-                { new BlackGraphicTile(),  new HintGraphicTile(21, 33),  new NumberGraphicTile(4), new BlackGraphicTile(),new BlackGraphicTile()},
-                { new BlackGraphicTile(), new BlackGraphicTile(), new NumberGraphicTile(1),  new NumberGraphicTile(2),  new NumberGraphicTile(3)},
+                { 
+                    new BlackGraphicTile(),  
+                    new HintGraphicTile(4, 0),  
+                    new HintGraphicTile(23, 0), 
+                    new BlackGraphicTile(),
+                    new BlackGraphicTile(),
+                    new HintGraphicTile(26, 0),
+                    new HintGraphicTile(3, 0),
+                    new BlackGraphicTile()
+                },
+                {
+                    new HintGraphicTile(0, 9),
+                    new NumberGraphicTile(0),
+                    new NumberGraphicTile(0),
+                    new BlackGraphicTile(),
+                    new HintGraphicTile(0, 6),
+                    new NumberGraphicTile(0),
+                    new NumberGraphicTile(0),
+                    new BlackGraphicTile()
+                },
+                {
+                    new HintGraphicTile(0, 4),
+                    new NumberGraphicTile(0),
+                    new NumberGraphicTile(0),
+                    new HintGraphicTile(8, 0),
+                    new HintGraphicTile(5, 4),
+                    new NumberGraphicTile(0),
+                    new NumberGraphicTile(0),
+                    new BlackGraphicTile()
+                },
+                {
+                    new BlackGraphicTile(),
+                    new HintGraphicTile(0, 13),
+                    new NumberGraphicTile(0),
+                    new NumberGraphicTile(0),
+                    new NumberGraphicTile(0),
+                    new NumberGraphicTile(0),
+                    new BlackGraphicTile(),
+                    new BlackGraphicTile()
+                },
+                {
+                    new BlackGraphicTile(),
+                    new HintGraphicTile(3, 11),
+                    new NumberGraphicTile(0),
+                    new NumberGraphicTile(0),
+                    new NumberGraphicTile(0),
+                    new NumberGraphicTile(0),
+                    new HintGraphicTile(4,0),
+                    new BlackGraphicTile()
+                },
+                {
+                    new HintGraphicTile(0, 9),
+                    new NumberGraphicTile(0),
+                    new NumberGraphicTile(0),
+                    new BlackGraphicTile(),
+                    new HintGraphicTile(0, 8),
+                    new NumberGraphicTile(0),
+                    new NumberGraphicTile(0),
+                    new BlackGraphicTile()
+                },
+                {
+                    new HintGraphicTile(0, 5),
+                    new NumberGraphicTile(0),
+                    new NumberGraphicTile(0),
+                    new BlackGraphicTile(),
+                    new HintGraphicTile(0, 7),
+                    new NumberGraphicTile(0),
+                    new NumberGraphicTile(0),
+                    new BlackGraphicTile()
+                },
             });
         }
 
@@ -99,7 +167,6 @@ namespace KAKURO
                 case Keys.Right: // При натисканні на стрілку вправо здвинути координату вправо
                     tileController.MoveSelectionRight();
                     break;
-                case Keys.D0:
                 case Keys.D1:
                 case Keys.D2:
                 case Keys.D3:
@@ -110,6 +177,9 @@ namespace KAKURO
                 case Keys.D8:
                 case Keys.D9:
                     tileController.SetTileNumber(e.KeyValue - 48);
+                    break;
+                case Keys.Delete:
+                    tileController.SetTileNumber(0);
                     break;
             }
         }

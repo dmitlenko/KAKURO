@@ -20,6 +20,8 @@ namespace KAKURO
         public int SizeX { get => GraphicTiles.GetLength(1); }
         public int SizeY { get => GraphicTiles.GetLength(0); }
 
+        public bool HighlightSums { get; set; }
+
         public struct Box
         {
             private GraphicTile tile;
@@ -61,7 +63,6 @@ namespace KAKURO
                     GraphicTiles[i, j] = tiles[i, j];
 
             PrepareCanvas();
-            ChangeSelected();
             Update();
         }
 
@@ -73,7 +74,6 @@ namespace KAKURO
             {
                 Selected = sel;
 
-                ChangeSelected();
                 Update();
             }
         }
@@ -97,13 +97,6 @@ namespace KAKURO
             Canvas.Image = new Bitmap(Canvas.Width, Canvas.Height);
         }
 
-        private void ChangeSelected()
-        {
-            GraphicTiles[PrevSelected.Y, PrevSelected.X].Selected = false;
-            GraphicTiles[Selected.Y, Selected.X].Selected = true;
-            PrevSelected = new Point(Selected.X, Selected.Y);
-        }
-
         private Point TileCoordsByPoint(Point p)
         {
             float tileHW = Canvas.Height / Size.Height;
@@ -113,6 +106,24 @@ namespace KAKURO
 
         private void DisableCanvas() => Canvas.Enabled = false;
         private void EnableCanvas() => Canvas.Enabled = true;
+
+        private Point TopHintFromSelection()
+        {
+            for (int i = Selected.Y; i >= 0; i--)
+                if (GraphicTiles[i, Selected.X].Type.ToString() == "hint")
+                    return new Point(Selected.X, i);
+
+            return Point.Empty;
+        }
+
+        private Point LeftHintFromSelection()
+        {
+            for (int i = Selected.X; i >= 0; i--)
+                if (GraphicTiles[Selected.Y, i].Type.ToString() == "hint")
+                    return new Point(i, Selected.Y);
+
+            return Point.Empty;
+        }
 
         public Box this[int x, int y] { get => new Box(ref GraphicTiles[y, x]); }
 
@@ -124,7 +135,6 @@ namespace KAKURO
             {
                 if (Selected.Y > 0) Selected.Y -= 1;
 
-                ChangeSelected();
                 Update();
             }
         }
@@ -135,7 +145,6 @@ namespace KAKURO
             {
                 if (Selected.Y < GraphicTiles.GetLength(0) - 1) Selected.Y += 1;
 
-                ChangeSelected();
                 Update();
             }
         }
@@ -146,7 +155,6 @@ namespace KAKURO
             {
                 if (Selected.X > 0) Selected.X -= 1;
 
-                ChangeSelected();
                 Update();
             }
         }
@@ -157,7 +165,6 @@ namespace KAKURO
             {
                 if (Selected.X < GraphicTiles.GetLength(1) - 1) Selected.X += 1;
 
-                ChangeSelected();
                 Update();
             }
         }
@@ -186,9 +193,32 @@ namespace KAKURO
                     {
                         for (int j = 0; j < GraphicTiles.GetLength(1); j++)
                         {
-                            GraphicTiles[i, j].Draw(g);
                             GraphicTiles[i, j].Size = new Size(tileHW, tileHW);
                             GraphicTiles[i, j].Position = new Point(j * tileHW, i * tileHW);
+                            GraphicTiles[i, j].Selected = Selected.X == j && Selected.Y == i;
+
+                            if (GraphicTiles[i, j].Type.ToString() == "hint" && GraphicTiles[i, j].Type.ToString() == "hint")
+                            {
+                                ((HintGraphicTile)GraphicTiles[i, j]).HighlightVertical = false;
+                                ((HintGraphicTile)GraphicTiles[i, j]).HighlightHorizontal = false;
+                            }
+
+                            GraphicTiles[i, j].Draw(g);
+                        }
+                    }
+
+                    if (HighlightSums)
+                    {
+                        Point th = TopHintFromSelection();
+                        Point lh = LeftHintFromSelection();
+
+                        if(GraphicTiles[th.Y, th.X].Type.ToString() == "hint" &&  GraphicTiles[lh.Y, lh.X].Type.ToString() == "hint" && Selected != th && Selected != lh)
+                        {
+                            ((HintGraphicTile)GraphicTiles[th.Y, th.X]).HighlightVertical = true;
+                            ((HintGraphicTile)GraphicTiles[lh.Y, lh.X]).HighlightHorizontal = true;
+
+                            GraphicTiles[th.Y, th.X].Draw(g);
+                            GraphicTiles[lh.Y, lh.X].Draw(g);
                         }
                     }
                 }

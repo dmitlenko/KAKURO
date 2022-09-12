@@ -112,7 +112,7 @@ namespace KAKURO
         public override void Draw(Graphics graphics)
         {
             //g.DrawRectangle(new Pen(Brushes.Black), new Rectangle(Position, Size));
-            graphics.DrawLine(new Pen(Color.White, 2), Position, Point.Add(Position, Size.Subtract(Size, new Size(1,1))));
+            graphics.DrawLine(new Pen(Color.White, 2), Point.Add(Position, new Size(Size.Width/4, Size.Height/4)), Point.Add(Position, Size.Subtract(Size, new Size(1,1))));
 
             int fontSize = (Size.Height / 3) + 1;
             Font drawFont = new Font(FontFamily.GenericSansSerif, fontSize, FontStyle.Regular, GraphicsUnit.Pixel);

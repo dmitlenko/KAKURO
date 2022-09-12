@@ -53,6 +53,7 @@ namespace KAKURO
                 // Оновлюємо час кожну секунду
                 statusTime.Text = CurrentTime.ToString("HH:mm:ss");
                 CurrentTime = CurrentTime.AddSeconds(1);
+                tileController.Update();
             } else
             {
                 statusInPause.Visible = !statusInPause.Visible;
@@ -245,6 +246,11 @@ namespace KAKURO
         }
 
         private void UpdateCanvasEvent(object sender, EventArgs e)
+        {
+            tileController.Update();
+        }
+
+        private void MainForm_Paint(object sender, PaintEventArgs e)
         {
             tileController.Update();
         }

@@ -316,6 +316,7 @@
             this.Shown += new System.EventHandler(this.UpdateCanvasEvent);
             this.ResizeEnd += new System.EventHandler(this.UpdateCanvasEvent);
             this.SizeChanged += new System.EventHandler(this.MainForm_Resize);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.MainForm_Paint);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.menuStrip.ResumeLayout(false);

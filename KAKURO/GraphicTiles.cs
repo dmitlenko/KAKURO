@@ -22,7 +22,6 @@ namespace KAKURO
         public string Type { get; }
 
         public TileType(string type) => Type = type;
-
         public override string ToString() => Type;
     }
 
@@ -45,7 +44,7 @@ namespace KAKURO
 
         public virtual void Draw(Graphics graphics) { }
 
-        public void DrawSelection(Graphics graphics, Color color) 
+        public void DrawSelection(Graphics graphics) 
         {
             int padding = 1;
 
@@ -70,48 +69,64 @@ namespace KAKURO
         public BlackGraphicTile() : base(TileTypes.Black) { }
 
         public override void Draw(Graphics graphics) {
-            if (Selected) DrawSelection(graphics, Color.Gray);
+            if (Selected) DrawSelection(graphics);
         }
     }
 
     class HintGraphicTile : GraphicTile
     {
-        public int SumLeft { get; set; }
-        public int SumRight { get; set; }
+        public int SumVertical { get; set; }
+        public int SumHorizontal { get; set; }
+
+        public bool HighlightVertical = false;
+        public bool HighlightHorizontal = false;
 
         public HintGraphicTile() : base(TileTypes.Hint)
         {
-            SumLeft = 0;
-            SumRight = 0;
+            SumVertical = 0;
+            SumHorizontal = 0;
         }
 
         public HintGraphicTile(int sumLeft, int sumRight) : base(TileTypes.Hint)
         {
-            SumLeft = sumLeft;
-            SumRight = sumRight;
+            SumVertical = sumLeft;
+            SumHorizontal = sumRight;
         }
 
         public HintGraphicTile(PictureBox pictureBox, int sumLeft, int sumRight): base(pictureBox, TileTypes.Hint) 
         { 
-            SumLeft = sumLeft;
-            SumRight = sumRight;
+            SumVertical = sumLeft;
+            SumHorizontal = sumRight;
         }
 
         public override void Draw(Graphics graphics)
         {
-            graphics.DrawLine(new Pen(Color.White, 2), Point.Add(Position, new Size(Size.Width/4, Size.Height/4)), Point.Add(Position, Size.Subtract(Size, new Size(1,1))));
+            if (HighlightHorizontal) graphics.FillPolygon(Brushes.Gray, new Point[] { 
+                Position,
+                Point.Add(Position, new Size(Size.Width, 0)),
+                Point.Add(Position, Size),
+            });
+
+            if (HighlightVertical) graphics.FillPolygon(Brushes.Gray, new Point[] {
+                Position,
+                Point.Add(Position, new Size(0, Size.Height)),
+                Point.Add(Position, Size),
+            });
+
+            if (HighlightVertical || HighlightHorizontal) graphics.DrawLine(new Pen(Color.White, 2), Position, Point.Add(Position, Size.Subtract(Size, new Size(1,1))));
+            else graphics.DrawLine(new Pen(Color.White, 2), Point.Add(Position, new Size(Size.Width/4, Size.Height/4)), Point.Add(Position, Size.Subtract(Size, new Size(1,1))));
 
             int fontSize = (Size.Height / 3) + 1;
             Font drawFont = new Font(FontFamily.GenericSansSerif, fontSize, FontStyle.Regular, GraphicsUnit.Pixel);
 
-            SizeF str1sz = graphics.MeasureString(SumLeft.ToString(), drawFont);
-            SizeF str2sz = graphics.MeasureString(SumRight.ToString(), drawFont);
+            SizeF str1sz = graphics.MeasureString(SumVertical.ToString(), drawFont);
+            SizeF str2sz = graphics.MeasureString(SumHorizontal.ToString(), drawFont);
 
-            graphics.DrawString(SumLeft == 0 ? "" : SumLeft.ToString(), drawFont, Brushes.White, Position.X, Position.Y + Size.Height - str1sz.Height);
-            graphics.DrawString(SumRight == 0 ? "" : SumRight.ToString(), drawFont, Brushes.White, Position.X + Size.Width - str2sz.Width, Position.Y);
+            graphics.DrawString(SumVertical == 0 ? "" : SumVertical.ToString(), drawFont, Brushes.White, Position.X, Position.Y + Size.Height - str1sz.Height);
+            graphics.DrawString(SumHorizontal == 0 ? "" : SumHorizontal.ToString(), drawFont, Brushes.White, Position.X + Size.Width - str2sz.Width, Position.Y);
 
             DrawOutline(graphics);
-            if (Selected) DrawSelection(graphics, Color.Gray);
+            if (Selected) DrawSelection(graphics);
         }
     }
 
@@ -144,7 +159,7 @@ namespace KAKURO
             graphics.DrawString(DrawnNumber == 0 ? "" : DrawnNumber.ToString(), drawFont, Brushes.DodgerBlue, Point.Add(Position,textSize1));
 
             DrawOutline(graphics);
-            if (Selected) DrawSelection(graphics, Color.Gray);
+            if (Selected) DrawSelection(graphics);
         }
     }
 }

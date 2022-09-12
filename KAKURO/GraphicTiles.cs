@@ -24,27 +24,10 @@ namespace KAKURO
         public TileType(string type) => Type = type;
 
         public override string ToString() => Type;
-        public override int GetHashCode()
-        {
-            return Type.GetHashCode();
-        }
-        public override bool Equals(object obj)
-        {
-            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
-            {
-                return false;
-            }
-            else
-            {
-                TileType p = (TileType)obj;
-                return Type == p.Type;
-            }
-        }
     }
 
     internal class GraphicTile
     {
-        //public PictureBox canvas { get; set; }
         public Bitmap buffer { get; set; }
         public TileType Type { get; }
 
@@ -62,10 +45,15 @@ namespace KAKURO
 
         public virtual void Draw(Graphics graphics) { }
 
-        public void DrawSelection(Graphics graphics, Color color) {
-            Pen pen = new Pen(color, 2);
+        public void DrawSelection(Graphics graphics, Color color) 
+        {
+            int padding = 1;
+
+            Pen pen = new Pen(Color.DodgerBlue, 2);
             pen.Alignment = PenAlignment.Inset;
-            graphics.DrawRectangle(pen, new Rectangle(Position, Size));
+            graphics.DrawRectangle(
+                pen,
+                new Rectangle(Point.Add(Position, new Size(padding, padding)), Size.Subtract(Size, new Size(padding, padding))));
         }
 
         public void DrawOutline(Graphics graphics)
@@ -111,7 +99,6 @@ namespace KAKURO
 
         public override void Draw(Graphics graphics)
         {
-            //g.DrawRectangle(new Pen(Brushes.Black), new Rectangle(Position, Size));
             graphics.DrawLine(new Pen(Color.White, 2), Point.Add(Position, new Size(Size.Width/4, Size.Height/4)), Point.Add(Position, Size.Subtract(Size, new Size(1,1))));
 
             int fontSize = (Size.Height / 3) + 1;
@@ -149,12 +136,12 @@ namespace KAKURO
             graphics.FillRectangle(Brushes.White, new Rectangle(Position,Size));
 
             int fontSize = (int)(Size.Height * 0.8) + 1;
-            Font drawFont = new Font(FontFamily.GenericSansSerif, fontSize, FontStyle.Bold, GraphicsUnit.Pixel);
+            Font drawFont = new Font(FontFamily.GenericSansSerif, fontSize, FontStyle.Regular, GraphicsUnit.Pixel);
 
             SizeF textSize = graphics.MeasureString(DrawnNumber.ToString(), drawFont);
             Size textSize1 = new Size(Size.Width / 2 - (int)textSize.Width / 2, Size.Height / 2 - (int)textSize.Height / 2);
 
-            graphics.DrawString(DrawnNumber == 0 ? "" : DrawnNumber.ToString(), drawFont, Brushes.SteelBlue, Point.Add(Position,textSize1));
+            graphics.DrawString(DrawnNumber == 0 ? "" : DrawnNumber.ToString(), drawFont, Brushes.DodgerBlue, Point.Add(Position,textSize1));
 
             DrawOutline(graphics);
             if (Selected) DrawSelection(graphics, Color.Gray);

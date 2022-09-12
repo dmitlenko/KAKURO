@@ -50,9 +50,7 @@ namespace KAKURO
 
             Pen pen = new Pen(Color.DodgerBlue, 2);
             pen.Alignment = PenAlignment.Inset;
-            graphics.DrawRectangle(
-                pen,
-                new Rectangle(Point.Add(Position, new Size(padding, padding)), Size.Subtract(Size, new Size(padding, padding))));
+            graphics.DrawRectangle(pen, new Rectangle(Point.Add(Position, new Size(padding, padding)), Size.Subtract(Size, new Size(padding, padding))));
         }
 
         public void DrawOutline(Graphics graphics)
@@ -101,20 +99,20 @@ namespace KAKURO
 
         public override void Draw(Graphics graphics)
         {
-            if (HighlightHorizontal) graphics.FillPolygon(Brushes.Gray, new Point[] { 
-                Position,
-                Point.Add(Position, new Size(Size.Width, 0)),
-                Point.Add(Position, Size),
-            });
+            if (HighlightVertical || HighlightHorizontal)
+            {
+                Point[] points = null;
+                
+                if (HighlightHorizontal) points = new Point[] { Position, Point.Add(Position, new Size(Size.Width, 0)), Point.Add(Position, Size)};
+                if (HighlightVertical) points = new Point[] { Position, Point.Add(Position, new Size(0, Size.Height)), Point.Add(Position, Size)};
 
-            if (HighlightVertical) graphics.FillPolygon(Brushes.Gray, new Point[] {
-                Position,
-                Point.Add(Position, new Size(0, Size.Height)),
-                Point.Add(Position, Size),
-            });
-
-            if (HighlightVertical || HighlightHorizontal) graphics.DrawLine(new Pen(Color.White, 2), Position, Point.Add(Position, Size.Subtract(Size, new Size(1,1))));
-            else graphics.DrawLine(new Pen(Color.White, 2), Point.Add(Position, new Size(Size.Width/4, Size.Height/4)), Point.Add(Position, Size.Subtract(Size, new Size(1,1))));
+                graphics.FillPolygon(Brushes.MidnightBlue, points);
+                graphics.DrawLine(new Pen(Color.White, 2), Position, Point.Add(Position, Size.Subtract(Size, new Size(1, 1))));
+            }
+            else
+            {
+                graphics.DrawLine(new Pen(Color.White, 2), Point.Add(Position, new Size(Size.Width / 4, Size.Height / 4)), Point.Add(Position, Size.Subtract(Size, new Size(1, 1))));
+            }
 
             int fontSize = (Size.Height / 3) + 1;
             Font drawFont = new Font(FontFamily.GenericSansSerif, fontSize, FontStyle.Regular, GraphicsUnit.Pixel);

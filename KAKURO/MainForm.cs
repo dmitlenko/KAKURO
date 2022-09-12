@@ -17,7 +17,6 @@ namespace KAKURO
         private bool Saved = false;
         private bool _paused = false;
         private TileController tileController;
-        private Size MinSize = new Size(386, 386);
 
         private bool Paused
         {
@@ -63,77 +62,16 @@ namespace KAKURO
         private void MainForm_Load(object sender, EventArgs e)
         {
             tileController = new TileController(canvas, 8, 8, new GraphicTile[,] { 
-                { 
-                    new BlackGraphicTile(),  
-                    new HintGraphicTile(4, 0),  
-                    new HintGraphicTile(23, 0), 
-                    new BlackGraphicTile(),
-                    new BlackGraphicTile(),
-                    new HintGraphicTile(26, 0),
-                    new HintGraphicTile(3, 0),
-                    new BlackGraphicTile()
-                },
-                {
-                    new HintGraphicTile(0, 9),
-                    new NumberGraphicTile(0),
-                    new NumberGraphicTile(0),
-                    new BlackGraphicTile(),
-                    new HintGraphicTile(0, 6),
-                    new NumberGraphicTile(0),
-                    new NumberGraphicTile(0),
-                    new BlackGraphicTile()
-                },
-                {
-                    new HintGraphicTile(0, 4),
-                    new NumberGraphicTile(0),
-                    new NumberGraphicTile(0),
-                    new HintGraphicTile(8, 0),
-                    new HintGraphicTile(5, 4),
-                    new NumberGraphicTile(0),
-                    new NumberGraphicTile(0),
-                    new BlackGraphicTile()
-                },
-                {
-                    new BlackGraphicTile(),
-                    new HintGraphicTile(0, 13),
-                    new NumberGraphicTile(0),
-                    new NumberGraphicTile(0),
-                    new NumberGraphicTile(0),
-                    new NumberGraphicTile(0),
-                    new BlackGraphicTile(),
-                    new BlackGraphicTile()
-                },
-                {
-                    new BlackGraphicTile(),
-                    new HintGraphicTile(3, 11),
-                    new NumberGraphicTile(0),
-                    new NumberGraphicTile(0),
-                    new NumberGraphicTile(0),
-                    new NumberGraphicTile(0),
-                    new HintGraphicTile(4,0),
-                    new BlackGraphicTile()
-                },
-                {
-                    new HintGraphicTile(0, 9),
-                    new NumberGraphicTile(0),
-                    new NumberGraphicTile(0),
-                    new BlackGraphicTile(),
-                    new HintGraphicTile(0, 8),
-                    new NumberGraphicTile(0),
-                    new NumberGraphicTile(0),
-                    new BlackGraphicTile()
-                },
-                {
-                    new HintGraphicTile(0, 5),
-                    new NumberGraphicTile(0),
-                    new NumberGraphicTile(0),
-                    new BlackGraphicTile(),
-                    new HintGraphicTile(0, 7),
-                    new NumberGraphicTile(0),
-                    new NumberGraphicTile(0),
-                    new BlackGraphicTile()
-                },
+                { new BlackGraphicTile(), new HintGraphicTile(4, 0), new HintGraphicTile(23, 0),  new BlackGraphicTile(), new BlackGraphicTile(), new HintGraphicTile(26, 0), new HintGraphicTile(3, 0), new BlackGraphicTile()},
+                { new HintGraphicTile(0, 9), new NumberGraphicTile(0), new NumberGraphicTile(0), new BlackGraphicTile(), new HintGraphicTile(0, 6), new NumberGraphicTile(0), new NumberGraphicTile(0), new BlackGraphicTile() },
+                { new HintGraphicTile(0, 4), new NumberGraphicTile(0), new NumberGraphicTile(0), new HintGraphicTile(8, 0), new HintGraphicTile(5, 4), new NumberGraphicTile(0), new NumberGraphicTile(0), new BlackGraphicTile() },
+                { new BlackGraphicTile(), new HintGraphicTile(0, 13), new NumberGraphicTile(0), new NumberGraphicTile(0), new NumberGraphicTile(0), new NumberGraphicTile(0), new BlackGraphicTile(),new BlackGraphicTile() },
+                { new BlackGraphicTile(), new HintGraphicTile(3, 11),new NumberGraphicTile(0), new NumberGraphicTile(0),new NumberGraphicTile(0),new NumberGraphicTile(0), new HintGraphicTile(4,0), new BlackGraphicTile()},
+                { new HintGraphicTile(0, 9), new NumberGraphicTile(0), new NumberGraphicTile(0), new BlackGraphicTile(), new HintGraphicTile(0, 8), new NumberGraphicTile(0), new NumberGraphicTile(0), new BlackGraphicTile() }, 
+                { new HintGraphicTile(0, 5), new NumberGraphicTile(0), new NumberGraphicTile(0), new BlackGraphicTile(), new HintGraphicTile(0, 7), new NumberGraphicTile(0), new NumberGraphicTile(0), new BlackGraphicTile() },
             });
+
+            tileController.HighlightSums = true;
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -237,7 +175,6 @@ namespace KAKURO
             if (WindowState != LastWindowState)
             {
                 LastWindowState = WindowState;
-
                 if (WindowState == FormWindowState.Maximized || WindowState == FormWindowState.Normal)
                 {
                     tileController.Update();

@@ -11,24 +11,15 @@ namespace KAKURO
 {
     public struct TileTypes
     {
-        public static TileType Empty { get => new TileType("empty"); }
-        public static TileType Black { get => new TileType("black"); }
-        public static TileType Hint { get => new TileType("hint"); }
-        public static TileType Number { get => new TileType("number"); }
-    }
-
-    public class TileType
-    {
-        public string Type { get; }
-
-        public TileType(string type) => Type = type;
-        public override string ToString() => Type;
+        public static string Empty { get => "empty"; }
+        public static string Black { get => "black"; }
+        public static string Hint { get => "hint"; }
+        public static string Number { get => "number"; }
     }
 
     internal class GraphicTile
     {
-        public Bitmap buffer { get; set; }
-        public TileType Type { get; }
+        public string Type { get; }
 
         public Point Position;
         public Size Size;
@@ -37,10 +28,7 @@ namespace KAKURO
         public bool Selected { get; set; }
 
         public GraphicTile() { Type = TileTypes.Empty; Selected = false; Position = Point.Empty; Size = Size.Empty; }
-        public GraphicTile(TileType type) { Type = type; Selected = false; Position = Point.Empty; Size = Size.Empty; }
-        public GraphicTile(PictureBox pb, TileType type) { Type = type; Selected = false; Position = Point.Empty; Size = Size.Empty; }
-
-        public GraphicTile(PictureBox pb) { Type = TileTypes.Empty; Selected = false; Position = Point.Empty; Size = Size.Empty; }
+        public GraphicTile(string type) { Type = type; Selected = false; Position = Point.Empty; Size = Size.Empty; }
 
         public virtual void Draw(Graphics graphics) { }
 
@@ -63,7 +51,6 @@ namespace KAKURO
 
     class BlackGraphicTile : GraphicTile
     {
-        public BlackGraphicTile(PictureBox pictureBox) : base(pictureBox, TileTypes.Black) { }
         public BlackGraphicTile() : base(TileTypes.Black) { }
 
         public override void Draw(Graphics graphics) {
@@ -82,23 +69,16 @@ namespace KAKURO
         public bool HighlightVerticalSum = false;
         public bool HighlightHorizontalSum = true;
 
-
         public HintGraphicTile() : base(TileTypes.Hint)
         {
             SumVertical = 0;
             SumHorizontal = 0;
         }
 
-        public HintGraphicTile(int sumLeft, int sumRight) : base(TileTypes.Hint)
+        public HintGraphicTile(int sumVertical, int sumHorizontal) : base(TileTypes.Hint)
         {
-            SumVertical = sumLeft;
-            SumHorizontal = sumRight;
-        }
-
-        public HintGraphicTile(PictureBox pictureBox, int sumLeft, int sumRight): base(pictureBox, TileTypes.Hint) 
-        { 
-            SumVertical = sumLeft;
-            SumHorizontal = sumRight;
+            SumVertical = sumVertical;
+            SumHorizontal = sumHorizontal;
         }
 
         public override void Draw(Graphics graphics)
@@ -145,11 +125,6 @@ namespace KAKURO
         public NumberGraphicTile(): base(TileTypes.Number) { DrawnNumber = 0; }
 
         public NumberGraphicTile(int drawnNumber) : base(TileTypes.Number)
-        {
-            DrawnNumber = drawnNumber;
-        }
-
-        public NumberGraphicTile(PictureBox pictureBox, int drawnNumber) : base(pictureBox, TileTypes.Number)
         {
             DrawnNumber = drawnNumber;
         }

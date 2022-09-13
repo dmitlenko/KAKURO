@@ -79,6 +79,10 @@ namespace KAKURO
         public bool HighlightVertical = false;
         public bool HighlightHorizontal = false;
 
+        public bool HighlightVerticalSum = false;
+        public bool HighlightHorizontalSum = true;
+
+
         public HintGraphicTile() : base(TileTypes.Hint)
         {
             SumVertical = 0;
@@ -102,26 +106,32 @@ namespace KAKURO
             if (HighlightVertical || HighlightHorizontal)
             {
                 Point[] points = null;
-                
+                Brush fillBrush = new SolidBrush(Color.FromArgb(0x25, 0x25, 0x25));
+
                 if (HighlightHorizontal) points = new Point[] { Position, Point.Add(Position, new Size(Size.Width, 0)), Point.Add(Position, Size)};
                 if (HighlightVertical) points = new Point[] { Position, Point.Add(Position, new Size(0, Size.Height)), Point.Add(Position, Size)};
 
-                graphics.FillPolygon(Brushes.MidnightBlue, points);
-                graphics.DrawLine(new Pen(Color.White, 2), Position, Point.Add(Position, Size.Subtract(Size, new Size(1, 1))));
+                graphics.FillPolygon(fillBrush, points);
             }
-            else
-            {
-                graphics.DrawLine(new Pen(Color.White, 2), Point.Add(Position, new Size(Size.Width / 4, Size.Height / 4)), Point.Add(Position, Size.Subtract(Size, new Size(1, 1))));
-            }
+
+            graphics.DrawLine(new Pen(Color.White, 2), Point.Add(Position, new Size(Size.Width / 4, Size.Height / 4)), Point.Add(Position, Size.Subtract(Size, new Size(1, 1))));
 
             int fontSize = (Size.Height / 3) + 1;
-            Font drawFont = new Font(FontFamily.GenericSansSerif, fontSize, FontStyle.Regular, GraphicsUnit.Pixel);
 
-            SizeF str1sz = graphics.MeasureString(SumVertical.ToString(), drawFont);
-            SizeF str2sz = graphics.MeasureString(SumHorizontal.ToString(), drawFont);
+            FontStyle verticalFontStyle = HighlightVerticalSum ? FontStyle.Bold : FontStyle.Regular;
+            FontStyle horizontalFontStyle = HighlightHorizontalSum ? FontStyle.Bold : FontStyle.Regular;
 
-            graphics.DrawString(SumVertical == 0 ? "" : SumVertical.ToString(), drawFont, Brushes.White, Position.X, Position.Y + Size.Height - str1sz.Height);
-            graphics.DrawString(SumHorizontal == 0 ? "" : SumHorizontal.ToString(), drawFont, Brushes.White, Position.X + Size.Width - str2sz.Width, Position.Y);
+            Font verticalFont = new Font(FontFamily.GenericSansSerif, fontSize, verticalFontStyle, GraphicsUnit.Pixel);
+            Font horizontalFont = new Font(FontFamily.GenericSansSerif, fontSize, horizontalFontStyle, GraphicsUnit.Pixel);
+
+            SizeF str1sz = graphics.MeasureString(SumVertical.ToString(), verticalFont);
+            SizeF str2sz = graphics.MeasureString(SumHorizontal.ToString(), horizontalFont);
+
+            Brush verticalColor = HighlightVerticalSum ? Brushes.DodgerBlue : Brushes.White;
+            Brush horizontalColor = HighlightHorizontalSum ? Brushes.DodgerBlue : Brushes.White;
+
+            graphics.DrawString(SumVertical == 0 ? "" : SumVertical.ToString(), verticalFont, verticalColor, Position.X, Position.Y + Size.Height - str1sz.Height);
+            graphics.DrawString(SumHorizontal == 0 ? "" : SumHorizontal.ToString(), horizontalFont, horizontalColor, Position.X + Size.Width - str2sz.Width, Position.Y);
 
             DrawOutline(graphics);
             if (Selected) DrawSelection(graphics);

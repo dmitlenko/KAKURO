@@ -10,7 +10,7 @@ namespace KAKURO
 {
     internal class TileController
     {
-        private Point PrevSelected = new Point(0, 0);
+        private bool _enabled = true;
 
         public PictureBox Canvas { get; }
         public GraphicTile[,] GraphicTiles;
@@ -21,6 +21,17 @@ namespace KAKURO
         public int SizeY { get => GraphicTiles.GetLength(0); }
 
         public bool HighlightSums { get; set; }
+        public bool HighlightWrongSums { get; set; }
+
+        public bool Enabled 
+        { 
+            get => _enabled; 
+            set
+            {
+                _enabled = value;
+                Update();
+            } 
+        }
 
         public struct Box
         {
@@ -38,23 +49,12 @@ namespace KAKURO
             }
         }
 
-        private bool _enabled = true;
-
-        public bool Enabled
-        {
-            get => _enabled;
-            set
-            {
-                if (_enabled = value) EnableCanvas();
-                else DisableCanvas();
-            }
-        }
-
         public TileController(PictureBox canvas, int tilesX, int tilesY, GraphicTile[,] tiles)
         {
             GraphicTiles = new GraphicTile[tilesY, tilesX];
             Canvas = canvas;
             Size = new Size(tilesX, tilesY);
+            Enabled = true;
 
             PrepareBoxTiles();
 
@@ -67,14 +67,17 @@ namespace KAKURO
         }
 
         // Canvas click
-        private void Canvas_MouseUp(object sender, MouseEventArgs e)
+        private void Canvas_MouseDown(object sender, MouseEventArgs e)
         {
-            Point sel = TileCoordsByPoint(new Point(e.X, e.Y));
-            if (sel.X > -1 && sel.X < Size.Width && sel.Y > -1 && sel.Y < Size.Height)
+            if (Enabled)
             {
-                Selected = sel;
+                Point sel = TileCoordsByPoint(new Point(e.X, e.Y));
+                if (sel.X > -1 && sel.X < Size.Width && sel.Y > -1 && sel.Y < Size.Height)
+                {
+                    Selected = sel;
 
-                Update();
+                    Update();
+                }
             }
         }
 
@@ -93,7 +96,7 @@ namespace KAKURO
         private void PrepareCanvas()
         {
             Canvas.BackColor = Color.Black;
-            Canvas.MouseUp += new MouseEventHandler(Canvas_MouseUp);
+            Canvas.MouseDown += new MouseEventHandler(Canvas_MouseDown);
             Canvas.Image = new Bitmap(Canvas.Width, Canvas.Height);
         }
 
@@ -103,9 +106,6 @@ namespace KAKURO
 
             return new Point((int) Math.Floor(p.X / tileHW), (int) Math.Floor(p.Y / tileHW));
         }
-
-        private void DisableCanvas() => Canvas.Enabled = false;
-        private void EnableCanvas() => Canvas.Enabled = true;
 
         private Point TopHintFromSelection()
         {
@@ -123,6 +123,44 @@ namespace KAKURO
                     return new Point(i, Selected.Y);
 
             return Point.Empty;
+        }
+
+        private int HorizontalSum(int x, int y)
+        {
+            int sum = 0;
+            int num;
+
+            for (int i = x + 1; i < GraphicTiles.GetLength(1); i++)
+            {
+                if (GraphicTiles[i, x].Type.ToString() == "black") break;
+
+                if (GraphicTiles[y, i].Type.ToString() == "number")
+                {
+                    num = ((NumberGraphicTile)GraphicTiles[y, i]).DrawnNumber;
+                    sum += num;
+                }
+            }
+
+            return sum;
+        }
+
+        private int VerticalSum(int x, int y)
+        {
+            int sum = 0;
+            int num;
+
+            for (int i = y + 1; i < GraphicTiles.GetLength(0); i++)
+            {
+                if (GraphicTiles[i, x].Type.ToString() == "black") break;
+
+                if (GraphicTiles[i, x].Type.ToString() == "number")
+                {
+                    num = ((NumberGraphicTile)GraphicTiles[i, x]).DrawnNumber;
+                    sum += num;
+                }
+            }
+
+            return sum;
         }
 
         public Box this[int x, int y] { get => new Box(ref GraphicTiles[y, x]); }
@@ -197,10 +235,22 @@ namespace KAKURO
                             GraphicTiles[i, j].Position = new Point(j * tileHW, i * tileHW);
                             GraphicTiles[i, j].Selected = Selected.X == j && Selected.Y == i;
 
-                            if (GraphicTiles[i, j].Type.ToString() == "hint" && GraphicTiles[i, j].Type.ToString() == "hint")
+                            if (GraphicTiles[i, j].Type.ToString() == "hint")
                             {
                                 ((HintGraphicTile)GraphicTiles[i, j]).HighlightVertical = false;
                                 ((HintGraphicTile)GraphicTiles[i, j]).HighlightHorizontal = false;
+
+                                if (HighlightWrongSums)
+                                {
+                                    int sumH = ((HintGraphicTile)GraphicTiles[i,j]).SumHorizontal;
+                                    int sumV = ((HintGraphicTile)GraphicTiles[i,j]).SumVertical;
+
+                                    int sumH1 = HorizontalSum(j, i);
+                                    int sumV1 = VerticalSum(j, i);
+
+                                    ((HintGraphicTile)GraphicTiles[i, j]).HighlightHorizontalSum = sumH < sumH1;
+                                    ((HintGraphicTile)GraphicTiles[i, j]).HighlightVerticalSum = sumV < sumV1;
+                                }
                             }
 
                             GraphicTiles[i, j].Draw(g);
@@ -221,6 +271,9 @@ namespace KAKURO
                             GraphicTiles[lh.Y, lh.X].Draw(g);
                         }
                     }
+
+                    if(!Enabled)
+                        g.FillRectangle(new SolidBrush(Color.FromArgb(0x70ffffff)), new Rectangle(0, 0, Canvas.Width, Canvas.Height));
                 }
 
                 Canvas.Invoke(new Action(() => {

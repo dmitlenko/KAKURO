@@ -62,16 +62,17 @@ namespace KAKURO
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            tileController = new TileController(canvas, 8, 8, new GraphicTile[,] { 
-                { new BlackGraphicTile(), new HintGraphicTile(4, 0), new HintGraphicTile(23, 0),  new BlackGraphicTile(), new BlackGraphicTile(), new HintGraphicTile(26, 0), new HintGraphicTile(3, 0), new BlackGraphicTile()},
-                { new HintGraphicTile(0, 9), new NumberGraphicTile(0), new NumberGraphicTile(0), new BlackGraphicTile(), new HintGraphicTile(0, 6), new NumberGraphicTile(0), new NumberGraphicTile(0), new BlackGraphicTile() },
-                { new HintGraphicTile(0, 4), new NumberGraphicTile(0), new NumberGraphicTile(0), new HintGraphicTile(8, 0), new HintGraphicTile(5, 4), new NumberGraphicTile(0), new NumberGraphicTile(0), new BlackGraphicTile() },
-                { new BlackGraphicTile(), new HintGraphicTile(0, 13), new NumberGraphicTile(0), new NumberGraphicTile(0), new NumberGraphicTile(0), new NumberGraphicTile(0), new BlackGraphicTile(),new BlackGraphicTile() },
-                { new BlackGraphicTile(), new HintGraphicTile(3, 11),new NumberGraphicTile(0), new NumberGraphicTile(0),new NumberGraphicTile(0),new NumberGraphicTile(0), new HintGraphicTile(4,0), new BlackGraphicTile()},
-                { new HintGraphicTile(0, 9), new NumberGraphicTile(0), new NumberGraphicTile(0), new BlackGraphicTile(), new HintGraphicTile(0, 8), new NumberGraphicTile(0), new NumberGraphicTile(0), new BlackGraphicTile() }, 
-                { new HintGraphicTile(0, 5), new NumberGraphicTile(0), new NumberGraphicTile(0), new BlackGraphicTile(), new HintGraphicTile(0, 7), new NumberGraphicTile(0), new NumberGraphicTile(0), new BlackGraphicTile() },
-            });
+            /*tileController = new TileController(canvas, 8, 8, new Cell[,] { 
+                { new Cell(), new HintCell(4, 0), new HintCell(23, 0),  new Cell(), new Cell(), new HintCell(26, 0), new HintCell(3, 0), new Cell()},
+                { new HintCell(0, 9), new NumberCell(0), new NumberCell(0), new Cell(), new HintCell(0, 6), new NumberCell(0), new NumberCell(0), new Cell() },
+                { new HintCell(0, 4), new NumberCell(0), new NumberCell(0), new HintCell(8, 0), new HintCell(5, 4), new NumberCell(0), new NumberCell(0), new Cell() },
+                { new Cell(), new HintCell(0, 13), new NumberCell(0), new NumberCell(0), new NumberCell(0), new NumberCell(0), new Cell(),new Cell() },
+                { new Cell(), new HintCell(3, 11),new NumberCell(0), new NumberCell(0), new NumberCell(0), new NumberCell(0), new HintCell(4,0), new Cell()},
+                { new HintCell(0, 9), new NumberCell(0), new NumberCell(0), new Cell(), new HintCell(0, 8), new NumberCell(0), new NumberCell(0), new Cell() }, 
+                { new HintCell(0, 5), new NumberCell(0), new NumberCell(0), new Cell(), new HintCell(0, 7), new NumberCell(0), new NumberCell(0), new Cell() },
+            });*/
 
+            tileController = new TileController(canvas);
             tileController.HighlightSums = true;
             tileController.HighlightWrongSums = true;
         }
@@ -119,10 +120,13 @@ namespace KAKURO
                 case Keys.D9:
                     tileController.SetTileNumber(e.KeyValue - 48);
                     break;
+                case Keys.D0:
                 case Keys.Delete:
                     tileController.SetTileNumber(0);
                     break;
             }
+
+            Saved = false;
         }
 
         private void rulesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -139,8 +143,8 @@ namespace KAKURO
         private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Generator generator = new Generator();
-            Cell[,] board = generator.GenerateBoard(6, 6, 0.2);
-            tileController.AssignTiles(generator.CellsToGraphicTiles(board));
+            GameCell[,] board = generator.GenerateBoard(6, 6, 0.2);
+            //tileController.AssignTiles(generator.CellsToCells(board));
         }
 
         private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
@@ -192,6 +196,34 @@ namespace KAKURO
         private void MainForm_Paint(object sender, PaintEventArgs e)
         {
             tileController.Update();
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!Saved && MessageBox.Show("Результат поточної гри не буде збережено.", "Відкрити збережену гру", MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                Cell[,] cells = (Cell[,]) Serealizer.Deserialize(openFileDialog.FileName);
+
+                tileController.Size = new Size(cells.GetLength(1), cells.GetLength(0));
+                tileController.AssignCells(cells);
+                tileController.Enabled = true;
+                tileController.Update();
+
+                CurrentTime = new DateTime();
+            }
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                Serealizer.Serialize(tileController.CellData(), saveFileDialog.FileName);
+
+                Saved = true;
+            }
         }
     }
 }

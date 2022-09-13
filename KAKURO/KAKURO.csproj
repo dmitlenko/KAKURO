@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cell.cs" />
+    <Compile Include="Serealizer.cs" />
     <Compile Include="TileController.cs" />
     <Compile Include="Generator.cs" />
     <Compile Include="MainForm.cs">

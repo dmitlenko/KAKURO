@@ -28,14 +28,14 @@ namespace KAKURO
                 {
                     statusInPause.Visible = true;
                     tileController.Enabled = false;
-                    pauseToolStripMenuItem.Enabled = false;
-                    resumeToolStripMenuItem.Enabled = true;
+                    pauseToolStripMenuItem.Enabled = pauseToolStripButton.Enabled = false;
+                    resumeToolStripMenuItem.Enabled = resumeToolStripButton.Enabled = true;
                 } else
                 {
                     statusInPause.Visible = false;
                     tileController.Enabled = true;
-                    pauseToolStripMenuItem.Enabled = true;
-                    resumeToolStripMenuItem.Enabled = false;
+                    pauseToolStripMenuItem.Enabled = pauseToolStripButton.Enabled = true;
+                    resumeToolStripMenuItem.Enabled = resumeToolStripButton.Enabled = false;
                 }
             }
         }
@@ -132,7 +132,7 @@ namespace KAKURO
 
         private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Generator generator = new Generator();
+            BoardGenerator generator = new BoardGenerator();
             GameCell[,] board = generator.GenerateBoard(6, 6, 0.2);
             //tileController.AssignTiles(generator.CellsToCells(board));
         }
@@ -195,14 +195,15 @@ namespace KAKURO
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                Cell[,] cells = (Cell[,]) Serealizer.Deserialize(openFileDialog.FileName);
+                GameSave save = (GameSave) Serealizer.Deserialize(openFileDialog.FileName);
 
-                tileController.Size = new Size(cells.GetLength(1), cells.GetLength(0));
-                tileController.AssignCells(cells);
+                tileController.Size = save.Size;
+                tileController.AssignCells(save.Cells);
+                tileController.Selected = save.Selection;
                 tileController.Enabled = true;
                 tileController.Update();
 
-                CurrentTime = new DateTime();
+                CurrentTime = save.Time;
 
                 Saved = true;
             }
@@ -212,7 +213,7 @@ namespace KAKURO
         {
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                Serealizer.Serialize(tileController.CellData(), saveFileDialog.FileName);
+                Serealizer.Serialize(new GameSave(tileController.CellData(), CurrentTime, tileController.Size, tileController.Selected), saveFileDialog.FileName);
 
                 Saved = true;
             }

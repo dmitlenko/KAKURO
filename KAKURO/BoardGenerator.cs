@@ -28,7 +28,7 @@ namespace KAKURO
         }
     }
 
-    internal class Generator
+    internal class BoardGenerator
     {
         private class Seen
         {

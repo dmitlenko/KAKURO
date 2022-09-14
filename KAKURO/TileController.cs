@@ -22,6 +22,7 @@ namespace KAKURO
 
         public bool HighlightSums { get; set; }
         public bool HighlightWrongSums { get; set; }
+        public bool HighlightDuplicates { get; set; }
 
         public bool Enabled 
         { 
@@ -131,7 +132,7 @@ namespace KAKURO
 
             for (int i = x + 1; i < GraphicTiles.GetLength(1); i++)
             {
-                if (GraphicTiles[i, x].Type == TileTypes.Black) break;
+                if (GraphicTiles[i, x].Type == TileTypes.Black || GraphicTiles[i, x].Type == TileTypes.Hint) break;
 
                 if (GraphicTiles[y, i].Type == TileTypes.Number)
                 {
@@ -150,7 +151,7 @@ namespace KAKURO
 
             for (int i = y + 1; i < GraphicTiles.GetLength(0); i++)
             {
-                if (GraphicTiles[i, x].Type == TileTypes.Black) break;
+                if (GraphicTiles[i, x].Type == TileTypes.Black || GraphicTiles[i, x].Type == TileTypes.Hint) break;
 
                 if (GraphicTiles[i, x].Type == TileTypes.Number)
                 {

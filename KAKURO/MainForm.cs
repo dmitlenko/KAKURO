@@ -62,16 +62,6 @@ namespace KAKURO
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            /*tileController = new TileController(canvas, 8, 8, new Cell[,] { 
-                { new Cell(), new HintCell(4, 0), new HintCell(23, 0),  new Cell(), new Cell(), new HintCell(26, 0), new HintCell(3, 0), new Cell()},
-                { new HintCell(0, 9), new NumberCell(0), new NumberCell(0), new Cell(), new HintCell(0, 6), new NumberCell(0), new NumberCell(0), new Cell() },
-                { new HintCell(0, 4), new NumberCell(0), new NumberCell(0), new HintCell(8, 0), new HintCell(5, 4), new NumberCell(0), new NumberCell(0), new Cell() },
-                { new Cell(), new HintCell(0, 13), new NumberCell(0), new NumberCell(0), new NumberCell(0), new NumberCell(0), new Cell(),new Cell() },
-                { new Cell(), new HintCell(3, 11),new NumberCell(0), new NumberCell(0), new NumberCell(0), new NumberCell(0), new HintCell(4,0), new Cell()},
-                { new HintCell(0, 9), new NumberCell(0), new NumberCell(0), new Cell(), new HintCell(0, 8), new NumberCell(0), new NumberCell(0), new Cell() }, 
-                { new HintCell(0, 5), new NumberCell(0), new NumberCell(0), new Cell(), new HintCell(0, 7), new NumberCell(0), new NumberCell(0), new Cell() },
-            });*/
-
             tileController = new TileController(canvas);
             tileController.HighlightSums = true;
             tileController.HighlightWrongSums = true;
@@ -119,14 +109,14 @@ namespace KAKURO
                 case Keys.D8:
                 case Keys.D9:
                     tileController.SetTileNumber(e.KeyValue - 48);
+                    Saved = false;
                     break;
                 case Keys.D0:
                 case Keys.Delete:
                     tileController.SetTileNumber(0);
+                    Saved = false;
                     break;
             }
-
-            Saved = false;
         }
 
         private void rulesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -213,6 +203,8 @@ namespace KAKURO
                 tileController.Update();
 
                 CurrentTime = new DateTime();
+
+                Saved = true;
             }
         }
 

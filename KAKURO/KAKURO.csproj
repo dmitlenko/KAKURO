@@ -134,6 +134,8 @@
   <ItemGroup>
     <None Include="Resources\control_play.png" />
     <None Include="Resources\control_pause.png" />
+    <None Include="Resources\bullet_bulb_on.png" />
+    <None Include="Resources\bulb.png" />
     <Content Include="Resources\rules.htm" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

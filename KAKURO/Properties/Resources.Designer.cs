@@ -93,6 +93,16 @@ namespace KAKURO.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap bulb {
+            get {
+                object obj = ResourceManager.GetObject("bulb", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap control_pause {
             get {
                 object obj = ResourceManager.GetObject("control_pause", resourceCulture);

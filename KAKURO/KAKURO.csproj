@@ -46,8 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cell.cs" />
+    <Compile Include="GameSave.cs" />
+    <Compile Include="Serealizer.cs" />
     <Compile Include="TileController.cs" />
-    <Compile Include="Generator.cs" />
+    <Compile Include="BoardGenerator.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -131,6 +134,8 @@
   <ItemGroup>
     <None Include="Resources\control_play.png" />
     <None Include="Resources\control_pause.png" />
+    <None Include="Resources\bullet_bulb_on.png" />
+    <None Include="Resources\bulb.png" />
     <Content Include="Resources\rules.htm" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

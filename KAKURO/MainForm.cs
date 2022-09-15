@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -28,14 +29,14 @@ namespace KAKURO
                 {
                     statusInPause.Visible = true;
                     tileController.Enabled = false;
-                    pauseToolStripMenuItem.Enabled = false;
-                    resumeToolStripMenuItem.Enabled = true;
+                    pauseToolStripMenuItem.Enabled = pauseToolStripButton.Enabled = false;
+                    resumeToolStripMenuItem.Enabled = resumeToolStripButton.Enabled = true;
                 } else
                 {
                     statusInPause.Visible = false;
                     tileController.Enabled = true;
-                    pauseToolStripMenuItem.Enabled = true;
-                    resumeToolStripMenuItem.Enabled = false;
+                    pauseToolStripMenuItem.Enabled = pauseToolStripButton.Enabled = true;
+                    resumeToolStripMenuItem.Enabled = resumeToolStripButton.Enabled = false;
                 }
             }
         }
@@ -60,20 +61,17 @@ namespace KAKURO
             tileController.Update();
         }
 
+        private void LoadSettings()
+        {
+            tileController.LoadSettings();
+
+            statusTime.Visible = !Properties.Settings.Default.HideTimer;
+        }
+
         private void MainForm_Load(object sender, EventArgs e)
         {
-            tileController = new TileController(canvas, 8, 8, new GraphicTile[,] { 
-                { new BlackGraphicTile(), new HintGraphicTile(4, 0), new HintGraphicTile(23, 0),  new BlackGraphicTile(), new BlackGraphicTile(), new HintGraphicTile(26, 0), new HintGraphicTile(3, 0), new BlackGraphicTile()},
-                { new HintGraphicTile(0, 9), new NumberGraphicTile(0), new NumberGraphicTile(0), new BlackGraphicTile(), new HintGraphicTile(0, 6), new NumberGraphicTile(0), new NumberGraphicTile(0), new BlackGraphicTile() },
-                { new HintGraphicTile(0, 4), new NumberGraphicTile(0), new NumberGraphicTile(0), new HintGraphicTile(8, 0), new HintGraphicTile(5, 4), new NumberGraphicTile(0), new NumberGraphicTile(0), new BlackGraphicTile() },
-                { new BlackGraphicTile(), new HintGraphicTile(0, 13), new NumberGraphicTile(0), new NumberGraphicTile(0), new NumberGraphicTile(0), new NumberGraphicTile(0), new BlackGraphicTile(),new BlackGraphicTile() },
-                { new BlackGraphicTile(), new HintGraphicTile(3, 11),new NumberGraphicTile(0), new NumberGraphicTile(0),new NumberGraphicTile(0),new NumberGraphicTile(0), new HintGraphicTile(4,0), new BlackGraphicTile()},
-                { new HintGraphicTile(0, 9), new NumberGraphicTile(0), new NumberGraphicTile(0), new BlackGraphicTile(), new HintGraphicTile(0, 8), new NumberGraphicTile(0), new NumberGraphicTile(0), new BlackGraphicTile() }, 
-                { new HintGraphicTile(0, 5), new NumberGraphicTile(0), new NumberGraphicTile(0), new BlackGraphicTile(), new HintGraphicTile(0, 7), new NumberGraphicTile(0), new NumberGraphicTile(0), new BlackGraphicTile() },
-            });
-
-            tileController.HighlightSums = true;
-            tileController.HighlightWrongSums = true;
+            tileController = new TileController(canvas);
+            LoadSettings();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -118,9 +116,12 @@ namespace KAKURO
                 case Keys.D8:
                 case Keys.D9:
                     tileController.SetTileNumber(e.KeyValue - 48);
+                    Saved = false;
                     break;
+                case Keys.D0:
                 case Keys.Delete:
                     tileController.SetTileNumber(0);
+                    Saved = false;
                     break;
             }
         }
@@ -134,13 +135,15 @@ namespace KAKURO
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new SettingsForm().ShowDialog();
+
+            LoadSettings();
         }
 
         private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Generator generator = new Generator();
-            Cell[,] board = generator.GenerateBoard(6, 6, 0.2);
-            tileController.AssignTiles(generator.CellsToGraphicTiles(board));
+            BoardGenerator generator = new BoardGenerator();
+            GameCell[,] board = generator.GenerateBoard(6, 6, 0.2);
+            //tileController.AssignTiles(generator.CellsToCells(board));
         }
 
         private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
@@ -192,6 +195,46 @@ namespace KAKURO
         private void MainForm_Paint(object sender, PaintEventArgs e)
         {
             tileController.Update();
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!Saved && MessageBox.Show("Результат поточної гри не буде збережено.", "Відкрити збережену гру", MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    GameSave save = (GameSave)Serealizer.Deserialize(openFileDialog.FileName);
+
+                    tileController.Size = save.Size;
+                    tileController.AssignCells(save.Cells);
+                    tileController.Selected = save.Selection;
+                    tileController.Enabled = true;
+                    tileController.Update();
+
+                    CurrentTime = save.Time;
+
+                    Saved = true;
+                } catch (Exception)
+                {
+                    if (Path.GetExtension(openFileDialog.FileName) == ".kpf")
+                        MessageBox.Show("Файл гри пошкоджений або застарілий.", "Помилка!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    else
+                        MessageBox.Show("Не вдалося зчитати файл.", "Помилка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                Serealizer.Serialize(new GameSave(tileController.CellData(), CurrentTime, tileController.Size, tileController.Selected), saveFileDialog.FileName);
+
+                Saved = true;
+            }
         }
     }
 }

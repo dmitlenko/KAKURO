@@ -45,6 +45,8 @@
             this.pauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.solverToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.solveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.допомогаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rulesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
@@ -59,11 +61,24 @@
             this.canvas = new System.Windows.Forms.PictureBox();
             this.canvasPanel = new System.Windows.Forms.Panel();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.restartToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.checkToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.resumeToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.pauseToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.settingsToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.contextMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             this.canvasPanel.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -72,6 +87,7 @@
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.gameToolStripMenuItem,
+            this.solverToolStripMenuItem,
             this.допомогаToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
@@ -97,6 +113,7 @@
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.openToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.openToolStripMenuItem.Text = "Відкрити";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
@@ -105,6 +122,7 @@
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.saveToolStripMenuItem.Text = "Зберегти";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
@@ -139,7 +157,7 @@
             this.newGameToolStripMenuItem.Image = global::KAKURO.Properties.Resources.board_game;
             this.newGameToolStripMenuItem.Name = "newGameToolStripMenuItem";
             this.newGameToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newGameToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.newGameToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
             this.newGameToolStripMenuItem.Text = "Нова гра";
             this.newGameToolStripMenuItem.Click += new System.EventHandler(this.newGameToolStripMenuItem_Click);
             // 
@@ -148,7 +166,7 @@
             this.restartGameToolStripMenuItem.Image = global::KAKURO.Properties.Resources.arrow_refresh;
             this.restartGameToolStripMenuItem.Name = "restartGameToolStripMenuItem";
             this.restartGameToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
-            this.restartGameToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.restartGameToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
             this.restartGameToolStripMenuItem.Text = "Почати знову";
             // 
             // checkToolStripMenuItem
@@ -156,13 +174,13 @@
             this.checkToolStripMenuItem.Image = global::KAKURO.Properties.Resources.arrow_right;
             this.checkToolStripMenuItem.Name = "checkToolStripMenuItem";
             this.checkToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.checkToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.checkToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
             this.checkToolStripMenuItem.Text = "Перевірити";
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(187, 6);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(214, 6);
             // 
             // resumeToolStripMenuItem
             // 
@@ -171,8 +189,8 @@
             this.resumeToolStripMenuItem.Name = "resumeToolStripMenuItem";
             this.resumeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.R)));
-            this.resumeToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
-            this.resumeToolStripMenuItem.Text = "Resume";
+            this.resumeToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
+            this.resumeToolStripMenuItem.Text = "Продовжити";
             this.resumeToolStripMenuItem.Click += new System.EventHandler(this.resumeToolStripMenuItem_Click);
             // 
             // pauseToolStripMenuItem
@@ -181,22 +199,37 @@
             this.pauseToolStripMenuItem.Name = "pauseToolStripMenuItem";
             this.pauseToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.P)));
-            this.pauseToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
-            this.pauseToolStripMenuItem.Text = "Pause";
+            this.pauseToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
+            this.pauseToolStripMenuItem.Text = "Пауза";
             this.pauseToolStripMenuItem.Click += new System.EventHandler(this.pauseToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(187, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(214, 6);
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Image = global::KAKURO.Properties.Resources.setting_tools;
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
             this.settingsToolStripMenuItem.Text = "Налаштування";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            // 
+            // solverToolStripMenuItem
+            // 
+            this.solverToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.solveToolStripMenuItem});
+            this.solverToolStripMenuItem.Name = "solverToolStripMenuItem";
+            this.solverToolStripMenuItem.Size = new System.Drawing.Size(83, 20);
+            this.solverToolStripMenuItem.Text = "Розв\'язувач";
+            // 
+            // solveToolStripMenuItem
+            // 
+            this.solveToolStripMenuItem.Image = global::KAKURO.Properties.Resources.bulb;
+            this.solveToolStripMenuItem.Name = "solveToolStripMenuItem";
+            this.solveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.solveToolStripMenuItem.Text = "Розв\'язати";
             // 
             // допомогаToolStripMenuItem
             // 
@@ -221,7 +254,7 @@
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusTime,
             this.statusInPause});
-            this.statusStrip.Location = new System.Drawing.Point(0, 426);
+            this.statusStrip.Location = new System.Drawing.Point(0, 451);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.statusStrip.Size = new System.Drawing.Size(402, 22);
@@ -248,9 +281,19 @@
             this.timer.Interval = 1000;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
+            // saveFileDialog
+            // 
+            this.saveFileDialog.DefaultExt = "kpf";
+            this.saveFileDialog.FileName = "puzzle.kpf";
+            this.saveFileDialog.Filter = "Файл пазлу Какуро|*.kpf|All files|*.*";
+            this.saveFileDialog.RestoreDirectory = true;
+            // 
             // openFileDialog
             // 
-            this.openFileDialog.FileName = "openFileDialog1";
+            this.openFileDialog.DefaultExt = "kpf";
+            this.openFileDialog.FileName = "puzzle.kpf";
+            this.openFileDialog.Filter = "Файл пазлу Какуро|*.kpf|All files|*.*";
+            this.openFileDialog.RestoreDirectory = true;
             // 
             // contextMenuStrip
             // 
@@ -290,19 +333,139 @@
             this.canvasPanel.BackColor = System.Drawing.SystemColors.Window;
             this.canvasPanel.Controls.Add(this.canvas);
             this.canvasPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.canvasPanel.Location = new System.Drawing.Point(0, 24);
+            this.canvasPanel.Location = new System.Drawing.Point(0, 51);
             this.canvasPanel.Name = "canvasPanel";
             this.canvasPanel.Padding = new System.Windows.Forms.Padding(8);
-            this.canvasPanel.Size = new System.Drawing.Size(402, 402);
+            this.canvasPanel.Size = new System.Drawing.Size(402, 400);
             this.canvasPanel.TabIndex = 4;
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.BackColor = System.Drawing.SystemColors.Window;
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripButton,
+            this.saveToolStripButton,
+            this.toolStripSeparator1,
+            this.newToolStripButton,
+            this.restartToolStripButton,
+            this.checkToolStripButton,
+            this.toolStripSeparator2,
+            this.resumeToolStripButton,
+            this.pauseToolStripButton,
+            this.toolStripSeparator3,
+            this.settingsToolStripButton});
+            this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
+            this.toolStrip1.Location = new System.Drawing.Point(0, 24);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Padding = new System.Windows.Forms.Padding(6, 2, 0, 2);
+            this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.toolStrip1.Size = new System.Drawing.Size(402, 27);
+            this.toolStrip1.TabIndex = 5;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // openToolStripButton
+            // 
+            this.openToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.openToolStripButton.Image = global::KAKURO.Properties.Resources.folder_vertical_open;
+            this.openToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.openToolStripButton.Name = "openToolStripButton";
+            this.openToolStripButton.Size = new System.Drawing.Size(23, 20);
+            this.openToolStripButton.Text = "Відкрити";
+            this.openToolStripButton.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            // 
+            // saveToolStripButton
+            // 
+            this.saveToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.saveToolStripButton.Image = global::KAKURO.Properties.Resources.diskette;
+            this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.saveToolStripButton.Name = "saveToolStripButton";
+            this.saveToolStripButton.Size = new System.Drawing.Size(23, 20);
+            this.saveToolStripButton.Text = "Зберегти";
+            this.saveToolStripButton.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 23);
+            // 
+            // newToolStripButton
+            // 
+            this.newToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.newToolStripButton.Image = global::KAKURO.Properties.Resources.board_game;
+            this.newToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.newToolStripButton.Name = "newToolStripButton";
+            this.newToolStripButton.Size = new System.Drawing.Size(23, 20);
+            this.newToolStripButton.Text = "Нова гра";
+            this.newToolStripButton.Click += new System.EventHandler(this.newGameToolStripMenuItem_Click);
+            // 
+            // restartToolStripButton
+            // 
+            this.restartToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.restartToolStripButton.Image = global::KAKURO.Properties.Resources.arrow_refresh;
+            this.restartToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.restartToolStripButton.Name = "restartToolStripButton";
+            this.restartToolStripButton.Size = new System.Drawing.Size(23, 20);
+            this.restartToolStripButton.Text = "Почати знову";
+            // 
+            // checkToolStripButton
+            // 
+            this.checkToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.checkToolStripButton.Image = global::KAKURO.Properties.Resources.arrow_right;
+            this.checkToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.checkToolStripButton.Name = "checkToolStripButton";
+            this.checkToolStripButton.Size = new System.Drawing.Size(23, 20);
+            this.checkToolStripButton.Text = "Перевірити";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 23);
+            // 
+            // resumeToolStripButton
+            // 
+            this.resumeToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.resumeToolStripButton.Enabled = false;
+            this.resumeToolStripButton.Image = global::KAKURO.Properties.Resources.control_play;
+            this.resumeToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.resumeToolStripButton.Name = "resumeToolStripButton";
+            this.resumeToolStripButton.Size = new System.Drawing.Size(23, 20);
+            this.resumeToolStripButton.Text = "Продовжити";
+            this.resumeToolStripButton.Click += new System.EventHandler(this.resumeToolStripMenuItem_Click);
+            // 
+            // pauseToolStripButton
+            // 
+            this.pauseToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.pauseToolStripButton.Image = global::KAKURO.Properties.Resources.control_pause;
+            this.pauseToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.pauseToolStripButton.Name = "pauseToolStripButton";
+            this.pauseToolStripButton.Size = new System.Drawing.Size(23, 20);
+            this.pauseToolStripButton.Text = "Пауза";
+            this.pauseToolStripButton.Click += new System.EventHandler(this.pauseToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 23);
+            // 
+            // settingsToolStripButton
+            // 
+            this.settingsToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.settingsToolStripButton.Image = global::KAKURO.Properties.Resources.setting_tools;
+            this.settingsToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.settingsToolStripButton.Name = "settingsToolStripButton";
+            this.settingsToolStripButton.Size = new System.Drawing.Size(23, 20);
+            this.settingsToolStripButton.Text = "Налаштування";
+            this.settingsToolStripButton.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Desktop;
-            this.ClientSize = new System.Drawing.Size(402, 448);
+            this.ClientSize = new System.Drawing.Size(402, 473);
             this.Controls.Add(this.canvasPanel);
+            this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.menuStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -326,6 +489,8 @@
             this.contextMenuStrip.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).EndInit();
             this.canvasPanel.ResumeLayout(false);
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -361,6 +526,20 @@
         private System.Windows.Forms.PictureBox canvas;
         private System.Windows.Forms.Panel canvasPanel;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton openToolStripButton;
+        private System.Windows.Forms.ToolStripButton saveToolStripButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton newToolStripButton;
+        private System.Windows.Forms.ToolStripButton restartToolStripButton;
+        private System.Windows.Forms.ToolStripButton checkToolStripButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripButton resumeToolStripButton;
+        private System.Windows.Forms.ToolStripButton pauseToolStripButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripButton settingsToolStripButton;
+        private System.Windows.Forms.ToolStripMenuItem solverToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem solveToolStripMenuItem;
     }
 }
 

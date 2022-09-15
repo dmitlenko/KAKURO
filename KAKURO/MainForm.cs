@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -60,11 +61,17 @@ namespace KAKURO
             tileController.Update();
         }
 
+        private void LoadSettings()
+        {
+            tileController.LoadSettings();
+
+            statusTime.Visible = !Properties.Settings.Default.HideTimer;
+        }
+
         private void MainForm_Load(object sender, EventArgs e)
         {
             tileController = new TileController(canvas);
-            tileController.HighlightSums = true;
-            tileController.HighlightWrongSums = true;
+            LoadSettings();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -128,6 +135,8 @@ namespace KAKURO
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new SettingsForm().ShowDialog();
+
+            LoadSettings();
         }
 
         private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
@@ -195,17 +204,26 @@ namespace KAKURO
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                GameSave save = (GameSave) Serealizer.Deserialize(openFileDialog.FileName);
+                try
+                {
+                    GameSave save = (GameSave)Serealizer.Deserialize(openFileDialog.FileName);
 
-                tileController.Size = save.Size;
-                tileController.AssignCells(save.Cells);
-                tileController.Selected = save.Selection;
-                tileController.Enabled = true;
-                tileController.Update();
+                    tileController.Size = save.Size;
+                    tileController.AssignCells(save.Cells);
+                    tileController.Selected = save.Selection;
+                    tileController.Enabled = true;
+                    tileController.Update();
 
-                CurrentTime = save.Time;
+                    CurrentTime = save.Time;
 
-                Saved = true;
+                    Saved = true;
+                } catch (Exception)
+                {
+                    if (Path.GetExtension(openFileDialog.FileName) == ".kpf")
+                        MessageBox.Show("Файл гри пошкоджений або застарілий.", "Помилка!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    else
+                        MessageBox.Show("Не вдалося зчитати файл.", "Помилка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 

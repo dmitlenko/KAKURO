@@ -45,6 +45,8 @@
             this.pauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.solverToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.solveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.допомогаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rulesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
@@ -85,6 +87,7 @@
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.gameToolStripMenuItem,
+            this.solverToolStripMenuItem,
             this.допомогаToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
@@ -108,7 +111,7 @@
             this.openToolStripMenuItem.Image = global::KAKURO.Properties.Resources.folder_vertical_open;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.openToolStripMenuItem.Text = "Відкрити";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
@@ -117,20 +120,20 @@
             this.saveToolStripMenuItem.Image = global::KAKURO.Properties.Resources.diskette;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.saveToolStripMenuItem.Text = "Зберегти";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(162, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.exitToolStripMenuItem.Text = "Вийти";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -213,6 +216,21 @@
             this.settingsToolStripMenuItem.Text = "Налаштування";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
+            // solverToolStripMenuItem
+            // 
+            this.solverToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.solveToolStripMenuItem});
+            this.solverToolStripMenuItem.Name = "solverToolStripMenuItem";
+            this.solverToolStripMenuItem.Size = new System.Drawing.Size(83, 20);
+            this.solverToolStripMenuItem.Text = "Розв\'язувач";
+            // 
+            // solveToolStripMenuItem
+            // 
+            this.solveToolStripMenuItem.Image = global::KAKURO.Properties.Resources.bulb;
+            this.solveToolStripMenuItem.Name = "solveToolStripMenuItem";
+            this.solveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.solveToolStripMenuItem.Text = "Розв\'язати";
+            // 
             // допомогаToolStripMenuItem
             // 
             this.допомогаToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -226,7 +244,7 @@
             this.rulesToolStripMenuItem.Image = global::KAKURO.Properties.Resources.information;
             this.rulesToolStripMenuItem.Name = "rulesToolStripMenuItem";
             this.rulesToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.rulesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.rulesToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.rulesToolStripMenuItem.Text = "Правила гри";
             this.rulesToolStripMenuItem.Click += new System.EventHandler(this.rulesToolStripMenuItem_Click);
             // 
@@ -267,14 +285,14 @@
             // 
             this.saveFileDialog.DefaultExt = "kpf";
             this.saveFileDialog.FileName = "puzzle.kpf";
-            this.saveFileDialog.Filter = "Kakuro puzzle files|*.kpf|All files|*.*";
+            this.saveFileDialog.Filter = "Файл пазлу Какуро|*.kpf|All files|*.*";
             this.saveFileDialog.RestoreDirectory = true;
             // 
             // openFileDialog
             // 
             this.openFileDialog.DefaultExt = "kpf";
             this.openFileDialog.FileName = "puzzle.kpf";
-            this.openFileDialog.Filter = "Kakuro puzzle files|*.kpf|All files|*.*";
+            this.openFileDialog.Filter = "Файл пазлу Какуро|*.kpf|All files|*.*";
             this.openFileDialog.RestoreDirectory = true;
             // 
             // contextMenuStrip
@@ -520,6 +538,8 @@
         private System.Windows.Forms.ToolStripButton pauseToolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripButton settingsToolStripButton;
+        private System.Windows.Forms.ToolStripMenuItem solverToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem solveToolStripMenuItem;
     }
 }
 

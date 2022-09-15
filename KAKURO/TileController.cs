@@ -176,6 +176,7 @@ namespace KAKURO
 
         public void AssignCells(Cell[,] cells)
         {
+            Size = new Size(cells.GetLength(1), cells.GetLength(0));
             GraphicTile[,] tiles = new GraphicTile[Size.Height, Size.Width];
 
             for (int i = 0; i < Size.Height; i++)
@@ -191,6 +192,7 @@ namespace KAKURO
                     else
                         tiles[i, j] = new NumberGraphicTile(((NumberCell)cells[i, j]).Number);
 
+            Enabled = true; // якийсь баг робить щоб контроллер виключався
             GraphicTiles = tiles;
         }
 

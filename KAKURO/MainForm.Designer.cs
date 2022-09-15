@@ -230,6 +230,7 @@
             this.solveToolStripMenuItem.Name = "solveToolStripMenuItem";
             this.solveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.solveToolStripMenuItem.Text = "Розв\'язати";
+            this.solveToolStripMenuItem.Click += new System.EventHandler(this.solveToolStripMenuItem_Click);
             // 
             // допомогаToolStripMenuItem
             // 
@@ -254,7 +255,7 @@
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusTime,
             this.statusInPause});
-            this.statusStrip.Location = new System.Drawing.Point(0, 451);
+            this.statusStrip.Location = new System.Drawing.Point(0, 453);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.statusStrip.Size = new System.Drawing.Size(402, 22);
@@ -336,7 +337,7 @@
             this.canvasPanel.Location = new System.Drawing.Point(0, 51);
             this.canvasPanel.Name = "canvasPanel";
             this.canvasPanel.Padding = new System.Windows.Forms.Padding(8);
-            this.canvasPanel.Size = new System.Drawing.Size(402, 400);
+            this.canvasPanel.Size = new System.Drawing.Size(402, 402);
             this.canvasPanel.TabIndex = 4;
             // 
             // toolStrip1
@@ -407,6 +408,7 @@
             this.restartToolStripButton.Name = "restartToolStripButton";
             this.restartToolStripButton.Size = new System.Drawing.Size(23, 20);
             this.restartToolStripButton.Text = "Почати знову";
+            this.restartToolStripButton.Click += new System.EventHandler(this.restartToolStripButton_Click);
             // 
             // checkToolStripButton
             // 
@@ -463,7 +465,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Desktop;
-            this.ClientSize = new System.Drawing.Size(402, 473);
+            this.ClientSize = new System.Drawing.Size(402, 475);
             this.Controls.Add(this.canvasPanel);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.statusStrip);

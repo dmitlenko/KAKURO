@@ -18,6 +18,7 @@ namespace KAKURO
         private bool Saved = false;
         private bool _paused = false;
         private TileController tileController;
+        private BoardGenerator generator;
 
         private bool Paused
         {
@@ -70,7 +71,12 @@ namespace KAKURO
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            generator = new BoardGenerator();
+            generator.GenerateBoard(6, 6, 0.2);
+
             tileController = new TileController(canvas);
+            tileController.AssignCells(generator.Cells());
+
             LoadSettings();
         }
 
@@ -141,9 +147,10 @@ namespace KAKURO
 
         private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            BoardGenerator generator = new BoardGenerator();
-            GameCell[,] board = generator.GenerateBoard(6, 6, 0.2);
-            //tileController.AssignTiles(generator.CellsToCells(board));
+            generator.GenerateBoard(6,6,0.3);
+            tileController.AssignCells(generator.Cells());
+            CurrentTime = new DateTime();
+            Paused = false;
         }
 
         private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
@@ -235,6 +242,17 @@ namespace KAKURO
 
                 Saved = true;
             }
+        }
+
+        private void restartToolStripButton_Click(object sender, EventArgs e)
+        {
+            CurrentTime = new DateTime();
+            tileController.AssignCells(generator.Cells());
+        }
+
+        private void solveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            tileController.AssignCells(generator.Solved());
         }
     }
 }

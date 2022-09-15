@@ -20,9 +20,10 @@ namespace KAKURO
         public int SizeX { get => GraphicTiles.GetLength(1); }
         public int SizeY { get => GraphicTiles.GetLength(0); }
 
-        public bool HighlightSums { get; set; }
+        public bool HighlightSelectionSums { get; set; }
         public bool HighlightWrongSums { get; set; }
         public bool HighlightDuplicates { get; set; }
+        public bool GrayCompleteSums { get; set; } 
 
         public bool Enabled 
         { 
@@ -79,6 +80,14 @@ namespace KAKURO
             Update();
         }
 
+        public void LoadSettings()
+        {
+            HighlightDuplicates = Properties.Settings.Default.HighlightDuplicates;
+            HighlightSelectionSums = Properties.Settings.Default.HighlightSelectionSums;
+            HighlightWrongSums = Properties.Settings.Default.HighlightWrongSums;
+            GrayCompleteSums = Properties.Settings.Default.GrayCompleteSums;
+        }
+
         private void Canvas_MouseDown(object sender, MouseEventArgs e)
         {
             if (Enabled)
@@ -132,7 +141,7 @@ namespace KAKURO
 
             for (int i = x + 1; i < GraphicTiles.GetLength(1); i++)
             {
-                if (GraphicTiles[i, x].Type == TileTypes.Black || GraphicTiles[i, x].Type == TileTypes.Hint) break;
+                if (GraphicTiles[y, i].Type == TileTypes.Black || GraphicTiles[y, i].Type == TileTypes.Hint) break;
 
                 if (GraphicTiles[y, i].Type == TileTypes.Number)
                 {
@@ -261,6 +270,8 @@ namespace KAKURO
             Task.Factory.StartNew(() =>
             {
                 int tileHW = Canvas.Width / Size.Width;
+                int sumH, sumV, sumH1, sumV1;
+
                 using (Graphics g = Graphics.FromImage(buffer))
                 {
                     if (GraphicTiles == null) return;
@@ -280,14 +291,26 @@ namespace KAKURO
 
                                 if (HighlightWrongSums)
                                 {
-                                    int sumH = ((HintGraphicTile)GraphicTiles[i, j]).SumHorizontal;
-                                    int sumV = ((HintGraphicTile)GraphicTiles[i, j]).SumVertical;
+                                    sumH = ((HintGraphicTile)GraphicTiles[i, j]).SumHorizontal;
+                                    sumV = ((HintGraphicTile)GraphicTiles[i, j]).SumVertical;
 
-                                    int sumH1 = HorizontalSum(j, i);
-                                    int sumV1 = VerticalSum(j, i);
+                                    sumH1 = HorizontalSum(j, i);
+                                    sumV1 = VerticalSum(j, i);
 
                                     ((HintGraphicTile)GraphicTiles[i, j]).HighlightHorizontalSum = sumH < sumH1;
                                     ((HintGraphicTile)GraphicTiles[i, j]).HighlightVerticalSum = sumV < sumV1;
+                                }
+
+                                if (GrayCompleteSums)
+                                {
+                                    sumH = ((HintGraphicTile)GraphicTiles[i, j]).SumHorizontal;
+                                    sumV = ((HintGraphicTile)GraphicTiles[i, j]).SumVertical;
+
+                                    sumH1 = HorizontalSum(j, i);
+                                    sumV1 = VerticalSum(j, i);
+
+                                    ((HintGraphicTile)GraphicTiles[i, j]).GrayHorizontalSum = sumH == sumH1;
+                                    ((HintGraphicTile)GraphicTiles[i, j]).GrayVerticalSum = sumV == sumV1;
                                 }
                             }
 
@@ -295,7 +318,7 @@ namespace KAKURO
                         }
                     }
 
-                    if (HighlightSums)
+                    if (HighlightSelectionSums)
                     {
                         Point th = TopHintFromSelection();
                         Point lh = LeftHintFromSelection();

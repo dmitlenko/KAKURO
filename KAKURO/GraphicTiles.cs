@@ -67,7 +67,10 @@ namespace KAKURO
         public bool HighlightHorizontal = false;
 
         public bool HighlightVerticalSum = false;
-        public bool HighlightHorizontalSum = true;
+        public bool HighlightHorizontalSum = false;
+
+        public bool GrayVerticalSum = false;
+        public bool GrayHorizontalSum = false;
 
         public HintGraphicTile() : base(TileTypes.Hint)
         {
@@ -107,8 +110,8 @@ namespace KAKURO
             SizeF str1sz = graphics.MeasureString(SumVertical.ToString(), verticalFont);
             SizeF str2sz = graphics.MeasureString(SumHorizontal.ToString(), horizontalFont);
 
-            Brush verticalColor = HighlightVerticalSum ? Brushes.DodgerBlue : Brushes.White;
-            Brush horizontalColor = HighlightHorizontalSum ? Brushes.DodgerBlue : Brushes.White;
+            Brush verticalColor = HighlightVerticalSum ? Brushes.DodgerBlue : (GrayVerticalSum ? Brushes.Gray : Brushes.White);
+            Brush horizontalColor = HighlightHorizontalSum ? Brushes.DodgerBlue : (GrayHorizontalSum ? Brushes.Gray : Brushes.White);
 
             graphics.DrawString(SumVertical == 0 ? "" : SumVertical.ToString(), verticalFont, verticalColor, Position.X, Position.Y + Size.Height - str1sz.Height);
             graphics.DrawString(SumHorizontal == 0 ? "" : SumHorizontal.ToString(), horizontalFont, horizontalColor, Position.X + Size.Width - str2sz.Width, Position.Y);

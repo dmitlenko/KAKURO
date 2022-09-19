@@ -16,6 +16,8 @@ namespace KAKURO
         public Size Size { get; } = Size.Empty;
         public Point Selection { get; } = Point.Empty;
 
+        public bool Valid() => !(Size == Size.Empty || Selection == Point.Empty || Cells == null);
+
         public GameSave() { }
         public GameSave(Cell[,] cells, DateTime time, Size size, Point selection)
         {

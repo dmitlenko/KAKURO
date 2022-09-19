@@ -69,14 +69,23 @@ namespace KAKURO
             statusTime.Visible = !Properties.Settings.Default.HideTimer;
         }
 
+        private void CreateNewGame()
+        {
+            Paused = false;
+
+            generator.GenerateBoard(Properties.Settings.Default.BoardWidth - 2, Properties.Settings.Default.BoardHeight - 2, 0.3, () =>
+            {
+                tileController.AssignCells(generator.Cells());
+                CurrentTime = new DateTime();
+            });
+        }
+
         private void MainForm_Load(object sender, EventArgs e)
         {
             generator = new BoardGenerator();
-            generator.GenerateBoard(6, 6, 0.2);
-
             tileController = new TileController(canvas);
-            tileController.AssignCells(generator.Cells());
 
+            CreateNewGame();
             LoadSettings();
         }
 
@@ -147,10 +156,7 @@ namespace KAKURO
 
         private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            generator.GenerateBoard(6,6,0.3);
-            tileController.AssignCells(generator.Cells());
-            CurrentTime = new DateTime();
-            Paused = false;
+            CreateNewGame();
         }
 
         private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
@@ -215,15 +221,20 @@ namespace KAKURO
                 {
                     GameSave save = (GameSave)Serealizer.Deserialize(openFileDialog.FileName);
 
-                    tileController.Size = save.Size;
-                    tileController.AssignCells(save.Cells);
-                    tileController.Selected = save.Selection;
-                    tileController.Enabled = true;
-                    tileController.Update();
+                    if (save.Valid())
+                    {
+                        tileController.Size = save.Size;
+                        tileController.AssignCells(save.Cells);
+                        tileController.Selected = save.Selection;
+                        tileController.Enabled = true;
+                        tileController.Update();
 
-                    CurrentTime = save.Time;
-
-                    Saved = true;
+                        CurrentTime = save.Time;
+                        Saved = true;
+                    } else
+                    {
+                        throw new Exception();
+                    }
                 } catch (Exception)
                 {
                     if (Path.GetExtension(openFileDialog.FileName) == ".kpf")
@@ -252,7 +263,7 @@ namespace KAKURO
 
         private void solveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            tileController.AssignCells(generator.Solved());
+            tileController.AssignCells(generator.Cells(true));
         }
     }
 }

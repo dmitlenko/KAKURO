@@ -1,5 +1,4 @@
 # KAKURO
 
 TODO:
-- !fix IndexOutOfRange in CalculateNumbers(...)
-- [done] add pause funciton
+- !fix duplicates in generated board

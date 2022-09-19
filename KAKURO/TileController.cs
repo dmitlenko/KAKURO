@@ -194,6 +194,7 @@ namespace KAKURO
 
             Enabled = true; // якийсь баг робить щоб контроллер виключався
             GraphicTiles = tiles;
+            Update();
         }
 
         public Cell[,] CellData()

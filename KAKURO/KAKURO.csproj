@@ -91,6 +91,7 @@
     <EmbeddedResource Include="SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -132,10 +133,18 @@
     <None Include="Resources\setting_tools.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\setting_tools1.png" />
     <None Include="Resources\control_play.png" />
     <None Include="Resources\control_pause.png" />
     <None Include="Resources\bullet_bulb_on.png" />
     <None Include="Resources\bulb.png" />
+    <None Include="Resources\folder_vertical_open1.png" />
+    <None Include="Resources\diskette1.png" />
+    <None Include="Resources\board_game1.png" />
+    <None Include="Resources\arrow_refresh_small.png" />
+    <None Include="Resources\arrow_right1.png" />
+    <None Include="Resources\control_play1.png" />
+    <None Include="Resources\control_pause1.png" />
     <Content Include="Resources\rules.htm" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

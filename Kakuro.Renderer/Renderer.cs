@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace Kakuro.Renderer
 {
-    public class TileController
+    public class Renderer
     {
         private bool _enabled = true;
 
@@ -46,8 +46,7 @@ namespace Kakuro.Renderer
             }
         }
 
-
-        public TileController(PictureBox canvas)
+        public Renderer(PictureBox canvas)
         {
             Canvas = canvas;
             Enabled = false;
@@ -55,7 +54,7 @@ namespace Kakuro.Renderer
             PrepareCanvas();
         }
 
-        public TileController(PictureBox canvas, int tilesX, int tilesY)
+        public Renderer(PictureBox canvas, int tilesX, int tilesY)
         {
             Canvas = canvas;
             Size = new Size(tilesX, tilesY);
@@ -64,7 +63,7 @@ namespace Kakuro.Renderer
             PrepareCanvas();
         }
 
-        public TileController(PictureBox canvas, int tilesX, int tilesY, Cell[,] cells)
+        public Renderer(PictureBox canvas, int tilesX, int tilesY, Cell[,] cells)
         {
             Canvas = canvas;
             Size = new Size(tilesX, tilesY);
@@ -182,6 +181,7 @@ namespace Kakuro.Renderer
 
             Enabled = true; // якийсь баг робить щоб контроллер виключався
             GraphicTiles = tiles;
+
             Update();
         }
 

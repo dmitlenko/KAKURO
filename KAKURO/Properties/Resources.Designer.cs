@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace KAKURO.Properties {
+namespace Kakuro.Properties {
     using System;
     
     

@@ -1,4 +1,8 @@
-﻿namespace Kakuro.Engine
+﻿using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
+
+namespace Kakuro.Engine
 {
     public class Generator
     {

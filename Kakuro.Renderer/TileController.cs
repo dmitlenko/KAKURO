@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Kakuro.Engine;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
-namespace Kakuro
+namespace Kakuro.Renderer
 {
-    internal class TileController
+    public class TileController
     {
         private bool _enabled = true;
 
         public PictureBox Canvas { get; set; }
-        public GraphicTile[,] GraphicTiles;
+        public GraphicTile[,] GraphicTiles = {};
 
-        public Point Selected = new Point(0,0);
+        public Point Selected = new Point(0, 0);
         public Size Size { get; set; }
         public int SizeX { get => GraphicTiles.GetLength(1); }
         public int SizeY { get => GraphicTiles.GetLength(0); }
@@ -23,16 +18,16 @@ namespace Kakuro
         public bool HighlightSelectionSums { get; set; }
         public bool HighlightWrongSums { get; set; }
         public bool HighlightDuplicates { get; set; }
-        public bool GrayCompleteSums { get; set; } 
+        public bool GrayCompleteSums { get; set; }
 
-        public bool Enabled 
-        { 
-            get => _enabled; 
+        public bool Enabled
+        {
+            get => _enabled;
             set
             {
                 _enabled = value;
                 Update();
-            } 
+            }
         }
 
         public struct Box
@@ -51,7 +46,8 @@ namespace Kakuro
             }
         }
 
-        public TileController(PictureBox canvas) 
+
+        public TileController(PictureBox canvas)
         {
             Canvas = canvas;
             Enabled = false;
@@ -59,7 +55,7 @@ namespace Kakuro
             PrepareCanvas();
         }
 
-        public TileController(PictureBox canvas, int tilesX, int tilesY) 
+        public TileController(PictureBox canvas, int tilesX, int tilesY)
         {
             Canvas = canvas;
             Size = new Size(tilesX, tilesY);
@@ -80,15 +76,7 @@ namespace Kakuro
             Update();
         }
 
-        public void LoadSettings()
-        {
-            HighlightDuplicates = Properties.Settings.Default.HighlightDuplicates;
-            HighlightSelectionSums = Properties.Settings.Default.HighlightSelectionSums;
-            HighlightWrongSums = Properties.Settings.Default.HighlightWrongSums;
-            GrayCompleteSums = Properties.Settings.Default.GrayCompleteSums;
-        }
-
-        private void Canvas_MouseDown(object sender, MouseEventArgs e)
+        private void Canvas_MouseDown(object? sender, MouseEventArgs e)
         {
             if (Enabled)
             {
@@ -113,7 +101,7 @@ namespace Kakuro
         {
             float tileHW = Canvas.Height / Size.Height;
 
-            return new Point((int) Math.Floor(p.X / tileHW), (int) Math.Floor(p.Y / tileHW));
+            return new Point((int)Math.Floor(p.X / tileHW), (int)Math.Floor(p.Y / tileHW));
         }
 
         private Point TopHintFromSelection()
@@ -337,10 +325,11 @@ namespace Kakuro
                     }
 
                     if (!Enabled)
-                        g.FillRectangle(new SolidBrush(Color.FromArgb(0xd0,Color.White)), new Rectangle(0, 0, Canvas.Width, Canvas.Height));
+                        g.FillRectangle(new SolidBrush(Color.FromArgb(0xd0, Color.White)), new Rectangle(0, 0, Canvas.Width, Canvas.Height));
                 }
 
-                Canvas.Invoke(new Action(() => {
+                Canvas.Invoke(new Action(() =>
+                {
                     Canvas.Image = buffer;
                 }));
             });

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Kakuro.Engine;
+using Kakuro.Renderer;
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -18,7 +21,7 @@ namespace Kakuro
         private bool Saved = false;
         private bool _paused = false;
         private TileController tileController;
-        private BoardGenerator generator;
+        private Generator generator;
 
         private bool Paused
         {
@@ -64,7 +67,10 @@ namespace Kakuro
 
         private void LoadSettings()
         {
-            tileController.LoadSettings();
+            tileController.HighlightDuplicates = Properties.Settings.Default.HighlightDuplicates;
+            tileController.HighlightSelectionSums = Properties.Settings.Default.HighlightSelectionSums;
+            tileController.HighlightWrongSums = Properties.Settings.Default.HighlightWrongSums;
+            tileController.GrayCompleteSums = Properties.Settings.Default.GrayCompleteSums;
 
             statusTime.Visible = !Properties.Settings.Default.HideTimer;
         }
@@ -82,7 +88,7 @@ namespace Kakuro
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            generator = new BoardGenerator();
+            generator = new Generator();
             tileController = new TileController(canvas);
 
             CreateNewGame();

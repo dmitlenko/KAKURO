@@ -1,14 +1,15 @@
-﻿using System;
+﻿using Kakuro.Engine;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kakuro
+namespace Kakuro.Engine
 {
     [Serializable]
-    internal class GameSave
+    public class GameSave
     {
         public Cell[,] Cells { get; } = null;
         public DateTime Time { get; } = new DateTime();

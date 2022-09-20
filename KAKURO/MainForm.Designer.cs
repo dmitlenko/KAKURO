@@ -1,4 +1,4 @@
-﻿namespace KAKURO
+﻿namespace Kakuro
 {
     partial class MainForm
     {
@@ -107,7 +107,7 @@
             // 
             // openToolStripMenuItem
             // 
-            this.openToolStripMenuItem.Image = global::KAKURO.Properties.Resources.folder_vertical_open;
+            this.openToolStripMenuItem.Image = global::Kakuro.Properties.Resources.folder_vertical_open;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.openToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
@@ -116,7 +116,7 @@
             // 
             // saveToolStripMenuItem
             // 
-            this.saveToolStripMenuItem.Image = global::KAKURO.Properties.Resources.diskette;
+            this.saveToolStripMenuItem.Image = global::Kakuro.Properties.Resources.diskette;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
@@ -153,7 +153,7 @@
             // 
             // newGameToolStripMenuItem
             // 
-            this.newGameToolStripMenuItem.Image = global::KAKURO.Properties.Resources.board_game;
+            this.newGameToolStripMenuItem.Image = global::Kakuro.Properties.Resources.board_game;
             this.newGameToolStripMenuItem.Name = "newGameToolStripMenuItem";
             this.newGameToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
             this.newGameToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
@@ -162,7 +162,7 @@
             // 
             // restartGameToolStripMenuItem
             // 
-            this.restartGameToolStripMenuItem.Image = global::KAKURO.Properties.Resources.arrow_refresh;
+            this.restartGameToolStripMenuItem.Image = global::Kakuro.Properties.Resources.arrow_refresh;
             this.restartGameToolStripMenuItem.Name = "restartGameToolStripMenuItem";
             this.restartGameToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
             this.restartGameToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
@@ -170,7 +170,7 @@
             // 
             // checkToolStripMenuItem
             // 
-            this.checkToolStripMenuItem.Image = global::KAKURO.Properties.Resources.arrow_right;
+            this.checkToolStripMenuItem.Image = global::Kakuro.Properties.Resources.arrow_right;
             this.checkToolStripMenuItem.Name = "checkToolStripMenuItem";
             this.checkToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
             this.checkToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
@@ -184,7 +184,7 @@
             // resumeToolStripMenuItem
             // 
             this.resumeToolStripMenuItem.Enabled = false;
-            this.resumeToolStripMenuItem.Image = global::KAKURO.Properties.Resources.control_play;
+            this.resumeToolStripMenuItem.Image = global::Kakuro.Properties.Resources.control_play;
             this.resumeToolStripMenuItem.Name = "resumeToolStripMenuItem";
             this.resumeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.R)));
@@ -194,7 +194,7 @@
             // 
             // pauseToolStripMenuItem
             // 
-            this.pauseToolStripMenuItem.Image = global::KAKURO.Properties.Resources.control_pause;
+            this.pauseToolStripMenuItem.Image = global::Kakuro.Properties.Resources.control_pause;
             this.pauseToolStripMenuItem.Name = "pauseToolStripMenuItem";
             this.pauseToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.P)));
@@ -209,7 +209,7 @@
             // 
             // settingsToolStripMenuItem
             // 
-            this.settingsToolStripMenuItem.Image = global::KAKURO.Properties.Resources.setting_tools;
+            this.settingsToolStripMenuItem.Image = global::Kakuro.Properties.Resources.setting_tools;
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
             this.settingsToolStripMenuItem.Text = "Налаштування";
@@ -225,7 +225,7 @@
             // 
             // solveToolStripMenuItem
             // 
-            this.solveToolStripMenuItem.Image = global::KAKURO.Properties.Resources.bulb;
+            this.solveToolStripMenuItem.Image = global::Kakuro.Properties.Resources.bulb;
             this.solveToolStripMenuItem.Name = "solveToolStripMenuItem";
             this.solveToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.solveToolStripMenuItem.Text = "Розв\'язати";
@@ -241,7 +241,7 @@
             // 
             // rulesToolStripMenuItem
             // 
-            this.rulesToolStripMenuItem.Image = global::KAKURO.Properties.Resources.information;
+            this.rulesToolStripMenuItem.Image = global::Kakuro.Properties.Resources.information;
             this.rulesToolStripMenuItem.Name = "rulesToolStripMenuItem";
             this.rulesToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
             this.rulesToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
@@ -270,7 +270,7 @@
             // 
             // statusInPause
             // 
-            this.statusInPause.Image = global::KAKURO.Properties.Resources.control_pause;
+            this.statusInPause.Image = global::Kakuro.Properties.Resources.control_pause;
             this.statusInPause.Name = "statusInPause";
             this.statusInPause.Size = new System.Drawing.Size(16, 17);
             this.statusInPause.Visible = false;
@@ -306,7 +306,7 @@
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.Enabled = false;
-            this.toolStripMenuItem5.Image = global::KAKURO.Properties.Resources.control_play;
+            this.toolStripMenuItem5.Image = global::Kakuro.Properties.Resources.control_play;
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
             this.toolStripMenuItem5.Size = new System.Drawing.Size(116, 22);
             this.toolStripMenuItem5.Text = "Resume";
@@ -314,7 +314,7 @@
             // toolStripMenuItem6
             // 
             this.toolStripMenuItem6.Enabled = false;
-            this.toolStripMenuItem6.Image = global::KAKURO.Properties.Resources.control_pause;
+            this.toolStripMenuItem6.Image = global::Kakuro.Properties.Resources.control_pause;
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
             this.toolStripMenuItem6.Size = new System.Drawing.Size(116, 22);
             this.toolStripMenuItem6.Text = "Pause";
@@ -368,7 +368,7 @@
             // 
             this.openToolStripButton.AutoSize = false;
             this.openToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.openToolStripButton.Image = global::KAKURO.Properties.Resources.folder_vertical_open1;
+            this.openToolStripButton.Image = global::Kakuro.Properties.Resources.folder_vertical_open1;
             this.openToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.openToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openToolStripButton.Margin = new System.Windows.Forms.Padding(0);
@@ -381,7 +381,7 @@
             // 
             this.saveToolStripButton.AutoSize = false;
             this.saveToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.saveToolStripButton.Image = global::KAKURO.Properties.Resources.diskette1;
+            this.saveToolStripButton.Image = global::Kakuro.Properties.Resources.diskette1;
             this.saveToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.saveToolStripButton.Margin = new System.Windows.Forms.Padding(0);
@@ -399,7 +399,7 @@
             // 
             this.newToolStripButton.AutoSize = false;
             this.newToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.newToolStripButton.Image = global::KAKURO.Properties.Resources.board_game1;
+            this.newToolStripButton.Image = global::Kakuro.Properties.Resources.board_game1;
             this.newToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.newToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.newToolStripButton.Margin = new System.Windows.Forms.Padding(0);
@@ -412,7 +412,7 @@
             // 
             this.restartToolStripButton.AutoSize = false;
             this.restartToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.restartToolStripButton.Image = global::KAKURO.Properties.Resources.arrow_refresh_small;
+            this.restartToolStripButton.Image = global::Kakuro.Properties.Resources.arrow_refresh_small;
             this.restartToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.restartToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.restartToolStripButton.Margin = new System.Windows.Forms.Padding(0);
@@ -425,7 +425,7 @@
             // 
             this.checkToolStripButton.AutoSize = false;
             this.checkToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.checkToolStripButton.Image = global::KAKURO.Properties.Resources.arrow_right1;
+            this.checkToolStripButton.Image = global::Kakuro.Properties.Resources.arrow_right1;
             this.checkToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.checkToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.checkToolStripButton.Margin = new System.Windows.Forms.Padding(0);
@@ -443,7 +443,7 @@
             this.resumeToolStripButton.AutoSize = false;
             this.resumeToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.resumeToolStripButton.Enabled = false;
-            this.resumeToolStripButton.Image = global::KAKURO.Properties.Resources.control_play1;
+            this.resumeToolStripButton.Image = global::Kakuro.Properties.Resources.control_play1;
             this.resumeToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.resumeToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.resumeToolStripButton.Margin = new System.Windows.Forms.Padding(0);
@@ -456,7 +456,7 @@
             // 
             this.pauseToolStripButton.AutoSize = false;
             this.pauseToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.pauseToolStripButton.Image = global::KAKURO.Properties.Resources.control_pause1;
+            this.pauseToolStripButton.Image = global::Kakuro.Properties.Resources.control_pause1;
             this.pauseToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.pauseToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.pauseToolStripButton.Margin = new System.Windows.Forms.Padding(0);
@@ -474,7 +474,7 @@
             // 
             this.settingsToolStripButton.AutoSize = false;
             this.settingsToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.settingsToolStripButton.Image = global::KAKURO.Properties.Resources.setting_tools1;
+            this.settingsToolStripButton.Image = global::Kakuro.Properties.Resources.setting_tools1;
             this.settingsToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.settingsToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.settingsToolStripButton.Margin = new System.Windows.Forms.Padding(0);

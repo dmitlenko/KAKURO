@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KAKURO
+namespace Kakuro.Engine
 {
     [Serializable]
     public class Cell
@@ -19,7 +19,7 @@ namespace KAKURO
     [Serializable]
     public class BlackCell : Cell
     {
-        public BlackCell(): base("black") { }
+        public BlackCell() : base("black") { }
     }
 
     [Serializable]
@@ -28,8 +28,8 @@ namespace KAKURO
         public int HorizontalSum { get; } = 0;
         public int VerticalSum { get; } = 0;
 
-        public HintCell(): base("hint") { }
-        public HintCell(int verticalSum,int horizontalSum): base("hint")
+        public HintCell() : base("hint") { }
+        public HintCell(int verticalSum, int horizontalSum) : base("hint")
         {
             HorizontalSum = horizontalSum;
             VerticalSum = verticalSum;
@@ -37,11 +37,11 @@ namespace KAKURO
     }
 
     [Serializable]
-    public class NumberCell: Cell
+    public class NumberCell : Cell
     {
         public int Number { get; set; } = 0;
 
-        public NumberCell(): base("number") { }
-        public NumberCell(int number): base("number") => Number = number;
+        public NumberCell() : base("number") { }
+        public NumberCell(int number) : base("number") => Number = number;
     }
 }

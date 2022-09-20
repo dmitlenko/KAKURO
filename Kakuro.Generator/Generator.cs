@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Diagnostics;
-
-namespace KAKURO
+﻿namespace Kakuro.Engine
 {
-    internal class BoardGenerator
+    public class Generator
     {
         private class GameCell
         {
@@ -51,27 +43,35 @@ namespace KAKURO
             }
         }
 
-        private GameCell[,] Array2d(int width, int height, Func<int, int, GameCell> fn)
+        private double RandomDouble(double minimum, double maximum)
         {
-            GameCell[,] cells = new GameCell[width, height];
+            lock (syncLock)
+            {
+                return random.NextDouble() * (maximum - minimum) + minimum;
+            }
+        }
+
+        private T[,] Array2d<T>(int width, int height, Func<int, int, T> fn)
+        {
+            T[,] cells = new T[width, height];
             for (int x = 0; x < width; x++)
                 for (int y = 0; y < height; y++)
                     cells[y, x] = fn(x, y);
             return cells;
         }
 
-        private int[][][] Map3dInt(GameCell[,] arr, Func<int[]> fn)
+        private bool[][][] Map3dBool(GameCell[,] arr, Func<bool[]> fn)
         {
-            int[][][] seenArr = new int[arr.GetLength(0)][][];
+            bool[][][] seenArr = new bool[arr.GetLength(0)][][];
             for (int x = 0; x < arr.GetLength(0) - 1; x++)
             {
-                seenArr[x] = new int[arr.GetLength(0)][];
+                seenArr[x] = new bool[arr.GetLength(0)][];
                 for (int y = 0; y < arr.GetLength(0) - 1; y++)
                 {
                     seenArr[x][y] = fn();
-                }  
+                }
             }
-                
+
             return seenArr;
         }
 
@@ -85,17 +85,18 @@ namespace KAKURO
             return seenArr;
         }
 
-        private void For2d(ref GameCell[,] board, Func<int,int,GameCell, GameCell> fn)
+        private void For2d(ref GameCell[,] board, Func<int, int, GameCell, GameCell> fn)
         {
             for (int x = 0; x < board.GetLength(0) - 1; x++)
                 for (int y = 0; y < board.GetLength(1) - 1; y++)
-                    board[y, x] = fn(x,y,board[y, x]);
+                    board[y, x] = fn(x, y, board[y, x]);
         }
 
         private void For2dType(ref GameCell[,] board, string type, Func<int, int, GameCell, GameCell> fn)
         {
+
             For2d(ref board, (int x, int y, GameCell cell) => {
-                if(type == cell.Type) return fn(x,y,cell);
+                if (type == cell.Type) return fn(x, y, cell);
                 return cell;
             });
         }
@@ -104,29 +105,30 @@ namespace KAKURO
         {
             x += xoff;
             y += yoff;
-            GameCell cell = board[y, x];
-            if (cell.Type == "num")
+            if (board[y, x].Type == "num")
             {
-                fn(x, y, cell);
+                fn(x, y, board[y, x]);
                 return ForNumberGroup(ref board, x, y, xoff, yoff, fn, ++len);
             }
             return Tuple.Create(len, x, y);
         }
 
-        private GameCell[,] CalculateNumbers(GameCell[,] board)
+        private GameCell[,] CalculateNumbers(GameCell[,] board) // Works
         {
-            int[][][] seenrow = Map3dInt(board, () => null);
-            int[][][] seencol = Map3dInt(board, () => null);
+            bool[][][] seenrow = Map3dBool(board, () => null);
+            bool[][][] seencol = Map3dBool(board, () => null);
 
             For2dType(ref board, "hint", (x, y, cell) => {
                 ForNumberGroup(ref board, x, y, 1, 0, (x1, y1, cell1) => {
-                    seenrow[y1][x1] = new int[board.GetLength(0) + 2];
-                    return cell;
+                    seenrow[y1][x1] = new bool[10];
+                    for (int i = 0; i < 10; i++) seenrow[y1][x1][i] = false;
+                    return cell1;
                 });
 
                 ForNumberGroup(ref board, x, y, 0, 1, (x1, y1, cell1) => {
-                    seenrow[y1][x1] = new int[board.GetLength(0) + 2];
-                    return cell;
+                    seencol[y1][x1] = new bool[10];
+                    for (int i = 0; i < 10; i++) seencol[y1][x1][i] = false;
+                    return cell1;
                 });
 
                 return cell;
@@ -136,17 +138,17 @@ namespace KAKURO
                 int value = RandomInt(9) + 1;
                 int origValue = value;
 
-                int[] row = seenrow[y][x];
-                int[] col = seencol[y][x];
-                
-                while ((row!= null && col != null) && ((row.Length > value || col.Length > value) || (row[value] != 0 || col[value] != 0)))
+                bool[] row = seenrow[y][x];
+                bool[] col = seencol[y][x];
+
+                while (row[value] || col[value]) // (row != null && col != null) && 
                 {
                     value = (value % 9) + 1;
                     if (value == origValue) throw new Exception("number colision");
                 }
 
-                if (row != null) row[value] = 1;
-                if (col != null) col[value] = 1;
+                row[value] = col[value] = true; // if (row != null && col != null) 
+
                 cell.Value = value;
 
                 return cell;
@@ -173,58 +175,41 @@ namespace KAKURO
             return board;
         }
 
-        private void FillNeighbour(ref GameCell[,] board, ref bool[,] seen, ref int seenCount, int _x, int _y)
+        private GameCell[,] FixBoard(GameCell[,] board) //not work
         {
-            GameCell cell = board[_y, _x];
-
-            if (cell.Type != "" && cell.Type == "num" && !seen[_y, _x])
-            {
-                seen[_y, _x] = true;
-                ++seenCount;
-                FillNeighbour(ref board, ref seen, ref seenCount, _x - 1, _y);
-                FillNeighbour(ref board, ref seen, ref seenCount, _x + 1, _y);
-                FillNeighbour(ref board, ref seen, ref seenCount, _x, _y - 1);
-                FillNeighbour(ref board, ref seen, ref seenCount, _x, _y + 1);
-            }
-        }
-
-        private GameCell[,] FixBoard(GameCell[,] board)
-        {
-            Random r = new Random();
             bool fixAgain;
 
-            Func<int, int, bool> FixDir = (xoff, yoff) => {
+            Action<int, int> FixDir = (xoff, yoff) => {
                 For2dType(ref board, "hint", (x, y, cell) => {
-                    (int len, int ex, int ey) = ForNumberGroup(ref board, x, y, xoff, yoff, (_x, _y, _cell) => new GameCell(""));
-                    GameCell endcell = board[ey, ex];
+                    (int len, int ex, int ey) = ForNumberGroup(ref board, x, y, xoff, yoff, (_x, _y, _cell) => null);
 
                     if (len == 1)
                     {
                         fixAgain = true;
-                        if(endcell.Type != ""|| endcell.Border || RandomDouble() < 0.5 && !cell.Border)
-                        {
+
+                        // board[ey, ex].Type != "hint" || 
+                        if (board[ey, ex].Border || (RandomDouble() < 0.5 && !cell.Border))
                             cell.Type = "num";
-                        } else
-                        {
-                            endcell.Type = "num";
-                        }
-                    } else if (len > 9)
+                        else
+                            board[ey, ex].Type = "num";
+
+                    }
+                    else if (len > 9)
                     {
-                        Func<int, int, int> f = (a, b) => Convert.ToInt32(Math.Floor(a + (b - a) * RandomDouble()));
-                        board[f(y + yoff, ey), f(x + xoff, ex)].Type = "hint";
+                        board[(int)RandomDouble(y + yoff, ey), (int)RandomDouble(x + xoff, ex)].Type = "hint";
                     }
 
-                   return cell;
+                    return cell;
                 });
-
-                return true;
             };
 
             do
             {
                 fixAgain = false;
+
                 FixDir(0, 1);
                 FixDir(1, 0);
+
             } while (fixAgain);
 
             int cx = 0, cy = 0;
@@ -235,42 +220,65 @@ namespace KAKURO
             For2dType(ref board, "num", (x, y, cell) => {
                 cx = x;
                 cy = y;
-                cellCount++;
+
+                ++cellCount;
                 return cell;
             });
 
             int seenCount = 0;
 
-            FillNeighbour(ref board, ref seen, ref seenCount, cx - 1, cy);
-            FillNeighbour(ref board, ref seen, ref seenCount, cx + 1, cy);
-            FillNeighbour(ref board, ref seen, ref seenCount, cx, cy - 1);
-            FillNeighbour(ref board, ref seen, ref seenCount, cx, cy + 1);
+            Action<int, int> FloodFill = null;
+            Action<int, int> FillNeighbour = (x, y) =>
+            {
+                try
+                {
+                    if (board[y, x].Type == "num" && !seen[y, x])
+                    {
+                        seen[y, x] = true;
+                        ++seenCount;
+
+                        FloodFill(x, y);
+                    }
+                }
+                catch (Exception) { }
+            };
+
+            FloodFill = (x, y) =>
+            {
+                FillNeighbour(x - 1, y);
+                FillNeighbour(x + 1, y);
+                FillNeighbour(x, y - 1);
+                FillNeighbour(x, y + 1);
+            };
+
+            FloodFill(cx, cy);
 
             if (cellCount > seenCount)
             {
                 throw new Exception("non-continuous board");
-            } 
+            }
 
             return board;
         }
 
 
-        private GameCell[,] RandomBoard(int w, int h, double density)
+        private GameCell[,] RandomBoard(int w, int h, double density) //works
         {
-            GameCell[,] board = Array2d(w + 2, h + 2, (x, y) => { 
-                if(x == 0 || y == 0 || x == w+1 || y == h + 1)
+            GameCell[,] board = Array2d(w + 2, h + 2, (x, y) => {
+                if (x == 0 || y == 0 || x == w + 1 || y == h + 1)
                 {
                     return new GameCell("hint", true);
-                } else
+                }
+                else
                 {
                     return new GameCell("num");
                 }
             });
 
-            Func<int,int,bool> IsHint = (x,y) => board[y, x].Type == "hint";
+            Func<int, int, bool> IsHint = (x, y) => board[y, x].Type == "hint";
 
             Func<int, int, bool> IsValid = (x, y) => {
-                var ints = new[] { (1,0), ( 0, 1 ), ( 0, -1 ), (-1, 0) };
+                var ints = new[] { (1, 0), (0, 1), (0, -1), (-1, 0) };
                 return Array.TrueForAll(ints, value => IsHint(x + value.Item1, y + value.Item2) || !IsHint(x + value.Item1 * 2, y + value.Item2 * 2));
             };
 
@@ -278,7 +286,9 @@ namespace KAKURO
             {
                 int x = RandomInt(w) + 1;
                 int y = RandomInt(h) + 1;
-                if(!IsHint(x,y) && IsValid(x, y)){
+
+                if (!IsHint(x, y) && IsValid(x, y))
+                {
                     board[y, x].Type = "hint";
                     i++;
                 }
@@ -287,69 +297,36 @@ namespace KAKURO
             return board;
         }
 
-        private void CheckDuplicates(GameCell[,] board)
+        public void GenerateBoard(int width, int height, double density, Action callback)
         {
-            For2dType(ref board, "hint", (x, y, cell) => {
-                Func<int, int, bool> Check = (xoff, yoff) => {
-                    HashSet<int> hs = new HashSet<int>();
+            Board = new GameCell[width, height];
 
-                    ForNumberGroup(ref board, x, y, xoff, yoff, (_x, _y, _cell) => {
-                        if (!hs.Add(_cell.Value)) 
-                            throw new Exception("found duplicates");
-                        return _cell;
-                    });
+            Task.Factory.StartNew(() =>
+            {
+                bool badBoard;
 
-                    return true;
-                };
+                do
+                {
+                    try
+                    {
+                        badBoard = false;
+                        Board = RandomBoard(width, height, density);
+                        Board = FixBoard(Board);
+                        Board = CalculateNumbers(Board);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine(e.Message);
+                        badBoard = true;
+                    }
 
-                Check(0, 1);
-                Check(1, 0);
+                } while (badBoard);
 
-                return cell;
+                callback.Invoke();
             });
         }
 
-        public void GenerateBoard(int width, int height, double density)
-        {
-            Board = new GameCell[width,height];
-            bool badBoard;
-
-            do
-            {
-                try
-                {
-                    badBoard = false;
-                    Board = RandomBoard(width, height, density);
-                    Board = FixBoard(Board);
-                    Board = CalculateNumbers(Board);
-                    CheckDuplicates(Board);
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine(e.Message);
-                    badBoard = true;
-                }
-                
-            } while (badBoard);
-        }
-
-        public Cell[,] Cells()
-        {
-            Cell[,] arr = new Cell[Board.GetLength(0), Board.GetLength(1)];
-
-            for(int i = 0; i < Board.GetLength(0); i++)
-                for(int j = 0; j < Board.GetLength(1); j++)
-                    if (Board[i, j].HintH == 0 && Board[i, j].HintV == 0 && Board[i, j].Type != "num")
-                        arr[i, j] = new BlackCell();
-                    else if (Board[i, j].Type == "hint")
-                        arr[i, j] = new HintCell(Board[i, j].HintV, Board[i, j].HintH);
-                    else
-                        arr[i, j] = new NumberCell();
-
-            return arr;
-        }
-
-        public Cell[,] Solved()
+        public Cell[,] Cells(bool solved = true)
         {
             Cell[,] arr = new Cell[Board.GetLength(0), Board.GetLength(1)];
 
@@ -359,8 +336,10 @@ namespace KAKURO
                         arr[i, j] = new BlackCell();
                     else if (Board[i, j].Type == "hint")
                         arr[i, j] = new HintCell(Board[i, j].HintV, Board[i, j].HintH);
-                    else
+                    else if (solved)
                         arr[i, j] = new NumberCell(Board[i, j].Value);
+                    else
+                        arr[i, j] = new NumberCell();
 
             return arr;
         }

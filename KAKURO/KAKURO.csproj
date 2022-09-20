@@ -8,10 +8,11 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>KAKURO</RootNamespace>
     <AssemblyName>KAKURO</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -46,11 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cell.cs" />
     <Compile Include="GameSave.cs" />
     <Compile Include="Serealizer.cs" />
     <Compile Include="TileController.cs" />
-    <Compile Include="BoardGenerator.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -146,6 +145,12 @@
     <None Include="Resources\control_play1.png" />
     <None Include="Resources\control_pause1.png" />
     <Content Include="Resources\rules.htm" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Kakuro.Generator\Kakuro.Generator.csproj">
+      <Project>{3a68d469-9711-474f-9295-90b1bf95c0c4}</Project>
+      <Name>Kakuro.Generator</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

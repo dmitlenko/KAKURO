@@ -10,7 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace KAKURO
+namespace Kakuro
 {
     public partial class MainForm : Form
     {

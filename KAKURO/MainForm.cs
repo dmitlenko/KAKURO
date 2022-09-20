@@ -20,7 +20,7 @@ namespace Kakuro
         private DateTime CurrentTime = new DateTime();
         private bool Saved = false;
         private bool _paused = false;
-        private TileController tileController;
+        private Renderer.Renderer tileController;
         private Generator generator;
 
         private bool Paused
@@ -89,7 +89,7 @@ namespace Kakuro
         private void MainForm_Load(object sender, EventArgs e)
         {
             generator = new Generator();
-            tileController = new TileController(canvas);
+            tileController = new Renderer.Renderer(canvas);
 
             CreateNewGame();
             LoadSettings();

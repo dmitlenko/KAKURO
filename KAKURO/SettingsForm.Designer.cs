@@ -1,4 +1,4 @@
-﻿namespace KAKURO
+﻿namespace Kakuro
 {
     partial class SettingsForm
     {

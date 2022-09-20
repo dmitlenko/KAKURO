@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+AnalysisReport.sarif
+upgrade-assistant.clef
+*.clef
+.editorconfig

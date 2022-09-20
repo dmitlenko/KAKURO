@@ -1,9 +1,11 @@
 ﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace KAKURO
+#pragma warning disable SYSLIB0011
+
+namespace Kakuro.Engine
 {
-    internal class Serealizer
+    public class Serealizer
     {
         public static void Serialize(object t, string path)
         {

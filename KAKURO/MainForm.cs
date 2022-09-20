@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Kakuro.Engine;
+using Kakuro.Renderer;
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,7 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace KAKURO
+namespace Kakuro
 {
     public partial class MainForm : Form
     {
@@ -18,6 +21,7 @@ namespace KAKURO
         private bool Saved = false;
         private bool _paused = false;
         private TileController tileController;
+        private Generator generator;
 
         private bool Paused
         {
@@ -63,14 +67,31 @@ namespace KAKURO
 
         private void LoadSettings()
         {
-            tileController.LoadSettings();
+            tileController.HighlightDuplicates = Properties.Settings.Default.HighlightDuplicates;
+            tileController.HighlightSelectionSums = Properties.Settings.Default.HighlightSelectionSums;
+            tileController.HighlightWrongSums = Properties.Settings.Default.HighlightWrongSums;
+            tileController.GrayCompleteSums = Properties.Settings.Default.GrayCompleteSums;
 
             statusTime.Visible = !Properties.Settings.Default.HideTimer;
         }
 
+        private void CreateNewGame()
+        {
+            Paused = false;
+
+            generator.GenerateBoard(Properties.Settings.Default.BoardWidth - 2, Properties.Settings.Default.BoardHeight - 2, 0.3, () =>
+            {
+                tileController.AssignCells(generator.Cells());
+                CurrentTime = new DateTime();
+            });
+        }
+
         private void MainForm_Load(object sender, EventArgs e)
         {
+            generator = new Generator();
             tileController = new TileController(canvas);
+
+            CreateNewGame();
             LoadSettings();
         }
 
@@ -141,9 +162,7 @@ namespace KAKURO
 
         private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            BoardGenerator generator = new BoardGenerator();
-            GameCell[,] board = generator.GenerateBoard(6, 6, 0.2);
-            //tileController.AssignTiles(generator.CellsToCells(board));
+            CreateNewGame();
         }
 
         private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
@@ -208,15 +227,20 @@ namespace KAKURO
                 {
                     GameSave save = (GameSave)Serealizer.Deserialize(openFileDialog.FileName);
 
-                    tileController.Size = save.Size;
-                    tileController.AssignCells(save.Cells);
-                    tileController.Selected = save.Selection;
-                    tileController.Enabled = true;
-                    tileController.Update();
+                    if (save.Valid())
+                    {
+                        tileController.Size = save.Size;
+                        tileController.AssignCells(save.Cells);
+                        tileController.Selected = save.Selection;
+                        tileController.Enabled = true;
+                        tileController.Update();
 
-                    CurrentTime = save.Time;
-
-                    Saved = true;
+                        CurrentTime = save.Time;
+                        Saved = true;
+                    } else
+                    {
+                        throw new Exception();
+                    }
                 } catch (Exception)
                 {
                     if (Path.GetExtension(openFileDialog.FileName) == ".kpf")
@@ -235,6 +259,17 @@ namespace KAKURO
 
                 Saved = true;
             }
+        }
+
+        private void restartToolStripButton_Click(object sender, EventArgs e)
+        {
+            CurrentTime = new DateTime();
+            tileController.AssignCells(generator.Cells());
+        }
+
+        private void solveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            tileController.AssignCells(generator.Cells(true));
         }
     }
 }

@@ -75,8 +75,11 @@ namespace Kakuro
             statusTime.Visible = !Properties.Settings.Default.HideTimer;
         }
 
-        private void CreateNewGame()
+        private void CreateNewGame(bool silent = false)
         {
+            if (!silent && !Saved && MessageBox.Show("Результат поточної гри не буде збережено.", "Розпочати нову гру?", MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
+
             Paused = false;
 
             generator.GenerateBoard(Properties.Settings.Default.BoardWidth - 2, Properties.Settings.Default.BoardHeight - 2, 0.3, () =>
@@ -91,8 +94,8 @@ namespace Kakuro
             generator = new Generator();
             tileController = new Renderer.Renderer(canvas);
 
-            CreateNewGame();
             LoadSettings();
+            CreateNewGame(true);
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)

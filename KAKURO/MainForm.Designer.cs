@@ -49,6 +49,7 @@
             this.solveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rulesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.проПрограмуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.statusTime = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusInPause = new System.Windows.Forms.ToolStripStatusLabel();
@@ -60,7 +61,7 @@
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
             this.canvas = new System.Windows.Forms.PictureBox();
             this.canvasPanel = new System.Windows.Forms.Panel();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -77,7 +78,7 @@
             this.contextMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             this.canvasPanel.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
+            this.toolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -235,19 +236,27 @@
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.rulesToolStripMenuItem});
+            this.rulesToolStripMenuItem,
+            this.проПрограмуToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(75, 20);
             this.helpToolStripMenuItem.Text = "Допомога";
             // 
             // rulesToolStripMenuItem
             // 
-            this.rulesToolStripMenuItem.Image = global::Kakuro.Properties.Resources.information;
+            this.rulesToolStripMenuItem.Image = global::Kakuro.Properties.Resources.rules_img;
             this.rulesToolStripMenuItem.Name = "rulesToolStripMenuItem";
             this.rulesToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.rulesToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.rulesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.rulesToolStripMenuItem.Text = "Правила гри";
             this.rulesToolStripMenuItem.Click += new System.EventHandler(this.rulesToolStripMenuItem_Click);
+            // 
+            // проПрограмуToolStripMenuItem
+            // 
+            this.проПрограмуToolStripMenuItem.Image = global::Kakuro.Properties.Resources.information;
+            this.проПрограмуToolStripMenuItem.Name = "проПрограмуToolStripMenuItem";
+            this.проПрограмуToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.проПрограмуToolStripMenuItem.Text = "Про програму";
             // 
             // statusStrip
             // 
@@ -344,11 +353,11 @@
             this.canvasPanel.Size = new System.Drawing.Size(466, 466);
             this.canvasPanel.TabIndex = 4;
             // 
-            // toolStrip1
+            // toolStrip
             // 
-            this.toolStrip1.BackColor = System.Drawing.SystemColors.Window;
-            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStrip.BackColor = System.Drawing.SystemColors.Window;
+            this.toolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openToolStripButton,
             this.saveToolStripButton,
             this.toolStripSeparator1,
@@ -360,14 +369,14 @@
             this.pauseToolStripButton,
             this.toolStripSeparator3,
             this.settingsToolStripButton});
-            this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.toolStrip1.Location = new System.Drawing.Point(0, 24);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStrip1.Size = new System.Drawing.Size(466, 40);
-            this.toolStrip1.TabIndex = 5;
-            this.toolStrip1.Text = "toolStrip1";
+            this.toolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
+            this.toolStrip.Location = new System.Drawing.Point(0, 24);
+            this.toolStrip.Name = "toolStrip";
+            this.toolStrip.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
+            this.toolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.toolStrip.Size = new System.Drawing.Size(466, 40);
+            this.toolStrip.TabIndex = 5;
+            this.toolStrip.Text = "toolStrip1";
             // 
             // openToolStripButton
             // 
@@ -495,7 +504,7 @@
             this.BackColor = System.Drawing.SystemColors.Desktop;
             this.ClientSize = new System.Drawing.Size(466, 552);
             this.Controls.Add(this.canvasPanel);
-            this.Controls.Add(this.toolStrip1);
+            this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.menuStrip);
             this.DoubleBuffered = true;
@@ -521,8 +530,8 @@
             this.contextMenuStrip.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).EndInit();
             this.canvasPanel.ResumeLayout(false);
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
+            this.toolStrip.ResumeLayout(false);
+            this.toolStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -557,7 +566,7 @@
         private System.Windows.Forms.ToolStripStatusLabel statusInPause;
         private System.Windows.Forms.PictureBox canvas;
         private System.Windows.Forms.Panel canvasPanel;
-        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStrip toolStrip;
         private System.Windows.Forms.ToolStripButton openToolStripButton;
         private System.Windows.Forms.ToolStripButton saveToolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
@@ -571,6 +580,7 @@
         private System.Windows.Forms.ToolStripButton settingsToolStripButton;
         private System.Windows.Forms.ToolStripMenuItem solverToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem solveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem проПрограмуToolStripMenuItem;
     }
 }
 

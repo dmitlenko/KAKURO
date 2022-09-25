@@ -1,5 +1,6 @@
 ﻿using Kakuro.Engine;
 using Kakuro.Engine.Algorithms;
+using Kakuro.Engine.Graphics;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,7 +21,7 @@ namespace Kakuro
         private DateTime CurrentTime = new DateTime();
         private bool Saved = false;
         private bool _paused = false;
-        private GameRenderer gameController;
+        private Renderer gameController;
         private Generator generator;
 
         private bool Paused
@@ -92,7 +93,7 @@ namespace Kakuro
         private void MainForm_Load(object sender, EventArgs e)
         {
             generator = new Generator();
-            gameController = new GameRenderer(canvas);
+            gameController = new Renderer(canvas);
 
             LoadSettings();
             CreateNewGame(true);

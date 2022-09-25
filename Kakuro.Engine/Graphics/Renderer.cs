@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace Kakuro.Engine.Graphics
 {
-    public class GameRenderer
+    public class Renderer
     {
         private bool _enabled = true;
 
@@ -35,7 +35,7 @@ namespace Kakuro.Engine.Graphics
             }
         }
 
-        public GameRenderer(PictureBox canvas)
+        public Renderer(PictureBox canvas)
         {
             Canvas = canvas;
             Enabled = false;
@@ -43,7 +43,7 @@ namespace Kakuro.Engine.Graphics
             PrepareCanvas();
         }
 
-        public GameRenderer(PictureBox canvas, int tilesX, int tilesY)
+        public Renderer(PictureBox canvas, int tilesX, int tilesY)
         {
             Canvas = canvas;
             Size = new Size(tilesX, tilesY);
@@ -52,7 +52,7 @@ namespace Kakuro.Engine.Graphics
             PrepareCanvas();
         }
 
-        public GameRenderer(PictureBox canvas, int tilesX, int tilesY, Cell[,] cells)
+        public Renderer(PictureBox canvas, int tilesX, int tilesY, Cell[,] cells)
         {
             Canvas = canvas;
             Size = new Size(tilesX, tilesY);

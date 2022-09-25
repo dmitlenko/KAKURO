@@ -83,11 +83,7 @@ namespace Kakuro
 
             Paused = false;
 
-            generator.GenerateBoard(Properties.Settings.Default.BoardWidth - 2, Properties.Settings.Default.BoardHeight - 2, 0.3, () =>
-            {
-                gameController.AssignCells(generator.Cells());
-                CurrentTime = new DateTime();
-            });
+            generator.Generate(Properties.Settings.Default.BoardWidth - 2, Properties.Settings.Default.BoardHeight - 2, 1);
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -253,7 +249,7 @@ namespace Kakuro
         {
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                Serealizer.Serialize(new GameSave(gameController.CellData(), CurrentTime, gameController.Size, gameController.Selected), saveFileDialog.FileName);
+                //Serealizer.Serialize(new GameSave(gameController.CellData(), CurrentTime, gameController.Size, gameController.Selected), saveFileDialog.FileName);
 
                 Saved = true;
             }
@@ -262,12 +258,12 @@ namespace Kakuro
         private void restartToolStripButton_Click(object sender, EventArgs e)
         {
             CurrentTime = new DateTime();
-            gameController.AssignCells(generator.Cells());
+            //gameController.AssignCells(generator.Cells());
         }
 
         private void solveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            gameController.AssignCells(generator.Cells(true));
+            //gameController.AssignCells(generator.Cells(true));
         }
     }
 }

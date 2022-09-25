@@ -1,10 +1,10 @@
 ﻿using Kakuro.Engine;
-using Kakuro.Renderer;
-
+using Kakuro.Engine.Algorithms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -20,7 +20,7 @@ namespace Kakuro
         private DateTime CurrentTime = new DateTime();
         private bool Saved = false;
         private bool _paused = false;
-        private Renderer.Renderer tileController;
+        private GameRenderer gameController;
         private Generator generator;
 
         private bool Paused
@@ -32,13 +32,13 @@ namespace Kakuro
                 if (value)
                 {
                     statusInPause.Visible = true;
-                    tileController.Enabled = false;
+                    gameController.Enabled = false;
                     pauseToolStripMenuItem.Enabled = pauseToolStripButton.Enabled = false;
                     resumeToolStripMenuItem.Enabled = resumeToolStripButton.Enabled = true;
                 } else
                 {
                     statusInPause.Visible = false;
-                    tileController.Enabled = true;
+                    gameController.Enabled = true;
                     pauseToolStripMenuItem.Enabled = pauseToolStripButton.Enabled = true;
                     resumeToolStripMenuItem.Enabled = resumeToolStripButton.Enabled = false;
                 }
@@ -62,15 +62,15 @@ namespace Kakuro
                 statusInPause.Visible = !statusInPause.Visible;
             }
 
-            tileController.Update();
+            gameController.Update();
         }
 
         private void LoadSettings()
         {
-            tileController.HighlightDuplicates = Properties.Settings.Default.HighlightDuplicates;
-            tileController.HighlightSelectionSums = Properties.Settings.Default.HighlightSelectionSums;
-            tileController.HighlightWrongSums = Properties.Settings.Default.HighlightWrongSums;
-            tileController.GrayCompleteSums = Properties.Settings.Default.GrayCompleteSums;
+            gameController.HighlightDuplicates = Properties.Settings.Default.HighlightDuplicates;
+            gameController.HighlightSelectionSums = Properties.Settings.Default.HighlightSelectionSums;
+            gameController.HighlightWrongSums = Properties.Settings.Default.HighlightWrongSums;
+            gameController.GrayCompleteSums = Properties.Settings.Default.GrayCompleteSums;
 
             statusTime.Visible = !Properties.Settings.Default.HideTimer;
         }
@@ -84,7 +84,7 @@ namespace Kakuro
 
             generator.GenerateBoard(Properties.Settings.Default.BoardWidth - 2, Properties.Settings.Default.BoardHeight - 2, 0.3, () =>
             {
-                tileController.AssignCells(generator.Cells());
+                gameController.AssignCells(generator.Cells());
                 CurrentTime = new DateTime();
             });
         }
@@ -92,7 +92,7 @@ namespace Kakuro
         private void MainForm_Load(object sender, EventArgs e)
         {
             generator = new Generator();
-            tileController = new Renderer.Renderer(canvas);
+            gameController = new GameRenderer(canvas);
 
             LoadSettings();
             CreateNewGame(true);
@@ -119,16 +119,16 @@ namespace Kakuro
             switch (e.KeyCode)
             {
                 case Keys.Up: // При натисканні на стрілку вгору здвинути координату вгору
-                    tileController.MoveSelectionUp();
+                    gameController.MoveSelectionUp();
                     break;
                 case Keys.Down: // При натисканні на стрілку вниз здвинути координату вниз
-                    tileController.MoveSelectionDown();
+                    gameController.MoveSelectionDown();
                     break;
                 case Keys.Left: // При натисканні на стрілку вліво здвинути координату вліво
-                    tileController.MoveSelectionLeft();
+                    gameController.MoveSelectionLeft();
                     break;
                 case Keys.Right: // При натисканні на стрілку вправо здвинути координату вправо
-                    tileController.MoveSelectionRight();
+                    gameController.MoveSelectionRight();
                     break;
                 case Keys.D1:
                 case Keys.D2:
@@ -139,12 +139,12 @@ namespace Kakuro
                 case Keys.D7:
                 case Keys.D8:
                 case Keys.D9:
-                    tileController.SetTileNumber(e.KeyValue - 48);
+                    gameController.SetSelectedTileNumber(e.KeyValue - 48);
                     Saved = false;
                     break;
                 case Keys.D0:
                 case Keys.Delete:
-                    tileController.SetTileNumber(0);
+                    gameController.SetSelectedTileNumber(0);
                     Saved = false;
                     break;
             }
@@ -204,19 +204,19 @@ namespace Kakuro
                 LastWindowState = WindowState;
                 if (WindowState == FormWindowState.Maximized || WindowState == FormWindowState.Normal)
                 {
-                    tileController.Update();
+                    gameController.Update();
                 }
             }
         }
 
         private void UpdateCanvasEvent(object sender, EventArgs e)
         {
-            tileController.Update();
+            gameController.Update();
         }
 
         private void MainForm_Paint(object sender, PaintEventArgs e)
         {
-            tileController.Update();
+            gameController.Update();
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -230,20 +230,14 @@ namespace Kakuro
                 {
                     GameSave save = (GameSave)Serealizer.Deserialize(openFileDialog.FileName);
 
-                    if (save.Valid())
-                    {
-                        tileController.Size = save.Size;
-                        tileController.AssignCells(save.Cells);
-                        tileController.Selected = save.Selection;
-                        tileController.Enabled = true;
-                        tileController.Update();
+                    gameController.Size = save.Size;
+                    gameController.AssignCells(save.Cells);
+                    gameController.Selected = save.Selection;
+                    gameController.Enabled = true;
+                    gameController.Update();
 
-                        CurrentTime = save.Time;
-                        Saved = true;
-                    } else
-                    {
-                        throw new Exception();
-                    }
+                    CurrentTime = save.Time;
+                    Saved = true;
                 } catch (Exception)
                 {
                     if (Path.GetExtension(openFileDialog.FileName) == ".kpf")
@@ -258,7 +252,7 @@ namespace Kakuro
         {
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                Serealizer.Serialize(new GameSave(tileController.CellData(), CurrentTime, tileController.Size, tileController.Selected), saveFileDialog.FileName);
+                Serealizer.Serialize(new GameSave(gameController.CellData(), CurrentTime, gameController.Size, gameController.Selected), saveFileDialog.FileName);
 
                 Saved = true;
             }
@@ -267,12 +261,12 @@ namespace Kakuro
         private void restartToolStripButton_Click(object sender, EventArgs e)
         {
             CurrentTime = new DateTime();
-            tileController.AssignCells(generator.Cells());
+            gameController.AssignCells(generator.Cells());
         }
 
         private void solveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            tileController.AssignCells(generator.Cells(true));
+            gameController.AssignCells(generator.Cells(true));
         }
     }
 }

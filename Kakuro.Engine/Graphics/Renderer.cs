@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Kakuro.Engine
+namespace Kakuro.Engine.Graphics
 {
     public class GameRenderer
     {
@@ -168,11 +168,11 @@ namespace Kakuro.Engine
             for (int i = 0; i < Size.Height; i++)
                 for (int j = 0; j < Size.Width; j++)
                     if (GraphicTiles[i, j].Type == TileTypes.Black || GraphicTiles[i, j].Type == TileTypes.Empty)
-                        cells[i, j] = new Cell();
+                        cells[i, j] = new BlackCell();
                     else if (GraphicTiles[i, j].Type == TileTypes.Hint)
-                        cells[i, j] = new HintCell(((SumGraphicTile)GraphicTiles[i, j]).SumVertical, ((SumGraphicTile)GraphicTiles[i, j]).SumHorizontal);
+                        cells[i, j] = new SumCell(((SumGraphicTile)GraphicTiles[i, j]).SumVertical, ((SumGraphicTile)GraphicTiles[i, j]).SumHorizontal);
                     else
-                        cells[i, j] = new NumberCell(((WhiteGraphicTile)GraphicTiles[i, j]).DrawnNumber);
+                        cells[i, j] = new WhiteCell(((WhiteGraphicTile)GraphicTiles[i, j]).DrawnNumber);
 
             return cells;
         }

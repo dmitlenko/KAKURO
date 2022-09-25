@@ -20,7 +20,7 @@ namespace Kakuro
         private DateTime CurrentTime = new DateTime();
         private bool Saved = false;
         private bool _paused = false;
-        private TileController tileController;
+        private Renderer.Renderer tileController;
         private Generator generator;
 
         private bool Paused
@@ -75,8 +75,11 @@ namespace Kakuro
             statusTime.Visible = !Properties.Settings.Default.HideTimer;
         }
 
-        private void CreateNewGame()
+        private void CreateNewGame(bool silent = false)
         {
+            if (!silent && !Saved && MessageBox.Show("Результат поточної гри не буде збережено.", "Розпочати нову гру?", MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
+
             Paused = false;
 
             generator.GenerateBoard(Properties.Settings.Default.BoardWidth - 2, Properties.Settings.Default.BoardHeight - 2, 0.3, () =>
@@ -89,10 +92,10 @@ namespace Kakuro
         private void MainForm_Load(object sender, EventArgs e)
         {
             generator = new Generator();
-            tileController = new TileController(canvas);
+            tileController = new Renderer.Renderer(canvas);
 
-            CreateNewGame();
             LoadSettings();
+            CreateNewGame(true);
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)

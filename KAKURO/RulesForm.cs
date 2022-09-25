@@ -19,7 +19,7 @@ namespace Kakuro
 
         private void RulesForm_Load(object sender, EventArgs e)
         {
-            string html = Properties.Resources.rules;
+            string html = Properties.Resources.rules_text;
             browser.Navigate("about:blank");
             HtmlDocument doc = browser.Document;
             doc.Write(String.Empty);

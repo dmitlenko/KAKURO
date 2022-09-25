@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Kakuro.Renderer
+namespace Kakuro.Engine
 {
     public struct TileTypes
     {
@@ -125,6 +125,7 @@ namespace Kakuro.Renderer
     public class NumberGraphicTile : GraphicTile
     {
         public int DrawnNumber { get; set; }
+        public bool Highlight { get; set; }
 
         public NumberGraphicTile() : base(TileTypes.Number) { DrawnNumber = 0; }
 
@@ -143,7 +144,7 @@ namespace Kakuro.Renderer
             SizeF textSize = graphics.MeasureString(DrawnNumber.ToString(), drawFont);
             Size textSize1 = new Size(Size.Width / 2 - (int)textSize.Width / 2, Size.Height / 2 - (int)textSize.Height / 2);
 
-            graphics.DrawString(DrawnNumber == 0 ? "" : DrawnNumber.ToString(), drawFont, Brushes.DodgerBlue, Point.Add(Position, textSize1));
+            graphics.DrawString(DrawnNumber == 0 ? "" : DrawnNumber.ToString(), drawFont, Highlight ? Brushes.Blue : Brushes.DodgerBlue, Point.Add(Position, textSize1));
 
             DrawOutline(graphics);
             if (Selected) DrawSelection(graphics);

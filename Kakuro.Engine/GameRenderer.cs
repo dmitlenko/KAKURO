@@ -1,14 +1,18 @@
-﻿using Kakuro.Engine;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
-namespace Kakuro.Renderer
+namespace Kakuro.Engine
 {
-    public class TileController
+    public class GameRenderer
     {
         private bool _enabled = true;
 
         public PictureBox Canvas { get; set; }
-        public GraphicTile[,] GraphicTiles = {};
+        public GraphicTile[,] GraphicTiles = { };
 
         public Point Selected = new Point(0, 0);
         public Size Size { get; set; }
@@ -30,24 +34,7 @@ namespace Kakuro.Renderer
             }
         }
 
-        public struct Box
-        {
-            private GraphicTile tile;
-            public Box(ref GraphicTile b) => tile = b;
-
-            public void Move(int x, int y)
-            {
-                tile.Position = new Point(x, y);
-            }
-
-            public void Resize(int width, int height)
-            {
-                tile.Size = new Size(width, height);
-            }
-        }
-
-
-        public TileController(PictureBox canvas)
+        public GameRenderer(PictureBox canvas)
         {
             Canvas = canvas;
             Enabled = false;
@@ -55,7 +42,7 @@ namespace Kakuro.Renderer
             PrepareCanvas();
         }
 
-        public TileController(PictureBox canvas, int tilesX, int tilesY)
+        public GameRenderer(PictureBox canvas, int tilesX, int tilesY)
         {
             Canvas = canvas;
             Size = new Size(tilesX, tilesY);
@@ -64,7 +51,7 @@ namespace Kakuro.Renderer
             PrepareCanvas();
         }
 
-        public TileController(PictureBox canvas, int tilesX, int tilesY, Cell[,] cells)
+        public GameRenderer(PictureBox canvas, int tilesX, int tilesY, Cell[,] cells)
         {
             Canvas = canvas;
             Size = new Size(tilesX, tilesY);
@@ -76,7 +63,7 @@ namespace Kakuro.Renderer
             Update();
         }
 
-        private void Canvas_MouseDown(object? sender, MouseEventArgs e)
+        private void Canvas_MouseDown(object sender, MouseEventArgs e)
         {
             if (Enabled)
             {
@@ -122,45 +109,32 @@ namespace Kakuro.Renderer
             return Point.Empty;
         }
 
-        private int HorizontalSum(int x, int y)
+        private void OffsetForType(int x, int y, int xoff, int yoff, string type, Func<GraphicTile, bool> action)
+        {
+            x += xoff;
+            y += yoff;
+            if (type != GraphicTiles[y, x].Type || !action(GraphicTiles[y, x])) return;
+            else OffsetForType(x, y, xoff, yoff, type, action);
+        }
+
+        private int OffsetNumberSum(int x, int y, int xoff, int yoff)
         {
             int sum = 0;
-            int num;
 
-            for (int i = x + 1; i < GraphicTiles.GetLength(1); i++)
+            OffsetForType(x, y, xoff, yoff, TileTypes.Number, (tile) =>
             {
-                if (GraphicTiles[y, i].Type == TileTypes.Black || GraphicTiles[y, i].Type == TileTypes.Hint) break;
-
-                if (GraphicTiles[y, i].Type == TileTypes.Number)
-                {
-                    num = ((NumberGraphicTile)GraphicTiles[y, i]).DrawnNumber;
-                    sum += num;
-                }
-            }
+                sum += (tile as NumberGraphicTile).DrawnNumber;
+                return true;
+            });
 
             return sum;
         }
 
-        private int VerticalSum(int x, int y)
-        {
-            int sum = 0;
-            int num;
+        private int HorizontalSum(int x, int y) => OffsetNumberSum(x, y, 1, 0);
 
-            for (int i = y + 1; i < GraphicTiles.GetLength(0); i++)
-            {
-                if (GraphicTiles[i, x].Type == TileTypes.Black || GraphicTiles[i, x].Type == TileTypes.Hint) break;
+        private int VerticalSum(int x, int y) => OffsetNumberSum(x, y, 0, 1);
 
-                if (GraphicTiles[i, x].Type == TileTypes.Number)
-                {
-                    num = ((NumberGraphicTile)GraphicTiles[i, x]).DrawnNumber;
-                    sum += num;
-                }
-            }
-
-            return sum;
-        }
-
-        public Box this[int x, int y] { get => new Box(ref GraphicTiles[y, x]); }
+        public GraphicTile this[int x, int y] => GraphicTiles[y, x];
 
         public void AssignCells(Cell[,] cells)
         {
@@ -182,6 +156,7 @@ namespace Kakuro.Renderer
 
             Enabled = true; // якийсь баг робить щоб контроллер виключався
             GraphicTiles = tiles;
+
             Update();
         }
 
@@ -241,7 +216,7 @@ namespace Kakuro.Renderer
             }
         }
 
-        public void SetTileNumber(int number)
+        public void SetSelectedTileNumber(int number)
         {
             if (Enabled)
             {
@@ -271,38 +246,58 @@ namespace Kakuro.Renderer
                     {
                         for (int j = 0; j < GraphicTiles.GetLength(1); j++)
                         {
+                            if (GraphicTiles[i, j] == null) continue;
+
                             GraphicTiles[i, j].Size = new Size(tileHW, tileHW);
                             GraphicTiles[i, j].Position = new Point(j * tileHW, i * tileHW);
                             GraphicTiles[i, j].Selected = Selected.X == j && Selected.Y == i;
 
-                            if (GraphicTiles[i, j].Type == TileTypes.Hint)
+                            switch (GraphicTiles[i, j].Type)
                             {
-                                ((HintGraphicTile)GraphicTiles[i, j]).HighlightVertical = false;
-                                ((HintGraphicTile)GraphicTiles[i, j]).HighlightHorizontal = false;
+                                case "hint":
+                                    HintGraphicTile tile = GraphicTiles[i, j] as HintGraphicTile;
 
-                                if (HighlightWrongSums)
-                                {
-                                    sumH = ((HintGraphicTile)GraphicTiles[i, j]).SumHorizontal;
-                                    sumV = ((HintGraphicTile)GraphicTiles[i, j]).SumVertical;
+                                    tile.HighlightVertical = false;
+                                    tile.HighlightHorizontal = false;
 
-                                    sumH1 = HorizontalSum(j, i);
-                                    sumV1 = VerticalSum(j, i);
+                                    if (HighlightWrongSums)
+                                    {
+                                        sumH = tile.SumHorizontal;
+                                        sumV = tile.SumVertical;
 
-                                    ((HintGraphicTile)GraphicTiles[i, j]).HighlightHorizontalSum = sumH < sumH1;
-                                    ((HintGraphicTile)GraphicTiles[i, j]).HighlightVerticalSum = sumV < sumV1;
-                                }
+                                        sumH1 = HorizontalSum(j, i);
+                                        sumV1 = VerticalSum(j, i);
 
-                                if (GrayCompleteSums)
-                                {
-                                    sumH = ((HintGraphicTile)GraphicTiles[i, j]).SumHorizontal;
-                                    sumV = ((HintGraphicTile)GraphicTiles[i, j]).SumVertical;
+                                        tile.HighlightHorizontalSum = sumH < sumH1;
+                                        tile.HighlightVerticalSum = sumV < sumV1;
+                                    }
 
-                                    sumH1 = HorizontalSum(j, i);
-                                    sumV1 = VerticalSum(j, i);
+                                    if (GrayCompleteSums)
+                                    {
+                                        sumH = tile.SumHorizontal;
+                                        sumV = tile.SumVertical;
 
-                                    ((HintGraphicTile)GraphicTiles[i, j]).GrayHorizontalSum = sumH == sumH1;
-                                    ((HintGraphicTile)GraphicTiles[i, j]).GrayVerticalSum = sumV == sumV1;
-                                }
+                                        sumH1 = HorizontalSum(j, i);
+                                        sumV1 = VerticalSum(j, i);
+
+                                        tile.GrayHorizontalSum = sumH == sumH1;
+                                        tile.GrayVerticalSum = sumV == sumV1;
+                                    }
+
+                                    break;
+
+                                case "number":
+                                    NumberGraphicTile numberTile = GraphicTiles[i, j] as NumberGraphicTile;
+
+                                    // Set to default
+                                    // numberTile.Highlight = false;
+
+                                    if (HighlightDuplicates)
+                                    {
+                                        // todo
+                                    }
+
+                                    break;
                             }
 
                             GraphicTiles[i, j].Draw(g);

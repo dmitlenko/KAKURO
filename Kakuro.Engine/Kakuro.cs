@@ -66,6 +66,13 @@ namespace Kakuro.Engine
         }
 
         /**
+         * <summary>Get element by its coords</summary>
+         * <param name="i">Board row</param>
+         * <param name="j">Board column</param>
+         */
+        public Cell this[int i, int j] => Grid[i, j];
+
+        /**
          * <summary>Give a hint of the square with row and column of the Kakuro</summary>
          * <param name="row">The row of the board</param>
          * <param name="col">The column of the board</param>
@@ -73,7 +80,7 @@ namespace Kakuro.Engine
         */
         public int GetHelp(int row, int col)
         {
-            if(row >= 0 && row < Width && col >= 0 && col < Height && Grid[row, col].GetType() == typeof(WhiteCell))
+            if(row >= 0 && row < Width && col >= 0 && col < Height && Grid[row, col] is WhiteCell)
             {
                 return Solution[String.Format("{0}{1}", row, col)];
             } else
@@ -125,7 +132,7 @@ namespace Kakuro.Engine
         {
             int nullref = 0;
 
-            if(row >= Width || col >= Height || row < 0 || col < 0 || !(Grid[row, col].GetType() == typeof(WhiteCell)))
+            if(row >= Width || col >= Height || row < 0 || col < 0 || !(Grid[row, col] is WhiteCell))
                 throw new KakuroException("Incorect row or column");
 
             if (value < 0 || value > 9)
@@ -179,7 +186,7 @@ namespace Kakuro.Engine
 
             row += i;
             col += j;
-            while(row >= 0 && col >= 0 && row < Height && col < Width && Grid[row,col].GetType() == typeof(WhiteCell))
+            while(row >= 0 && col >= 0 && row < Height && col < Width && Grid[row,col] is WhiteCell)
             {
                 if (Grid[row, col].IsUnassigned) is_full = false;
                 else

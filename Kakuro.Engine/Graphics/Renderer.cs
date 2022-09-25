@@ -148,12 +148,12 @@ namespace Kakuro.Engine.Graphics
 
             for (int i = 0; i < cells.GetLength(0); i++)
                 for (int j = 0; j < cells.GetLength(1); j++)
-                    if (cells[i, j].Type == "black" || cells[i, j].Type == "cell")
+                    if (cells[i, j] is BlackCell || cells[i, j] is Cell)
                         tiles[i, j] = new BlackGraphicTile();
-                    else if (cells[i, j].Type == "hint")
-                        tiles[i, j] = new HintGraphicTile(((HintCell)cells[i, j]).VerticalSum, ((HintCell)cells[i, j]).HorizontalSum);
+                    else if (cells[i, j] is SumCell)
+                        tiles[i, j] = new SumGraphicTile((cells[i, j] as SumCell).ColSum, (cells[i, j] as SumCell).RowSum);
                     else
-                        tiles[i, j] = new NumberGraphicTile(((NumberCell)cells[i, j]).Number);
+                        tiles[i, j] = new WhiteGraphicTile((cells[i, j] as WhiteCell).Value);
 
             Enabled = true; // якийсь баг робить щоб контроллер виключався
             GraphicTiles = tiles;
@@ -161,7 +161,7 @@ namespace Kakuro.Engine.Graphics
             Update();
         }
 
-        public Cell[,] CellData()
+        /*public Cell[,] CellData()
         {
             Cell[,] cells = new Cell[Size.Height, Size.Width];
 
@@ -175,7 +175,7 @@ namespace Kakuro.Engine.Graphics
                         cells[i, j] = new WhiteCell(((WhiteGraphicTile)GraphicTiles[i, j]).DrawnNumber);
 
             return cells;
-        }
+        }*/
 
         public void MoveSelectionUp()
         {
@@ -239,7 +239,7 @@ namespace Kakuro.Engine.Graphics
                 int tileHW = Canvas.Width / Size.Width;
                 int sumH, sumV, sumH1, sumV1;
 
-                using (Graphics g = Graphics.FromImage(buffer))
+                using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(buffer))
                 {
                     if (GraphicTiles == null) return;
 

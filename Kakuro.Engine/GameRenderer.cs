@@ -1,14 +1,18 @@
-﻿using Kakuro.Engine;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
-namespace Kakuro.Renderer
+namespace Kakuro.Engine
 {
-    public class Renderer
+    public class GameRenderer
     {
         private bool _enabled = true;
 
         public PictureBox Canvas { get; set; }
-        public GraphicTile[,] GraphicTiles = {};
+        public GraphicTile[,] GraphicTiles = { };
 
         public Point Selected = new Point(0, 0);
         public Size Size { get; set; }
@@ -30,7 +34,7 @@ namespace Kakuro.Renderer
             }
         }
 
-        public Renderer(PictureBox canvas)
+        public GameRenderer(PictureBox canvas)
         {
             Canvas = canvas;
             Enabled = false;
@@ -38,7 +42,7 @@ namespace Kakuro.Renderer
             PrepareCanvas();
         }
 
-        public Renderer(PictureBox canvas, int tilesX, int tilesY)
+        public GameRenderer(PictureBox canvas, int tilesX, int tilesY)
         {
             Canvas = canvas;
             Size = new Size(tilesX, tilesY);
@@ -47,7 +51,7 @@ namespace Kakuro.Renderer
             PrepareCanvas();
         }
 
-        public Renderer(PictureBox canvas, int tilesX, int tilesY, Cell[,] cells)
+        public GameRenderer(PictureBox canvas, int tilesX, int tilesY, Cell[,] cells)
         {
             Canvas = canvas;
             Size = new Size(tilesX, tilesY);
@@ -59,7 +63,7 @@ namespace Kakuro.Renderer
             Update();
         }
 
-        private void Canvas_MouseDown(object? sender, MouseEventArgs e)
+        private void Canvas_MouseDown(object sender, MouseEventArgs e)
         {
             if (Enabled)
             {
@@ -212,7 +216,7 @@ namespace Kakuro.Renderer
             }
         }
 
-        public void SetTileNumber(int number)
+        public void SetSelectedTileNumber(int number)
         {
             if (Enabled)
             {
@@ -284,41 +288,13 @@ namespace Kakuro.Renderer
 
                                 case "number":
                                     NumberGraphicTile numberTile = GraphicTiles[i, j] as NumberGraphicTile;
-                                    
-                                    // Set to default
-                                    numberTile.Highlight = false;
 
-                                    // Highlight duplicates
+                                    // Set to default
+                                    // numberTile.Highlight = false;
+
                                     if (HighlightDuplicates)
                                     {
-                                        HashSet<int> hs = new HashSet<int>();
-                                        GraphicTile prevTile = numberTile;
-
-                                        OffsetForType(j, i, 1, 0, TileTypes.Number, (tile) =>
-                                        {
-                                            if (!hs.Add((tile as NumberGraphicTile).DrawnNumber))
-                                            {
-                                                (tile as NumberGraphicTile).Highlight = true;
-                                                (prevTile as NumberGraphicTile).Highlight = true;
-                                            }
-                                            prevTile = tile;
-
-                                            return true;
-                                        });
-
-                                        hs = new HashSet<int>();
-                                        prevTile = GraphicTiles[i, j];
-                                        OffsetForType(j, i, 0, 1, TileTypes.Number, (tile) =>
-                                        {
-                                            if (!hs.Add((tile as NumberGraphicTile).DrawnNumber))
-                                            {
-                                                (tile as NumberGraphicTile).Highlight = true;
-                                                (prevTile as NumberGraphicTile).Highlight = true;
-                                            }
-                                            prevTile = tile;
-
-                                            return true;
-                                        });
+                                        // todo
                                     }
 
                                     break;

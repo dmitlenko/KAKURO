@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Kakuro.Renderer
+namespace Kakuro.Engine
 {
     public struct TileTypes
     {

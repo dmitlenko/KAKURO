@@ -9,6 +9,9 @@ using System.Windows.Forms;
 
 namespace Kakuro.Engine
 {
+    /**
+     * <summary>Struct that represents types of graphic tiles</summary>
+     */
     public struct TileTypes
     {
         public static string Empty { get => "empty"; }
@@ -17,21 +20,58 @@ namespace Kakuro.Engine
         public static string Number { get => "number"; }
     }
 
+    /**
+     * <summary>Base class for GraphicTile</summary>
+     */
     public class GraphicTile
     {
+        /**
+         * <summary>Type of the tile</summary>
+         */
         public string Type { get; }
 
+        /**
+         * <summary>Position of the tile on the screen</summary>
+         */
         public Point Position;
+
+        /**
+         * <summary>Size of the tile in pixels</summary>
+         */
         public Size Size;
+
+        /**
+         * <summary>Size of the tile in pixels</summary>
+         * <value>Point(Size.Width, Size.Height)</value>
+         */
         public Point SizePoint { get => new Point(Size.Width, Size.Height); }
 
+        /**
+         * <summary>Is tile selected</summary>
+         */
         public bool Selected { get; set; }
 
+        /**
+         * <summary>Base constructor for GraphicTile</summary>
+         */
         public GraphicTile() { Type = TileTypes.Empty; Selected = false; Position = Point.Empty; Size = Size.Empty; }
+
+        /**
+         * <summary>Constructor for GraphicTile</summary>
+         * <param name="type">Type of the tile</param>
+         */
         public GraphicTile(string type) { Type = type; Selected = false; Position = Point.Empty; Size = Size.Empty; }
 
+        /**
+         * <summary>Virtual method that draws tile on the canvas</summary>
+         * <param name="graphics">Buffer for the graphics</param>
+         */
         public virtual void Draw(Graphics graphics) { }
 
+        /**
+         * <summary>Method that draws blue outline if the tile is selected</summary>
+         * <param name="graphics">Buffer for the graphics</param>
+         */
         public void DrawSelection(Graphics graphics)
         {
             int padding = 1;
@@ -41,6 +81,10 @@ namespace Kakuro.Engine
             graphics.DrawRectangle(pen, new Rectangle(Point.Add(Position, new Size(padding, padding)), Size.Subtract(Size, new Size(padding, padding))));
         }
 
+        /**
+         * <summary>Method that draws black outline</summary>
+         * <param name="graphics">Buffer for the graphics</param>
+         */
         public void DrawOutline(Graphics graphics)
         {
             Pen pen = new Pen(Color.Black, 1);
@@ -49,42 +93,95 @@ namespace Kakuro.Engine
         }
     }
 
+    /**
+     * <summary>Class that represents black graphic tile</summary>
+     */
     public class BlackGraphicTile : GraphicTile
     {
+        /**
+         * <summary>Constructor for BlackGraphicTile class</summary>
+         */
         public BlackGraphicTile() : base(TileTypes.Black) { }
 
+        /**
+         * <summary>Virtual method that draws BlackGraphicTile on the canvas</summary>
+         * <param name="graphics">Buffer for the graphics</param>
+         */
         public override void Draw(Graphics graphics)
         {
             if (Selected) DrawSelection(graphics);
         }
     }
 
-    public class HintGraphicTile : GraphicTile
+    /**
+     * <summary>Class that represents sum graphic tile</summary>
+     */
+    public class SumGraphicTile : GraphicTile
     {
+        /**
+         * <summary>Variable that represents vertical sum of the SumGraphicTile</summary>
+         */
         public int SumVertical { get; set; }
+
+        /**
+         * <summary>Variable that represents horizontal sum of the SumGraphicTile</summary>
+         */
         public int SumHorizontal { get; set; }
 
-        public bool HighlightVertical = false;
-        public bool HighlightHorizontal = false;
+        /**
+         * <summary>If <c>true</c>, then highlight vertical sum polygon</summary>
+         */
+        public bool HighlightVertical { get; set; } = false;
 
-        public bool HighlightVerticalSum = false;
-        public bool HighlightHorizontalSum = false;
+        /**
+         * <summary>If <c>true</c>, then highlight horizontal sum polygon</summary>
+         */
+        public bool HighlightHorizontal { get; set; } = false;
 
-        public bool GrayVerticalSum = false;
-        public bool GrayHorizontalSum = false;
+        /**
+         * <summary>If <c>true</c>, then highlight vertical sum text</summary>
+         */
+        public bool HighlightVerticalSum { get; set; } = false;
 
-        public HintGraphicTile() : base(TileTypes.Hint)
+        /**
+         * <summary>If <c>true</c>, then highlight horizontal sum text</summary>
+         */
+        public bool HighlightHorizontalSum { get; set; } = false;
+
+        /**
+         * <summary>If <c>true</c>, then gray-out vertical sum text</summary>
+         */
+        public bool GrayVerticalSum { get; set; } = false;
+
+        /**
+         * <summary>If <c>true</c>, then gray-out horizontal sum text</summary>
+         */
+        public bool GrayHorizontalSum { get; set; } = false;
+
+        /**
+         * <summary>Default constructor for SumGraphicTiles</summary>
+         */
+        public SumGraphicTile() : base(TileTypes.Hint)
         {
             SumVertical = 0;
             SumHorizontal = 0;
         }
 
-        public HintGraphicTile(int sumVertical, int sumHorizontal) : base(TileTypes.Hint)
+        /**
+         * <summary>Constructor that creates instance of SumGraphicTile with <paramref name="sumVertical"/> and <paramref name="sumHorizontal"/></summary>
+         * <param name="sumVertical">Vertical sum</param>
+         * <param name="sumHorizontal">Horizontal sum</param>
+         */
+        public SumGraphicTile(int sumVertical, int sumHorizontal) : base(TileTypes.Hint)
         {
             SumVertical = sumVertical;
             SumHorizontal = sumHorizontal;
         }
 
+        /**
+         * <summary>Method that draws SumGraphicTile on the canvas</summary>
+         * <param name="graphics">Buffer for the graphics</param>
+         */
         public override void Draw(Graphics graphics)
         {
             if (HighlightVertical || HighlightHorizontal)
@@ -122,18 +219,39 @@ namespace Kakuro.Engine
         }
     }
 
-    public class NumberGraphicTile : GraphicTile
+    /**
+     * <summary>Class that represents white graphic tile</summary>
+     */
+    public class WhiteGraphicTile : GraphicTile
     {
+        /**
+         * <summary>Variable that represents number drawn on tile</summary>
+         */
         public int DrawnNumber { get; set; }
+
+        /**
+         * <summary>If <c>true</c>, the highlight drawn number</summary>
+         */
         public bool Highlight { get; set; }
 
-        public NumberGraphicTile() : base(TileTypes.Number) { DrawnNumber = 0; }
+        /**
+         * <summary>Default constructor for WhiteGraphicTile</summary>
+         */
+        public WhiteGraphicTile() : base(TileTypes.Number) { DrawnNumber = 0; }
 
-        public NumberGraphicTile(int drawnNumber) : base(TileTypes.Number)
+        /**
+         * <summary>Constructor that creates instance of WhiteGraphicTile with <paramref name="drawnNumber"/></summary>
+         * <param name="drawnNumber">Number that gonna be drawn on tile</param>
+         */
+        public WhiteGraphicTile(int drawnNumber) : base(TileTypes.Number)
         {
             DrawnNumber = drawnNumber;
         }
 
+        /**
+         * <summary>Method that draws WhiteGraphicTile on the canvas</summary>
+         * <param name="graphics">Buffer for the graphics</param>
+         */
         public override void Draw(Graphics graphics)
         {
             graphics.FillRectangle(Brushes.White, new Rectangle(Position, Size));

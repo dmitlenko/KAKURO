@@ -1,4 +1,4 @@
-﻿using Kakuro.Engine;
+﻿using Kakuro.Engine.Cells;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -17,9 +17,6 @@ namespace Kakuro.Engine
         public Size Size { get; } = Size.Empty;
         public Point Selection { get; } = Point.Empty;
 
-        public bool Valid() => !(Size == Size.Empty || Selection == Point.Empty || Cells == null);
-
-        public GameSave() { }
         public GameSave(Cell[,] cells, DateTime time, Size size, Point selection)
         {
             this.Cells = cells;

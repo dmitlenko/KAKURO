@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kakuro.Engine.Cells;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -123,7 +124,7 @@ namespace Kakuro.Engine
 
             OffsetForType(x, y, xoff, yoff, TileTypes.Number, (tile) =>
             {
-                sum += (tile as NumberGraphicTile).DrawnNumber;
+                sum += (tile as WhiteGraphicTile).DrawnNumber;
                 return true;
             });
 
@@ -169,9 +170,9 @@ namespace Kakuro.Engine
                     if (GraphicTiles[i, j].Type == TileTypes.Black || GraphicTiles[i, j].Type == TileTypes.Empty)
                         cells[i, j] = new Cell();
                     else if (GraphicTiles[i, j].Type == TileTypes.Hint)
-                        cells[i, j] = new HintCell(((HintGraphicTile)GraphicTiles[i, j]).SumVertical, ((HintGraphicTile)GraphicTiles[i, j]).SumHorizontal);
+                        cells[i, j] = new HintCell(((SumGraphicTile)GraphicTiles[i, j]).SumVertical, ((SumGraphicTile)GraphicTiles[i, j]).SumHorizontal);
                     else
-                        cells[i, j] = new NumberCell(((NumberGraphicTile)GraphicTiles[i, j]).DrawnNumber);
+                        cells[i, j] = new NumberCell(((WhiteGraphicTile)GraphicTiles[i, j]).DrawnNumber);
 
             return cells;
         }
@@ -221,7 +222,7 @@ namespace Kakuro.Engine
             if (Enabled)
             {
                 if (GraphicTiles[Selected.Y, Selected.X].Type == TileTypes.Number)
-                    ((NumberGraphicTile)GraphicTiles[Selected.Y, Selected.X]).DrawnNumber = number;
+                    ((WhiteGraphicTile)GraphicTiles[Selected.Y, Selected.X]).DrawnNumber = number;
 
                 Update();
             }
@@ -255,7 +256,7 @@ namespace Kakuro.Engine
                             switch (GraphicTiles[i, j].Type)
                             {
                                 case "hint":
-                                    HintGraphicTile tile = GraphicTiles[i, j] as HintGraphicTile;
+                                    SumGraphicTile tile = GraphicTiles[i, j] as SumGraphicTile;
 
                                     tile.HighlightVertical = false;
                                     tile.HighlightHorizontal = false;
@@ -287,7 +288,7 @@ namespace Kakuro.Engine
                                     break;
 
                                 case "number":
-                                    NumberGraphicTile numberTile = GraphicTiles[i, j] as NumberGraphicTile;
+                                    WhiteGraphicTile numberTile = GraphicTiles[i, j] as WhiteGraphicTile;
 
                                     // Set to default
                                     // numberTile.Highlight = false;
@@ -311,8 +312,8 @@ namespace Kakuro.Engine
 
                         if (GraphicTiles[th.Y, th.X].Type == TileTypes.Hint && GraphicTiles[lh.Y, lh.X].Type == TileTypes.Hint && Selected != th && Selected != lh)
                         {
-                            ((HintGraphicTile)GraphicTiles[th.Y, th.X]).HighlightVertical = true;
-                            ((HintGraphicTile)GraphicTiles[lh.Y, lh.X]).HighlightHorizontal = true;
+                            ((SumGraphicTile)GraphicTiles[th.Y, th.X]).HighlightVertical = true;
+                            ((SumGraphicTile)GraphicTiles[lh.Y, lh.X]).HighlightHorizontal = true;
 
                             GraphicTiles[th.Y, th.X].Draw(g);
                             GraphicTiles[lh.Y, lh.X].Draw(g);

@@ -67,10 +67,14 @@ namespace Kakuro.Engine
 
         /**
          * <summary>Get element by its coords</summary>
-         * <param name="i">Board row</param>
-         * <param name="j">Board column</param>
+         * <param name="row">Board row</param>
+         * <param name="col">Board column</param>
          */
-        public Cell this[int i, int j] => Grid[i, j];
+        public Cell this[int row, int col]
+        {
+            get => Grid[row, col];
+            set => Grid[row, col] = value;
+        }
 
         /**
          * <summary>Give a hint of the square with row and column of the Kakuro</summary>

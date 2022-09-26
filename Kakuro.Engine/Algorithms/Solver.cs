@@ -13,7 +13,7 @@ namespace Kakuro.Engine.Algorithms
         private Kakuro k = null;
         private Dictionary<int, HashSet<int>> white_cell_values = null;
         private Dictionary<int, int[]> white_cell_info = null;
-        Dictionary<int, int[]> sum_cell_info = null;
+        public Dictionary<int, int[]> sum_cell_info = null;
 
         /**
          * <summary>Default static constructor for the Solver</summary>

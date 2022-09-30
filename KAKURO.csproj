@@ -28,7 +28,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kakuro.Engine\Kakuro.Engine.csproj" />
-    <ProjectReference Include="..\Kakuro.Renderer\Kakuro.Renderer.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">

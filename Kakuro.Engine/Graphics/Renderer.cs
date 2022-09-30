@@ -52,13 +52,13 @@ namespace Kakuro.Engine.Graphics
             PrepareCanvas();
         }
 
-        public Renderer(PictureBox canvas, int tilesX, int tilesY, Cell[,] cells)
+        public Renderer(PictureBox canvas, int tilesX, int tilesY, KakuroBoard board)
         {
             Canvas = canvas;
             Size = new Size(tilesX, tilesY);
             Enabled = true;
 
-            AssignCells(cells);
+            AssignBoard(board);
 
             PrepareCanvas();
             Update();
@@ -137,8 +137,10 @@ namespace Kakuro.Engine.Graphics
 
         public GraphicTile this[int x, int y] => GraphicTiles[y, x];
 
-        public void AssignCells(Cell[,] cells)
+        public void AssignBoard(KakuroBoard board)
         {
+            Cell[,] cells = board.Grid;
+
             Size = new Size(cells.GetLength(1), cells.GetLength(0));
             GraphicTile[,] tiles = new GraphicTile[Size.Height, Size.Width];
 
@@ -148,7 +150,7 @@ namespace Kakuro.Engine.Graphics
 
             for (int i = 0; i < cells.GetLength(0); i++)
                 for (int j = 0; j < cells.GetLength(1); j++)
-                    if (cells[i, j] is BlackCell || cells[i, j] is Cell)
+                    if (cells[i, j] is BlackCell)
                         tiles[i, j] = new BlackGraphicTile();
                     else if (cells[i, j] is SumCell)
                         tiles[i, j] = new SumGraphicTile((cells[i, j] as SumCell).ColSum, (cells[i, j] as SumCell).RowSum);

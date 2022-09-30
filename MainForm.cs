@@ -21,7 +21,7 @@ namespace Kakuro
         private DateTime CurrentTime = new DateTime();
         private bool Saved = false;
         private bool _paused = false;
-        private Renderer gameController;
+        private Renderer renderer;
         private Generator generator;
 
         private bool Paused
@@ -33,13 +33,13 @@ namespace Kakuro
                 if (value)
                 {
                     statusInPause.Visible = true;
-                    gameController.Enabled = false;
+                    renderer.Enabled = false;
                     pauseToolStripMenuItem.Enabled = pauseToolStripButton.Enabled = false;
                     resumeToolStripMenuItem.Enabled = resumeToolStripButton.Enabled = true;
                 } else
                 {
                     statusInPause.Visible = false;
-                    gameController.Enabled = true;
+                    renderer.Enabled = true;
                     pauseToolStripMenuItem.Enabled = pauseToolStripButton.Enabled = true;
                     resumeToolStripMenuItem.Enabled = resumeToolStripButton.Enabled = false;
                 }
@@ -63,15 +63,15 @@ namespace Kakuro
                 statusInPause.Visible = !statusInPause.Visible;
             }
 
-            gameController.Update();
+            renderer.Update();
         }
 
         private void LoadSettings()
         {
-            gameController.HighlightDuplicates = Properties.Settings.Default.HighlightDuplicates;
-            gameController.HighlightSelectionSums = Properties.Settings.Default.HighlightSelectionSums;
-            gameController.HighlightWrongSums = Properties.Settings.Default.HighlightWrongSums;
-            gameController.GrayCompleteSums = Properties.Settings.Default.GrayCompleteSums;
+            renderer.HighlightDuplicates = Properties.Settings.Default.HighlightDuplicates;
+            renderer.HighlightSelectionSums = Properties.Settings.Default.HighlightSelectionSums;
+            renderer.HighlightWrongSums = Properties.Settings.Default.HighlightWrongSums;
+            renderer.GrayCompleteSums = Properties.Settings.Default.GrayCompleteSums;
 
             statusTime.Visible = !Properties.Settings.Default.HideTimer;
         }
@@ -83,13 +83,18 @@ namespace Kakuro
 
             Paused = false;
 
-            generator.Generate(Properties.Settings.Default.BoardWidth - 2, Properties.Settings.Default.BoardHeight - 2, 1);
+            Task.Factory.StartNew(() =>
+            {
+                KakuroBoard board = generator.Generate(Properties.Settings.Default.BoardWidth, Properties.Settings.Default.BoardHeight, 1);
+                renderer.AssignBoard(board);
+            });
+            
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
             generator = new Generator();
-            gameController = new Renderer(canvas);
+            renderer = new Renderer(canvas);
 
             LoadSettings();
             CreateNewGame(true);
@@ -116,16 +121,16 @@ namespace Kakuro
             switch (e.KeyCode)
             {
                 case Keys.Up: // При натисканні на стрілку вгору здвинути координату вгору
-                    gameController.MoveSelectionUp();
+                    renderer.MoveSelectionUp();
                     break;
                 case Keys.Down: // При натисканні на стрілку вниз здвинути координату вниз
-                    gameController.MoveSelectionDown();
+                    renderer.MoveSelectionDown();
                     break;
                 case Keys.Left: // При натисканні на стрілку вліво здвинути координату вліво
-                    gameController.MoveSelectionLeft();
+                    renderer.MoveSelectionLeft();
                     break;
                 case Keys.Right: // При натисканні на стрілку вправо здвинути координату вправо
-                    gameController.MoveSelectionRight();
+                    renderer.MoveSelectionRight();
                     break;
                 case Keys.D1:
                 case Keys.D2:
@@ -136,12 +141,12 @@ namespace Kakuro
                 case Keys.D7:
                 case Keys.D8:
                 case Keys.D9:
-                    gameController.SetSelectedTileNumber(e.KeyValue - 48);
+                    renderer.SetSelectedTileNumber(e.KeyValue - 48);
                     Saved = false;
                     break;
                 case Keys.D0:
                 case Keys.Delete:
-                    gameController.SetSelectedTileNumber(0);
+                    renderer.SetSelectedTileNumber(0);
                     Saved = false;
                     break;
             }
@@ -201,19 +206,19 @@ namespace Kakuro
                 LastWindowState = WindowState;
                 if (WindowState == FormWindowState.Maximized || WindowState == FormWindowState.Normal)
                 {
-                    gameController.Update();
+                    renderer.Update();
                 }
             }
         }
 
         private void UpdateCanvasEvent(object sender, EventArgs e)
         {
-            gameController.Update();
+            renderer.Update();
         }
 
         private void MainForm_Paint(object sender, PaintEventArgs e)
         {
-            gameController.Update();
+            renderer.Update();
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -227,11 +232,11 @@ namespace Kakuro
                 {
                     GameSave save = (GameSave)Serealizer.Deserialize(openFileDialog.FileName);
 
-                    gameController.Size = save.Size;
-                    gameController.AssignCells(save.Cells);
-                    gameController.Selected = save.Selection;
-                    gameController.Enabled = true;
-                    gameController.Update();
+                    renderer.Size = save.Size;
+                    //renderer.AssignBoard(save.Cells);
+                    renderer.Selected = save.Selection;
+                    renderer.Enabled = true;
+                    renderer.Update();
 
                     CurrentTime = save.Time;
                     Saved = true;

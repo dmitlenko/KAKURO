@@ -7,7 +7,7 @@ namespace Kakuro.Engine.Algorithms
 {
     public class Generator
     {
-        private Kakuro k;
+        private KakuroBoard k;
         private List<int> candidate_cells;
         private Dictionary<int, bool[]> cell_validity;
         private Dictionary<int, int> cell_index;
@@ -32,9 +32,9 @@ namespace Kakuro.Engine.Algorithms
          * <param name="difficulty">Board difficulty</param>
          * <returns>Returns kakuro board</returns>
          */
-        public Kakuro Generate(int width, int height, int difficulty)
+        public KakuroBoard Generate(int width, int height, int difficulty)
         {
-            k = new Kakuro(width, height);
+            k = new KakuroBoard(width, height);
             k.Difficulty = difficulty;
             Solver solver = new Solver();
             int max_white_cells, max_kakuros = 169;
@@ -81,7 +81,7 @@ namespace Kakuro.Engine.Algorithms
             }
 
         exitloop:
-            Kakuro aux = k;
+            KakuroBoard aux = k;
             k = null;
             candidate_cells = null;
             cell_validity = null;
@@ -125,7 +125,7 @@ namespace Kakuro.Engine.Algorithms
                     if (i != 2 && i != k.Width - 2 && j != 2 && j != k.Height - 2)
                     {
                         candidate_cells.Add(cell);
-                        cell_index.Add(cell, array_pos);
+                        cell_index[cell] = array_pos;
                         array_pos++;
                     }
                     else
@@ -184,6 +184,7 @@ namespace Kakuro.Engine.Algorithms
 
         private bool ValidCell(int cell)
         {
+            if (!cell_validity.ContainsKey(cell)) return false;
             return cell_validity[cell][0] && cell_validity[cell][1];
         }
 
@@ -196,7 +197,7 @@ namespace Kakuro.Engine.Algorithms
 
         private void RemoveCandidateCell(int cell, int constraint)
         {
-            int index = cell_index[cell];
+            int index = cell_index.ContainsKey(cell) ? cell_index[cell] : -1;
             if (index != -1)
             {
                 int tmp = candidate_cells[index];
@@ -283,7 +284,7 @@ namespace Kakuro.Engine.Algorithms
             return count;
         }
 
-        private int NextWhiteCellPos(Kakuro k, int pos)
+        private int NextWhiteCellPos(KakuroBoard k, int pos)
         {
             int r = pos / k.Width;
             int c = pos % k.Width;
@@ -540,7 +541,8 @@ namespace Kakuro.Engine.Algorithms
                 k.Solution[r.ToString() + j] = int.MinValue;
                 HashSet<int> valid = new HashSet<int>(new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
 
-                valid = (HashSet<int>)valid.Except(repeated_row);
+                valid.RemoveWhere((value) => repeated_row.Contains(value));
+
                 if (!valid.Any()) return -1;
 
                 int aux_i = r;

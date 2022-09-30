@@ -8,7 +8,7 @@ using Kakuro.Engine.Cells;
 
 namespace Kakuro.Engine
 {
-    public class Kakuro
+    public class KakuroBoard
     {
         /**
         * <summary>Name of board</summary>
@@ -54,7 +54,7 @@ namespace Kakuro.Engine
          * <param name="width">Board width</param>
          * <param name="height">Board height</param>
          */
-        public Kakuro(int width, int height)
+        public KakuroBoard(int width, int height)
         {
             Name = null;
             Width = width;
@@ -72,7 +72,7 @@ namespace Kakuro.Engine
          */
         public Cell this[int row, int col]
         {
-            get => Grid[row, col];
+            get => Grid == null ? new BlackCell() : Grid[row, col];
             set => Grid[row, col] = value;
         }
 
@@ -122,7 +122,7 @@ namespace Kakuro.Engine
         */
         public void DelResult(int row, int col)
         {
-            Grid[col, row].Value = 0;
+            Grid[row, col].Value = 0;
         }
 
         /**

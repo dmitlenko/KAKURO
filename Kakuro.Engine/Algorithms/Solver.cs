@@ -10,7 +10,7 @@ namespace Kakuro.Engine.Algorithms
     public class Solver
     {
         private static Combos comb = null;
-        private Kakuro k = null;
+        private KakuroBoard k = null;
         private Dictionary<int, HashSet<int>> white_cell_values = null;
         private Dictionary<int, int[]> white_cell_info = null;
         public Dictionary<int, int[]> sum_cell_info = null;
@@ -25,7 +25,7 @@ namespace Kakuro.Engine.Algorithms
          * <param name="board">Kakuro board</param>
          * <returns>Returns <c>true</c> if board is valid</returns>
          */
-        public bool Validate(Kakuro board)
+        public bool Validate(KakuroBoard board)
         {
             k = board;
             bool[] solution = new bool[] { false, false };
@@ -150,7 +150,7 @@ namespace Kakuro.Engine.Algorithms
                 {
                     int sum_cell = r_ini * k.Width + c_ini;
                     white_cell_info[cell][1] = sum_cell;
-                    white_cell_values[cell] = (HashSet<int>) white_cell_values[cell].Except(comb.PossibleValues(sum_cell_info[sum_cell][1], k[r_ini, c_ini].ColSum));
+                    white_cell_values[cell].RemoveWhere(value => comb.PossibleValues(sum_cell_info[sum_cell][1], k[r_ini, c_ini].ColSum).Contains(value));
                 }
                 row += i;
                 col += j;
@@ -161,15 +161,15 @@ namespace Kakuro.Engine.Algorithms
 
         private int GetNextWhiteCellPos(int row, int col)
         {
-            int pos = row * k.Width + col;
-
-            while(++pos < k.Height * k.Width)
+            for(int i = row; i < k.Height; i++)
             {
-                row = pos / k.Width;
-                col = pos & k.Width;
-                if (k[row, col] is WhiteCell) break;
+                for(int j = col; j < k.Width; j++)
+                {
+                    if (k[i, j] is WhiteCell) return row * k.Width + col;
+                }
             }
-            return pos;
+
+            return 0;
         }
 
         private void SolveClues(int cell, ref List<int> cells_to_empty)

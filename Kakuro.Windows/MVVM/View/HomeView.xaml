@@ -12,15 +12,15 @@
     <UserControl.DataContext>
         <viewModel:HomeViewModel/>
     </UserControl.DataContext>
-    
-    <Grid>
+
+    <Grid Margin="20">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
         <Border Background="#FFD447"
-                Margin="40,40,20,40"
+                Margin="0,0,10,0"
                 CornerRadius="16">
 
             <TextBlock Text="Kakuro"
@@ -35,8 +35,7 @@
             </Border.Effect>
         </Border>
         
-        <Grid Grid.Column="1"
-                    Margin="20,40,40,40">
+        <Grid Grid.Column="1">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="2*"/>
@@ -44,6 +43,7 @@
             </Grid.RowDefinitions>
 
             <Border Background="#FFBFB7"
+                    Margin="10,0,0,0"
                     CornerRadius="16">
                 
                 <TextBlock Text="Рейтинг"

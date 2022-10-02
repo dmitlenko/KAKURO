@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Kakuro.Windows"
         xmlns:viewModel="clr-namespace:Kakuro.Windows.MVVM.ViewModel"
+        xmlns:view="clr-namespace:Kakuro.Windows.MVVM.View"
         mc:Ignorable="d"
         Title="Kakuro" Height="600" Width="900"
         ResizeMode="NoResize"
-        MinHeight="400" MinWidth="700"
         WindowStartupLocation="CenterScreen">
 
     <Window.DataContext>
@@ -31,7 +31,7 @@
                    HorizontalAlignment="Center"
                    FontSize="24"
                    FontFamily="/Fonts/#Bulletto Killa¬"
-                   Grid.Row="1"/>
+                   Grid.Row="2"/>
 
         <DockPanel Grid.Row="1" Grid.Column="1" Panel.ZIndex="2">
 

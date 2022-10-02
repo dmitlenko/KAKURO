@@ -45,13 +45,16 @@ namespace Kakuro.Windows.MVVM.ViewModel
         {
             LoginCommand = new RelayCommand(o =>
             {
-                MessageBox.Show(String.Format("{0}{1}", UserName, Password));
-
                 Authenticator aut = new Authenticator();
 
                 if (aut.Authorize(UserName, Password))
                 {
-                    MessageBox.Show("Authorized");
+                    Application.Current.Windows[0].Hide();
+                    new MainWindow().Show();
+                    Application.Current.Windows[0].Close();
+                } else
+                {
+                    MessageBox.Show("Невірні дані для входу", "Помилка!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             });
 

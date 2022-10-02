@@ -43,7 +43,7 @@
             </Grid.RowDefinitions>
 
             <Border Background="#FFBFB7"
-                    Margin="10,0,0,0"
+                    Margin="10,20,0,0"
                     CornerRadius="16">
                 
                 <TextBlock Text="Рейтинг"
@@ -65,7 +65,7 @@
                     HorizontalAlignment="Stretch"
                     Background="#D1462F"
                     Content="Грати"
-                    Margin="0,40,0,0"
+                    Margin="10,20,0,20"
                     Style="{StaticResource PlayButtonTheme}"
                     Command="{Binding PlayButtonClick}"/>
 

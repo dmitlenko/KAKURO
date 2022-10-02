@@ -3,7 +3,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 #pragma warning disable SYSLIB0011
 
-namespace Kakuro.Engine
+namespace Kakuro.Engine.Algorithms
 {
     public class Serealizer
     {

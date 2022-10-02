@@ -25,21 +25,15 @@
             <RowDefinition Height="60"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Kakuro"
-                   Foreground="White"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Center"
-                   FontSize="24"
-                   FontFamily="/Fonts/#Bulletto Killa¬"
-                   Grid.Row="2"/>
+        
 
         <DockPanel Grid.Row="1" Grid.Column="1" Panel.ZIndex="2">
 
             <RadioButton Content="Головна"
                          Foreground="White"
                          FontSize="16"
-                         Style="{StaticResource MenuButtonTheme}"
                          IsChecked="True"
+                         Style="{StaticResource MenuButtonTheme}"
                          Command="{Binding HomeViewCommand}"/>
 
             <RadioButton Content="Рейтинг"

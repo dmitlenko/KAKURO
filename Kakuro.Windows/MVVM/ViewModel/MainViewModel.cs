@@ -38,7 +38,7 @@ namespace Kakuro.Windows.MVVM.ViewModel
             SettingsVM = new SettingsViewModel();
             OtherVM = new OtherViewModel();
 
-            _currentView = HomeVM;
+            CurrentView = HomeVM;
 
             HomeViewCommand = new RelayCommand(o => CurrentView = HomeVM);
             RatingsViewCommand = new RelayCommand(o => CurrentView = RatingsVM);

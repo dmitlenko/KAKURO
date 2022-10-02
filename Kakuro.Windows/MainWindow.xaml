@@ -6,21 +6,23 @@
         xmlns:local="clr-namespace:Kakuro.Windows"
         xmlns:viewModel="clr-namespace:Kakuro.Windows.MVVM.ViewModel"
         mc:Ignorable="d"
-        Title="Kakuro" Height="600" Width="700"
-        MinHeight="400" MinWidth="600">
+        Title="Kakuro" Height="600" Width="900"
+        ResizeMode="NoResize"
+        MinHeight="400" MinWidth="700"
+        WindowStartupLocation="CenterScreen">
 
     <Window.DataContext>
         <viewModel:MainViewModel/>
     </Window.DataContext>
 
-    <Grid Background="#212121">
+    <Grid Background="#1C6E8C">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="160"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition />
             <RowDefinition Height="60"/>
-            <RowDefinition/>
         </Grid.RowDefinitions>
 
         <TextBlock Text="Kakuro"
@@ -28,12 +30,12 @@
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
                    FontSize="24"
-                   FontFamily="/Fonts/#Bulletto Killa¬"/>
+                   FontFamily="/Fonts/#Bulletto Killa¬"
+                   Grid.Row="1"/>
 
-        <StackPanel Grid.Row="1">
+        <DockPanel Grid.Row="1" Grid.Column="1" Panel.ZIndex="2">
 
             <RadioButton Content="Головна"
-                         Height="56"
                          Foreground="White"
                          FontSize="16"
                          Style="{StaticResource MenuButtonTheme}"
@@ -41,30 +43,37 @@
                          Command="{Binding HomeViewCommand}"/>
 
             <RadioButton Content="Рейтинг"
-                         Height="56"
                          Foreground="White"
                          FontSize="16"
                          Style="{StaticResource MenuButtonTheme}"
                          Command="{Binding RatingsViewCommand}"/>
 
-            <RadioButton Content="Налаштуання"
-                         Height="56"
+            <RadioButton Content="Налаштування"
                          Foreground="White"
                          FontSize="16"
-                         Style="{StaticResource MenuButtonTheme}"/>
+                         Style="{StaticResource MenuButtonTheme}"
+                         Command="{Binding SettingsViewCommand}"/>
 
             <RadioButton Content="..."
-                         Height="56"
                          Foreground="White"
                          FontSize="16"
-                         Style="{StaticResource MenuButtonTheme}"/>
+                         HorizontalAlignment="Right"
+                         Style="{StaticResource MenuButtonTheme}"
+                         Command="{Binding OtherViewCommand}"/>
 
-        </StackPanel>
+        </DockPanel>
 
-        <ContentControl 
-                        Grid.Column="1"
-                        Background="#181818"
-                        Content="{Binding CurrentView}" Grid.RowSpan="2"/>
+        <Border Grid.Row="0" 
+                Grid.ColumnSpan="2"
+                Panel.ZIndex="1">
+            <ContentControl
+                        Content="{Binding CurrentView}"/>
+
+            <Border.Effect>
+                <DropShadowEffect Direction="270" BlurRadius="0" Color="#605856" ShadowDepth="2"/>
+            </Border.Effect>
+        </Border>
+        
 
     </Grid>
 </Window>

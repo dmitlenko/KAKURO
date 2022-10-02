@@ -11,9 +11,13 @@ namespace Kakuro.Windows.MVVM.ViewModel
     {
         public RelayCommand HomeViewCommand { get; set; }
         public RelayCommand RatingsViewCommand { get; set; }
+        public RelayCommand SettingsViewCommand { get; set; }
+        public RelayCommand OtherViewCommand { get; set; }
 
         public HomeViewModel HomeVM { get; set; }
         public RatingsViewModel RatingsVM { get; set; }
+        public SettingsViewModel SettingsVM { get; set; }
+        public OtherViewModel OtherVM { get; set; }
 
         private object _currentView;
 
@@ -31,11 +35,15 @@ namespace Kakuro.Windows.MVVM.ViewModel
         {
             HomeVM = new HomeViewModel();
             RatingsVM = new RatingsViewModel();
+            SettingsVM = new SettingsViewModel();
+            OtherVM = new OtherViewModel();
 
-            CurrentView = HomeVM;
+            _currentView = HomeVM;
 
             HomeViewCommand = new RelayCommand(o => CurrentView = HomeVM);
             RatingsViewCommand = new RelayCommand(o => CurrentView = RatingsVM);
+            SettingsViewCommand = new RelayCommand(o => CurrentView = SettingsVM);
+            OtherViewCommand = new RelayCommand(o => CurrentView = OtherVM);
         }
     }
 }

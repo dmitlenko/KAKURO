@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:Kakuro.Windows"
              xmlns:viewModel="clr-namespace:Kakuro.Windows.MVVM.ViewModel"
              xmlns:view="clr-namespace:Kakuro.Windows.MVVM.View"
-             StartupUri="MainWindow.xaml">
+             StartupUri="AuthWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

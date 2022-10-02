@@ -6,7 +6,7 @@
         xmlns:viewModel="clr-namespace:Kakuro.Windows.MVVM.ViewModel"
         xmlns:local="clr-namespace:Kakuro.Windows"
         mc:Ignorable="d"
-        Title="Kakuro" Height="480" Width="400"
+        Title="Kakuro" Height="440" Width="400"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen">
 

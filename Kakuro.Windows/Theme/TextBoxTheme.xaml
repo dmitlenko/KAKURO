@@ -4,6 +4,9 @@
            TargetType="{x:Type TextBox}"
            x:Key="TextBoxTheme">
         <Style.Setters>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontFamily" Value="Cascadia Mono"/>
+
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type TextBox}">

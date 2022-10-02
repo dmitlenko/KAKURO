@@ -17,15 +17,11 @@
         <TextBox Tag="Ім'я користувача" 
                  Text="{Binding UserName, Mode=TwoWay}"
                  Style="{StaticResource TextBoxTheme}"
-                 FontSize="16"
-                 FontFamily="Cascadia Mono"
                  Margin="0,0,0,10"/>
 
         <PasswordBox Tag="Пароль"
                  PasswordChanged="PasswordBox_PasswordChanged"
                  Style="{StaticResource PasswordBoxTheme}"
-                 FontSize="16"
-                 FontFamily="Cascadia Mono"
                  Margin="0,0,0,10"/>
         
         <Button Content="Увійти" 

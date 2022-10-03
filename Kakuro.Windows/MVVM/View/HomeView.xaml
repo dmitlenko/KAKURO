@@ -13,14 +13,14 @@
         <viewModel:HomeViewModel/>
     </UserControl.DataContext>
 
-    <Grid Margin="20">
+    <Grid Margin="60">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
-            <ColumnDefinition/>
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
         <Border Background="#FFD447"
-                Margin="0,0,10,0"
+                Margin="0,0,30,0"
                 CornerRadius="16">
 
             <TextBlock Text="Kakuro"
@@ -35,7 +35,7 @@
             </Border.Effect>
         </Border>
         
-        <Grid Grid.Column="1">
+        <Grid Grid.Column="1" Margin="30,0,0,0">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="2*"/>
@@ -43,7 +43,7 @@
             </Grid.RowDefinitions>
 
             <Border Background="#FFBFB7"
-                    Margin="10,20,0,0"
+                    Margin="0,0,0,30"
                     CornerRadius="16">
                 
                 <TextBlock Text="Рейтинг"
@@ -65,7 +65,7 @@
                     HorizontalAlignment="Stretch"
                     Background="#D1462F"
                     Content="Грати"
-                    Margin="10,20,0,20"
+                    Margin="0,30,0,00"
                     Style="{StaticResource PlayButtonTheme}"
                     Command="{Binding PlayButtonClick}"/>
 

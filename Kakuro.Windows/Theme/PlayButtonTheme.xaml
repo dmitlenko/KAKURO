@@ -9,7 +9,8 @@
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border Background="{TemplateBinding Background}"
                                 CornerRadius="16"
-                                Cursor="Hand">
+                                Cursor="Hand"
+                                x:Name="border">
 
                             <TextBlock Grid.Row="1"
                                         VerticalAlignment="Center"
@@ -21,10 +22,33 @@
                                         Text="{TemplateBinding Property=Content}"/>
 
                             <Border.Effect>
-                                <DropShadowEffect Direction="270" BlurRadius="0" Color="#605856" ShadowDepth="2"/>
+                                <DropShadowEffect x:Name="shadow" Direction="270" BlurRadius="0" Color="#605856" ShadowDepth="2"/>
                             </Border.Effect>
                         </Border>
 
+                        <ControlTemplate.Resources>
+                            <Storyboard x:Key="animation">
+                                <DoubleAnimation Storyboard.TargetProperty="ShadowDepth" 
+                                                 Storyboard.TargetName="shadow"
+                                                 Duration="0:0:0.15" 
+                                                 From="2" 
+                                                 To="0" 
+                                                 AutoReverse="True"/>
+                                
+                                <ThicknessAnimation Storyboard.TargetProperty="Margin" 
+                                                 Storyboard.TargetName="border"
+                                                 Duration="0:0:0.15" 
+                                                 From="0" 
+                                                 To="0,2,0,0" 
+                                                 AutoReverse="True"/>
+                            </Storyboard>
+                        </ControlTemplate.Resources>
+
+                        <ControlTemplate.Triggers>
+                            <EventTrigger RoutedEvent="Click">
+                                <BeginStoryboard Storyboard="{StaticResource animation}"/>
+                            </EventTrigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>

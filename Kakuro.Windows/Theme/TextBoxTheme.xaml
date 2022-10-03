@@ -13,7 +13,8 @@
                         <Border VerticalAlignment="Stretch"
                                 HorizontalAlignment="Stretch"
                                 Background="{TemplateBinding Background}"
-                                CornerRadius="8">
+                                CornerRadius="8"
+                                x:Name="border">
                             <Grid>
                                 <ScrollViewer x:Name="PART_ContentHost" 
                                               Background="Transparent"
@@ -21,8 +22,10 @@
                                               HorizontalAlignment="Stretch"
                                               BorderThickness="0"
                                               Margin="20"
-                                              Panel.ZIndex="2"/>
-                                
+                                              Panel.ZIndex="2">
+
+                                </ScrollViewer>
+
                                 <TextBox Text="{TemplateBinding Text}"
                                          x:Name="TextBox"
                                          Visibility="Hidden"/>
@@ -51,9 +54,11 @@
                             </Grid>
 
                             <Border.Effect>
-                                <DropShadowEffect Direction="270" BlurRadius="0" Color="#605856" ShadowDepth="2"/>
+                                <DropShadowEffect x:Name="dropshadow" Direction="270" BlurRadius="0" Color="#605856" ShadowDepth="2"/>
                             </Border.Effect>
                         </Border>
+
+                        
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>

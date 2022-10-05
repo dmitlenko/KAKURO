@@ -1,4 +1,5 @@
 ﻿using Kakuro.Engine.Cells;
+using Kakuro.Engine.Core;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

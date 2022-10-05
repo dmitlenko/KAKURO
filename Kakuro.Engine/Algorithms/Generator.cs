@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Kakuro.Engine.Cells;
+using Kakuro.Engine.Core;
 
 namespace Kakuro.Engine.Algorithms
 {

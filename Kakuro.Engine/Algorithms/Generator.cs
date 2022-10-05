@@ -175,6 +175,12 @@ namespace Kakuro.Engine.Algorithms
             int c = cell % k.Width;
             if (c + 2 < k.Width && ValidCell(cell + 2)) RemoveCandidateCell(cell + 2, 1);
             if (c - 2 >= 1 && ValidCell(cell - 2)) RemoveCandidateCell(cell + 2, 1);
+            if (r + 2 < k.Height && ValidCell(cell + 2 * k.Width)) RemoveCandidateCell(cell + 2 * k.Width, 1);
+            if (r - 2 >= 1 && ValidCell(cell - 2 * k.Width)) RemoveCandidateCell(cell - 2 * k.Width, 1);
+            if (c + 1 < k.Width && InvalidPatternCell(cell + 1) && CheckPattern(cell + 1)) AddCandidateCell(cell + 1);
+            if (c - 1 >= 1 && InvalidPatternCell(cell - 1) && CheckPattern(cell - 1)) AddCandidateCell(cell - 1);
+            if (r + 1 < k.Height && InvalidPatternCell(cell + k.Width) && CheckPattern(cell + k.Width)) AddCandidateCell(cell + k.Width);
+            if (r - 1 >= 1 && InvalidPatternCell(cell - k.Width) && CheckPattern(cell - k.Width)) AddCandidateCell(cell - k.Width);
         }
 
         private bool InvalidPatternCell(int cell)

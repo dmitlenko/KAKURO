@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using Kakuro.Engine.Cells;
 
-namespace Kakuro.Engine
+namespace Kakuro.Engine.Core
 {
     public class KakuroBoard
     {
@@ -84,10 +84,11 @@ namespace Kakuro.Engine
         */
         public int GetHelp(int row, int col)
         {
-            if(row >= 0 && row < Width && col >= 0 && col < Height && Grid[row, col] is WhiteCell)
+            if (row >= 0 && row < Width && col >= 0 && col < Height && Grid[row, col] is WhiteCell)
             {
-                return Solution[String.Format("{0}{1}", row, col)];
-            } else
+                return Solution[string.Format("{0}{1}", row, col)];
+            }
+            else
             {
                 return -1;
             }
@@ -136,7 +137,7 @@ namespace Kakuro.Engine
         {
             int nullref = 0;
 
-            if(row >= Width || col >= Height || row < 0 || col < 0 || !(Grid[row, col] is WhiteCell))
+            if (row >= Width || col >= Height || row < 0 || col < 0 || !(Grid[row, col] is WhiteCell))
                 throw new KakuroException("Incorect row or column");
 
             if (value < 0 || value > 9)
@@ -146,7 +147,7 @@ namespace Kakuro.Engine
             int sum_up, sum_down, sum_act, sum_full = 0;
 
             sum_up = GetSum(row, col, value, true, -1, ref full_up, ref sum_full);
-            if(sum_up == -1)
+            if (sum_up == -1)
                 throw new KakuroException("Column repeat value");
 
             sum_down = GetSum(row, col, value, false, 1, ref full_down, ref nullref);
@@ -160,7 +161,7 @@ namespace Kakuro.Engine
             if (sum_act == sum_full && !(full_up && full_down))
                 throw new KakuroException("Column incomplete with equal sum");
 
-            if ((full_up && full_down) && sum_act < sum_full)
+            if (full_up && full_down && sum_act < sum_full)
                 throw new KakuroException("Column sum fell short");
 
             return true;
@@ -190,7 +191,7 @@ namespace Kakuro.Engine
 
             row += i;
             col += j;
-            while(row >= 0 && col >= 0 && row < Height && col < Width && Grid[row,col] is WhiteCell)
+            while (row >= 0 && col >= 0 && row < Height && col < Width && Grid[row, col] is WhiteCell)
             {
                 if (Grid[row, col].IsUnassigned) is_full = false;
                 else
@@ -203,7 +204,7 @@ namespace Kakuro.Engine
                 col += j;
             }
 
-            if(sign == -1)
+            if (sign == -1)
             {
                 if (isrow) sum_full = Grid[row, col].RowSum;
                 else sum_full = Grid[row, col].ColSum;

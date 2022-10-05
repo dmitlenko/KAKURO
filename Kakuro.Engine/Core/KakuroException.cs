@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kakuro.Engine
+namespace Kakuro.Engine.Core
 {
     /**
      * <summary>Class for kakuro exceptions</summary>
      */
-    public class KakuroException: Exception
+    public class KakuroException : Exception
     {
         /**
          * <summary>Error message</summary>
@@ -19,13 +19,14 @@ namespace Kakuro.Engine
         /**
          * <summary>Default constructor for KakuroException</summary>
          */
-        public KakuroException(): base() { }
+        public KakuroException() : base() { }
 
         /**
          * <summary>Constructor for KakuroException</summary>
          * <param name="message">Error message</param>
          */
-        public KakuroException(string message): base(message) { 
+        public KakuroException(string message) : base(message)
+        {
             ErrorMessage = message;
         }
     }

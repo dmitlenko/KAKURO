@@ -18,7 +18,7 @@ namespace Kakuro.Engine.Authorization
         /**
          * <summary>Users data</summary>
          */
-        private UserData userData;
+        private UserDataFile userData;
 
         /**
          * <summary>Current authenticated user</summary>
@@ -30,7 +30,7 @@ namespace Kakuro.Engine.Authorization
          */
         public Authenticator()
         {
-            userData = new UserData(FileName);
+            userData = new UserDataFile(FileName);
             userData.Read();
         }
 

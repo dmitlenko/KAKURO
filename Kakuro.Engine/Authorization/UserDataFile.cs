@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Kakuro.Engine.Authorization
 {
-    public class UserData
+    public class UserDataFile
     {
         /**
          * <summary>Array of users</summary>
@@ -35,7 +35,7 @@ namespace Kakuro.Engine.Authorization
          * <summary>Constructor for UserDataFile</summary>
          * <param name="filename">Database filename</param>
          */
-        public UserData(string filename)
+        public UserDataFile(string filename)
         {
             FileName = filename;
         }
@@ -43,7 +43,7 @@ namespace Kakuro.Engine.Authorization
         /**
          * <summary>Constructor for UserDataFile</summary>
          */
-        public UserData() { }
+        public UserDataFile() { }
 
         /**
          * <summary>Read users data from file</summary>

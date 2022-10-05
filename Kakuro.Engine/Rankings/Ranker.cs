@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Kakuro.Engine.Core;
 
 namespace Kakuro.Engine.Rankings
 {
@@ -11,7 +12,7 @@ namespace Kakuro.Engine.Rankings
         /// <summary>
         /// Database file
         /// </summary>
-        private RankDataFile rankData = new RankDataFile();
+        private SerealizedList<UserRank> rankData = new SerealizedList<UserRank>("ranks.hdb");
 
         /// <summary>
         /// Ranks list
@@ -24,7 +25,7 @@ namespace Kakuro.Engine.Rankings
         public Ranker()
         {
             rankData.Load();
-            Ranks = rankData.Ranks;
+            Ranks = rankData.GetAll(a => true);
             Sort();
         }
 

@@ -18,7 +18,7 @@ namespace Kakuro.Engine.Authorization
         /**
          * <summary>Users data</summary>
          */
-        private UserDataFile userData;
+        private SerealizedUsersList userData;
 
         /**
          * <summary>Current authenticated user</summary>
@@ -30,8 +30,8 @@ namespace Kakuro.Engine.Authorization
          */
         public Authenticator()
         {
-            userData = new UserDataFile(FileName);
-            userData.Read();
+            userData = new SerealizedUsersList(FileName);
+            userData.Load();
         }
 
         /**
@@ -60,7 +60,7 @@ namespace Kakuro.Engine.Authorization
          */
         public bool Register(string displayName, string username, string password)
         {
-            User u = new User(displayName, username, Hasher.Hash(password), userData.NewUID);
+            User u = new User(displayName, username, Hasher.Hash(password), userData.Count);
             return userData.Add(u, true);
         }
 

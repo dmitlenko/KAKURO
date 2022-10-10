@@ -80,7 +80,8 @@ namespace Kakuro.Engine.Algorithms
         public HashSet<int> PossibleValues(int cell, int sum)
         {
             HashSet<int> possible_values = new HashSet<int>(new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
-            HashSet<int> unused = UnusedValues.ContainsKey(cell.ToString() + sum) ? UnusedValues[cell.ToString() + sum] : new HashSet<int>();
+            HashSet<int> unused = UnusedValues.ContainsKey(cell.ToString() + sum) ? UnusedValues[cell.ToString() + sum] : null;
+
             if(unused != null) possible_values.RemoveWhere((value) => unused.Contains(value));
             return possible_values;
         }

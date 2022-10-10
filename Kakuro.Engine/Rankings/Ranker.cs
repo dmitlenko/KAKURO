@@ -7,7 +7,7 @@ using Kakuro.Engine.Core;
 
 namespace Kakuro.Engine.Rankings
 {
-    class Ranker
+    public class Ranker
     {
         /// <summary>
         /// Database file
@@ -15,17 +15,11 @@ namespace Kakuro.Engine.Rankings
         private SerealizedList<UserRank> rankData = new SerealizedList<UserRank>("ranks.hdb");
 
         /// <summary>
-        /// Ranks list
-        /// </summary>
-        private List<UserRank> Ranks { get; set; }
-
-        /// <summary>
         /// Default consatructor for Ranker
         /// </summary>
         public Ranker()
         {
             rankData.Load();
-            Ranks = rankData.GetAll(a => true);
             Sort();
         }
 
@@ -35,7 +29,7 @@ namespace Kakuro.Engine.Rankings
         /// <param name="ascending">Sort ascending</param>
         public void Sort(bool ascending = false)
         {
-            Ranks.Sort((a, b) =>
+            rankData.Sort((a, b) =>
             {
                 return ascending ? 
                     a.TotalSeconds().CompareTo(b.TotalSeconds()):
@@ -50,7 +44,7 @@ namespace Kakuro.Engine.Rankings
         /// <returns>UserRank</returns>
         public UserRank this[int place]
         {
-            get => Ranks[place];
+            get => rankData.Get(place);
         }
 
         /// <summary>
@@ -59,7 +53,7 @@ namespace Kakuro.Engine.Rankings
         /// <returns>UserRank</returns>
         public List<UserRank> Top()
         {
-            return Ranks;
+            return rankData.GetAll(a => true);
         }
 
         /// <summary>
@@ -72,9 +66,19 @@ namespace Kakuro.Engine.Rankings
             List<UserRank> top = new List<UserRank>();
 
             for (int i = 0; i < x; i++)
-                top.Add(Ranks[i]);
+                top.Add(rankData.Get(i));
 
             return top;
+        }
+
+        /// <summary>
+        /// Add new rank to list
+        /// </summary>
+        /// <param name="rank">User rank</param>
+        /// <param name="save">Save to file?</param>
+        public void Add(UserRank rank, bool save = false)
+        { 
+            rankData.Add(rank, save);
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kakuro.Engine.Rankings
 {
-    class UserRank
+    public class UserRank
     {
         /// <summary>
         /// Unique user ID

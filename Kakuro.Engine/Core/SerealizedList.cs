@@ -12,7 +12,7 @@ namespace Kakuro.Engine.Core
         /// <summary>
         /// List of elements
         /// </summary>
-        private List<type> values = null;
+        private List<type> values = new List<type>();
 
         /// <summary>
         /// File name
@@ -64,22 +64,22 @@ namespace Kakuro.Engine.Core
         /// <returns>True if succed</returns>
         public bool Load()
         {
-            if (!File.Exists(FileName))
-            {
-                values = new List<type>();
-                return true;
-            }
-            else
+            if (File.Exists(FileName))
             {
                 try
                 {
-                    values = (List<type>)Serealizer.Deserialize(FileName);
+                    var list = (List<type>)Serealizer.Deserialize(FileName);
+                    values = list == null ? values : list;
                     return true;
                 }
                 catch (Exception)
                 {
                     return false;
                 }
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -149,6 +149,15 @@ namespace Kakuro.Engine.Core
         public List<type> GetAll(Predicate<type> predicate)
         {
             return values.FindAll(predicate);
+        }
+
+        /// <summary>
+        /// Sort list
+        /// </summary>
+        /// <param name="comparison">Comparison</param>
+        public void Sort(Comparison<type> comparison)
+        {
+            if (values != null) values.Sort(comparison);
         }
     }
 }

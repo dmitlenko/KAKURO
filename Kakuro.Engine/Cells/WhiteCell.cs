@@ -28,5 +28,14 @@ namespace Kakuro.Engine.Cells
         {
             Value = 0;
         }
+
+        /// <summary>
+        /// Constructor for WhiteCell class
+        /// </summary>
+        /// <param name="value">Value of the white cell</param>
+        public WhiteCell(int value)
+        {
+            Value = value;
+        }
     }
 }

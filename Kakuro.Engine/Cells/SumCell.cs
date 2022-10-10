@@ -14,12 +14,12 @@ namespace Kakuro.Engine.Cells
         /**
          * <summary>SumCell's row sum</summary> 
          */
-        public new int RowSum { get; set; }
+        public int RowSum { get; set; }
 
         /**
          * <summary>SumCell's column sum</summary> 
          */
-        public new int ColSum { get; set; }
+        public int ColSum { get; set; }
 
         /**
          * <summary>Checks if SumCell has row sum</summary> 
@@ -37,6 +37,17 @@ namespace Kakuro.Engine.Cells
         public SumCell()
         {
             RowSum = ColSum = -1;
+        }
+
+        /// <summary>
+        /// Constructor for SumCell class
+        /// </summary>
+        /// <param name="rowSum">Row sum</param>
+        /// <param name="colSum">Column sum</param>
+        public SumCell(int rowSum, int colSum)
+        {
+            RowSum = rowSum;
+            ColSum = colSum;
         }
     }
 }

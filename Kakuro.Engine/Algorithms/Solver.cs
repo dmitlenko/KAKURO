@@ -201,7 +201,7 @@ namespace Kakuro.Engine.Algorithms
                 if ((k.Grid[i, j] as WhiteCell).IsUnassigned)
                 {
                     HashSet<int> values = white_cell_values[cell];
-                    Console.WriteLine("{0}, {1}", cell, values.Count);
+                    //Console.WriteLine("{0}, {1}", cell, values.Count);
 
                     if (!values.Any()) throw new KakuroException("2 Kakuro without solution");
                     else if (values.Count == 1)

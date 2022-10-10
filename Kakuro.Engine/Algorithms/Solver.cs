@@ -2,6 +2,7 @@
 using Kakuro.Engine.Core;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,14 +47,16 @@ namespace Kakuro.Engine.Algorithms
             int cell = GetNextWhiteCellPos(1, 0);
             List<int> cells_to_empty = new List<int>();
 
-            SolveClues(cell, ref cells_to_empty);
+            SolveClues(ref cell, ref cells_to_empty);
             SolveGrid(cell, ref solution);
-            FreeMemory();
+            //FreeMemory();
 
-            if (!solution[0]) throw new KakuroException("Kakuro without solution");
+            if (!solution[0]) throw new KakuroException("1 Kakuro without solution");
             if (!solution[1]) throw new KakuroException("Kakuro with more than 1 solution");
+
             for (int i = 0; i < cells_to_empty.Count; i++)
-                k[cells_to_empty[i] / k.Width, cells_to_empty[i] % k.Width].Value = 0;
+                k.Grid[cells_to_empty[i] / k.Width, cells_to_empty[i] % k.Width].Value = 0;
+
             return true;
         }
 
@@ -71,11 +74,12 @@ namespace Kakuro.Engine.Algorithms
             {
                 for(int j = 0; j < k.Width; j++)
                 {
-                    if (k[i,j] is SumCell)
+                    if (k.Grid[i,j] is SumCell)
                     {
                         sum_cell_info[i * k.Width + j] = new[] { 0, 0, 0, 0 };
-                        if (k[i, j].HasColSum) CheckSumStride(i, j, 1, 0, k[i, j].ColSum);
-                        if (k[i, j].HasRowSum) CheckSumStride(i, j, 0, 1, k[i, j].RowSum);
+
+                        if ((k.Grid[i, j] as SumCell).HasColSum) CheckSumStride(i, j, 1, 0, (k.Grid[i, j] as SumCell).ColSum);
+                        if ((k.Grid[i, j] as SumCell).HasRowSum) j += CheckSumStride(i, j, 0, 1, (k.Grid[i, j] as SumCell).RowSum);
                     }
                 }
             }
@@ -83,12 +87,14 @@ namespace Kakuro.Engine.Algorithms
 
         private int CheckSumStride(int row, int col, int i, int j, int sum)
         {
-            (int r_ini, int c_ini) = (row, col);
+            int r_ini = row;
+            int c_ini = col;
             int num_cells = 0;
 
             row += i;
             col += j;
-            while (row < k.Height && col < k.Width && k[row, col].GetType() == typeof(WhiteCell))
+
+            while (row < k.Height && col < k.Width && k.Grid[row, col] is WhiteCell)
             {
                 num_cells++;
                 row += i;
@@ -101,7 +107,7 @@ namespace Kakuro.Engine.Algorithms
                 throw new KakuroException("Kakuro with impossible sum in strides");
             }
 
-            sum_cell_info[r_ini * k.Height + c_ini][i] = num_cells;
+            sum_cell_info[r_ini * k.Width + c_ini][i] = num_cells;
             return num_cells;
         }
 
@@ -109,21 +115,22 @@ namespace Kakuro.Engine.Algorithms
         {
             int r, c;
 
-            for(int i = 0; i < max_i; i++)
+            for (int i = 0; i < max_i; i++)
             {
-                for(int j = 0; j < max_j; j++)
+                for (int j = 0; j < max_j; j++)
                 {
                     if (row)
                     {
                         r = i;
                         c = j;
-                    } else
+                    }
+                    else
                     {
                         r = j;
                         c = i;
                     }
 
-                    if (k[r,c] is SumCell)
+                    if (k.Grid[r, c] is SumCell)
                     {
                         if (row) j = InitStrideInfo(r, c, max_i, max_j, 0, 1);
                         else j = InitStrideInfo(r, c, max_j, max_i, 1, 0);
@@ -132,48 +139,50 @@ namespace Kakuro.Engine.Algorithms
             }
         }
 
-        private int InitStrideInfo(int row, int col, int max_r, int max_c, int i, int j)
+        private int InitStrideInfo(int r, int c, int max_r, int max_c, int i, int j)
         {
-            int r_ini = row;
-            int c_ini = col;
+            int r_ini = r;
+            int c_ini = c;
 
-            row += i;
-            col += j;
+            r += i;
+            c += j;
+            while (r < max_r && c < max_c && k.Grid[r,c] is WhiteCell) {
+                int cell = r * k.Width + c;
 
-            while(row < max_r && col < max_c && k[row,col] is WhiteCell)
-            {
-                int cell = row * k.Width + col;
-                if(i == 0)
+                if (i == 0)
                 {
-                    white_cell_info[cell] = new[] { r_ini * k.Width + c_ini, 0, GetNextWhiteCellPos(row, col) };
-                    white_cell_values[cell] = comb.PossibleValues(sum_cell_info[r_ini * k.Width + c_ini][0], k[r_ini, c_ini].RowSum);
-                } else
+                    white_cell_info.Add(cell, new int[] { r_ini * k.Width + c_ini, 0, GetNextWhiteCellPos(r, c) });
+                    white_cell_values.Add(cell, comb.PossibleValues(sum_cell_info[r_ini * k.Width + c_ini][0], (k.Grid[r_ini,c_ini] as SumCell).RowSum));
+                }
+                else
                 {
                     int sum_cell = r_ini * k.Width + c_ini;
                     white_cell_info[cell][1] = sum_cell;
-                    white_cell_values[cell].RemoveWhere(value => comb.PossibleValues(sum_cell_info[sum_cell][1], k[r_ini, c_ini].ColSum).Contains(value));
+                    white_cell_values[cell].RemoveWhere(value => !comb.PossibleValues(sum_cell_info[sum_cell][1], (k.Grid[r_ini, c_ini] as SumCell).ColSum).Contains(value)); 
                 }
-                row += i;
-                col += j;
+                r += i;
+                c += j;
             }
-            if (i == 0) return --col;
-            return --row;
+            if (i == 0) return --c;
+            return --r;
         }
 
         private int GetNextWhiteCellPos(int row, int col)
         {
-            for(int i = row; i < k.Height; i++)
+            int pos = row * k.Width + col;
+
+            while(++pos < k.Width * k.Height)
             {
-                for(int j = col; j < k.Width; j++)
-                {
-                    if (k[i, j] is WhiteCell) return row * k.Width + col;
-                }
+                row = pos / k.Width;
+                col = pos % k.Width;
+
+                if (k.Grid[row, col] is WhiteCell) break;
             }
 
-            return 0;
+            return pos;
         }
 
-        private void SolveClues(int cell, ref List<int> cells_to_empty)
+        private void SolveClues(ref int cell, ref List<int> cells_to_empty)
         {
             int bound = k.Width * k.Height;
 
@@ -182,19 +191,24 @@ namespace Kakuro.Engine.Algorithms
                 int i = cell / k.Width;
                 int j = cell % k.Width;
 
-                if (k[i, j].IsUnassigned)
+                if ((k.Grid[i, j] as WhiteCell).IsUnassigned)
                 {
                     HashSet<int> values = white_cell_values[cell];
-                    if (!values.Any()) throw new KakuroException("Kakuro without solution");
+
+                    if (!values.Any()) throw new KakuroException("2 Kakuro without solution");
                     else if (values.Count == 1)
                     {
-                        HashSet<int>.Enumerator e = values.GetEnumerator(); e.MoveNext();
-                        int value = e.Current;
-                        k[i, j].Value = value;
+                        //HashSet<int>.Enumerator e = values.GetEnumerator(); e.MoveNext();
+                        int value = values.Single();
+
+                        k.Grid[i, j].Value = value;
                         cells_to_empty.Add(cell);
-                        sum_cell_info[white_cell_info[cell][0]][2] += value;
-                        sum_cell_info[white_cell_info[cell][1]][3] += value;
+
+                        sum_cell_info[ white_cell_info[cell][0] ][2] += value;
+                        sum_cell_info[ white_cell_info[cell][1] ][3] += value;
+
                         k.Solution[i.ToString() + j] = value;
+
                         values.Remove(value);
                         cell = UpdateStriders(cell, value);
                     }
@@ -206,15 +220,15 @@ namespace Kakuro.Engine.Algorithms
 
         private int UpdateStriders(int cell, int value)
         {
-            int next_cell_row, next_cell_col;
+            int next_cell_row, next_cell_column;
 
             next_cell_row = UpdateStridersValues(cell - 1, value, 0, -1);
-            next_cell_col = UpdateStridersValues(cell - k.Width, value, -1, 0);
+            next_cell_column = UpdateStridersValues(cell - k.Width, value, -1, 0);
 
             UpdateStridersValues(cell + 1, value, 0, 1);
             UpdateStridersValues(cell + k.Width, value, 1, 0);
 
-            if (next_cell_col != -1) return next_cell_col;
+            if (next_cell_column != -1) return next_cell_column;
             else if (next_cell_row != -1) return next_cell_row;
             else return white_cell_info[cell][2];
         }
@@ -225,16 +239,19 @@ namespace Kakuro.Engine.Algorithms
             int i = cell / k.Width;
             int j = cell % k.Width;
 
-            while (i >= 1 && j >= 1 && i < k.Height && j < k.Width && k[i, j] is WhiteCell)
+            while (i >= 1 && j >= 1 && i < k.Height && j < k.Width && k.Grid[i, j] is WhiteCell)
             {
                 cell = i * k.Width + j;
-                if (k[i, j].IsUnassigned)
+
+                if ((k.Grid[i, j] as WhiteCell).IsUnassigned)
                 {
                     HashSet<int> values = white_cell_values[cell];
                     values.Remove(value);
-                    if (!values.Any()) throw new KakuroException("Kakuro without solution");
+
+                    if (!values.Any()) throw new KakuroException("3 Kakuro without solution");
                     else if (values.Count == 1) next_cell = cell;
                 }
+
                 i += inci;
                 j += incj;
             }
@@ -244,7 +261,7 @@ namespace Kakuro.Engine.Algorithms
 
         private bool SolveGrid(int cell, ref bool[] solution)
         {
-            if(cell >= k.Width * k.Height)
+            if(cell >= (k.Width * k.Height))
             {
                 if (!solution[0])
                 {
@@ -260,18 +277,19 @@ namespace Kakuro.Engine.Algorithms
             {
                 int i = cell / k.Width;
                 int j = cell % k.Width;
+
                 int[] info_cell = white_cell_info[cell];
                 int[] info_sum_cell_row = sum_cell_info[info_cell[0]];
                 int[] info_sum_cell_column = sum_cell_info[info_cell[1]];
 
-                if (!k[i, j].IsUnassigned)
+                if (!k.Grid[i, j].IsUnassigned)
                 {
                     if (ValidValue(i, j, info_sum_cell_row[2], info_cell[0], true) &&
                         ValidValue(i, j, info_sum_cell_column[3], info_cell[1], false))
                     {
                         if (SolveGrid(info_cell[2], ref solution))
                         {
-                            UpdateAcumulatedSums(info_sum_cell_row, info_sum_cell_column, -k[i, j].Value);
+                            UpdateAcumulatedSums(ref info_sum_cell_row, ref info_sum_cell_column, - (k.Grid[i, j] as WhiteCell).Value);
                             return true;
                         }
                     }
@@ -280,12 +298,13 @@ namespace Kakuro.Engine.Algorithms
                 else
                 {
                     HashSet<int> values = white_cell_values[cell];
-                    HashSet<int>.Enumerator it = values.GetEnumerator();
-                    while(it.MoveNext()){
+
+                    foreach(int value in values)
+                    {
                         HashSet<int> cells_update_row = new HashSet<int>();
                         HashSet<int> cells_update_col = new HashSet<int>();
-                        int value = it.Current;
-                        UpdateAcumulatedSums(info_sum_cell_row, info_sum_cell_column, value);
+
+                        UpdateAcumulatedSums(ref info_sum_cell_row, ref info_sum_cell_column, value);
 
                         if (ValidValue(i, j, info_sum_cell_row[2], info_cell[0], true) &&
                             ValidValue(i, j, info_sum_cell_column[3], info_cell[1], false))
@@ -293,19 +312,19 @@ namespace Kakuro.Engine.Algorithms
                             if (CheckPruning(cells_update_row, i, j, 0, 1, value, info_sum_cell_row[2], info_cell[0]) &&
                                 CheckPruning(cells_update_col, i, j, 1, 0, value, info_sum_cell_column[3], info_cell[1]))
                             {
-                                k[i,j].Value = value;
+                                (k.Grid[i, j] as WhiteCell).Value = value;
 
                                 if (!solution[0]) k.Solution[i.ToString() + j] = value;
                                 if (SolveGrid(info_cell[2], ref solution))
                                 {
-                                    UpdateAcumulatedSums(info_sum_cell_row, info_sum_cell_column, -value);
+                                    UpdateAcumulatedSums(ref info_sum_cell_row, ref info_sum_cell_column, -value);
                                     return true;
                                 }
-                                else k[i, j].Value = 0;
+                                else (k.Grid[i, j] as WhiteCell).Value = 0;
                             }
                         }
 
-                        UpdateAcumulatedSums(info_sum_cell_row, info_sum_cell_column, -value);
+                        UpdateAcumulatedSums(ref info_sum_cell_row,ref info_sum_cell_column, -value);
                         UndoChanges(cells_update_row, value);
                         UndoChanges(cells_update_col, value);
                     }
@@ -314,7 +333,7 @@ namespace Kakuro.Engine.Algorithms
             }
         }
 
-        private void UpdateAcumulatedSums(int[] info_sum_cell_row, int[] info_sum_cell_column, int value)
+        private void UpdateAcumulatedSums(ref int[] info_sum_cell_row, ref int[] info_sum_cell_column, int value)
         {
             info_sum_cell_row[2] += value;
             info_sum_cell_column[3] += value;
@@ -327,14 +346,14 @@ namespace Kakuro.Engine.Algorithms
 
             if (is_row)
             {
-                is_next_cell_white = ++col < k.Width && k[row, col] is WhiteCell;
-                sum_max = k[sum_cell / k.Width, sum_cell % k.Width].RowSum;
+                is_next_cell_white = ++col < k.Width && k.Grid[row, col] is WhiteCell;
+                sum_max = (k.Grid[sum_cell / k.Width, sum_cell % k.Width] as SumCell).RowSum;
                 exists_unassigned = CheckStrideValues(row, col + 1, 0, 1);
             }
             else
             {
-                is_next_cell_white = ++row < k.Height && k[row, col] is WhiteCell;
-                sum_max = k[sum_cell / k.Width, sum_cell % k.Width].ColSum;
+                is_next_cell_white = ++row < k.Height && k.Grid[row, col] is WhiteCell;
+                sum_max = (k.Grid[sum_cell / k.Width, sum_cell % k.Width] as SumCell).ColSum;
                 exists_unassigned = CheckStrideValues(row + 1, col, 1, 0);
             }
 
@@ -348,9 +367,10 @@ namespace Kakuro.Engine.Algorithms
 
         private bool CheckStrideValues(int i, int j, int inci, int incj)
         {
-            while(i < k.Height && j < k.Width && k[i,j] is WhiteCell)
+            while(i < k.Height && j < k.Width && k.Grid[i,j] is WhiteCell)
             {
-                if (k[i, j].IsUnassigned) return true;
+                if ((k.Grid[i, j] as WhiteCell).IsUnassigned) return true;
+
                 i += inci;
                 j += incj;
             }
@@ -364,17 +384,20 @@ namespace Kakuro.Engine.Algorithms
 
             row += i;
             col += j;
-            while(row < k.Height && col < k.Width && k[i,j] is WhiteCell)
+
+            while(row < k.Height && col < k.Width && k.Grid[i,j] is WhiteCell)
             {
-                if(k[i, j].IsUnassigned)
+                if((k.Grid[row, col] as WhiteCell).IsUnassigned)
                 {
                     HashSet<int> values = white_cell_values[row * k.Width + col];
                     count++;
+
                     if (values.Remove(value))
                     {
                         cells_update.Add(row * k.Width + col);
                         if (values.Count == 0) return false;
                     }
+
                     pruning_values.UnionWith(values);
                 }
                 row += i;
@@ -385,8 +408,8 @@ namespace Kakuro.Engine.Algorithms
             Array.Sort(aux);
 
             int sum_max;
-            if (i == 0) sum_max = k[sum_cell / k.Width, sum_cell % k.Width].RowSum;
-            else sum_max = k[sum_cell / k.Width,sum_cell % k.Width].ColSum;
+            if (i == 0) sum_max = (k.Grid[sum_cell / k.Width, sum_cell % k.Width] as SumCell).RowSum;
+            else sum_max = (k.Grid[sum_cell / k.Width,sum_cell % k.Width] as SumCell).ColSum;
 
             if (count == 1 && !pruning_values.Contains(sum_max - sum_act)) return false;
             else
@@ -409,8 +432,7 @@ namespace Kakuro.Engine.Algorithms
 
         private void UndoChanges(HashSet<int> cells_update, int value)
         {
-            HashSet<int>.Enumerator it = cells_update.GetEnumerator();
-            while (it.MoveNext()) white_cell_values[it.Current].Add(value);
+            foreach(int cell in cells_update) white_cell_values[cell].Add(value);
         }
     }
 }

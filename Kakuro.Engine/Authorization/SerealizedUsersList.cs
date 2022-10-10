@@ -10,7 +10,17 @@ namespace Kakuro.Engine.Authorization
 {
     public class SerealizedUsersList : SerealizedList<User>
     {
-        public SerealizedUsersList(string fileName) : base(fileName) {}
+        /// <summary>
+        /// Constructor for SerealizedUserList
+        /// </summary>
+        /// <param name="fileName">File name</param>
+        public SerealizedUsersList(string fileName) : base(fileName) {
+            base.AddComparator = (a, b) =>
+            {
+                return a.Name == b.Name;
+            };
+        }
+
         ///<summary>
         /// Gets an user by their UID
         ///</summary>

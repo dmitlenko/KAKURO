@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Kakuro.Engine.Cells;
 using Kakuro.Engine.Core;
@@ -12,7 +13,9 @@ namespace Kakuro.Engine.Algorithms
         private List<int> candidate_cells;
         private Dictionary<int, bool[]> cell_validity;
         private Dictionary<int, int> cell_index;
-        private static Random random;
+
+        private Random random = new Random();
+        //private static readonly object syncLock = new object();
 
         /**
          * <summary>Default constructor for Generator</summary>
@@ -23,7 +26,6 @@ namespace Kakuro.Engine.Algorithms
             candidate_cells = null;
             cell_validity = null;
             cell_index = null;
-            random = new Random();
         }
 
         /**
@@ -40,18 +42,18 @@ namespace Kakuro.Engine.Algorithms
             Solver solver = new Solver();
             int max_white_cells, max_kakuros = 169;
 
-            if (difficulty == 1) max_white_cells = (int)Math.Ceiling(((k.Height - 1) * (k.Width - 1) * (RandomD() * 15 + 15) / 100));
-            else if (difficulty == 2) max_white_cells = (int)Math.Ceiling(((k.Height - 1) * (k.Width - 1) * (RandomD() * 20 + 36) / 100));
-            else max_white_cells = (int)Math.Ceiling(((k.Height - 1) * (k.Width - 1) * (RandomD() * 25 + 61) / 100));
+            if (difficulty == 1) max_white_cells = (int)Math.Ceiling(((k.Height - 1) * (k.Width - 1) * (NextDouble() * 15 + 15) / 100));
+            else if (difficulty == 2) max_white_cells = (int)Math.Ceiling(((k.Height - 1) * (k.Width - 1) * (NextDouble() * 20 + 36) / 100));
+            else max_white_cells = (int)Math.Ceiling(((k.Height - 1) * (k.Width - 1) * (NextDouble() * 25 + 61) / 100));
 
+            generatenew:
             while (true)
             {
-
                 while (true)
                 {
                     InitializeGrid();
                     GenerateBlackCells(max_white_cells);
-                    if (CorrectGrid(true) && CorrectGrid(false)) break;
+                    if ((CorrectGrid(true) && CorrectGrid(false))) break;
                 }
 
                 int act = 0;
@@ -62,26 +64,39 @@ namespace Kakuro.Engine.Algorithms
                 {
                     while (act <= max_kakuros && !sum_cells_row_generated)
                     {
-                        sum_cells_row_generated = GetSumCellsRow(sum_cell_info);
-                        act++;
+                        sum_cells_row_generated = GetSumCellsRow(ref sum_cell_info);
+                        ++act;
                     }
 
                     if (sum_cells_row_generated)
                     {
-                        GetSumCellsColumn(sum_cell_info);
+                        GetSumCellsColumn(ref sum_cell_info);
 
                         try
                         {
                             solver.sum_cell_info = sum_cell_info;
-                            if (solver.Validate(k)) goto exitloop;
+                            if (solver.Validate(k)) goto outter;
                         }
-                        catch (KakuroException) { }
+                        catch (Exception) {
+                            goto generatenew;
+                        } 
                     }
                     sum_cells_row_generated = false;
                 }
             }
 
-        exitloop:
+        outter:
+            // check again
+            try
+            {
+                solver.sum_cell_info = null;
+                solver.Validate(k);
+            }
+            catch (Exception)
+            {
+                goto generatenew;
+            }
+            
             KakuroBoard aux = k;
             k = null;
             candidate_cells = null;
@@ -90,9 +105,14 @@ namespace Kakuro.Engine.Algorithms
             return aux;
         }
 
-        private double RandomD()
+        private double NextDouble()
         {
             return random.NextDouble();
+        }
+
+        private int NextInt(int to)
+        {
+            return random.Next(to);
         }
 
         private void InitializeGrid()
@@ -104,36 +124,36 @@ namespace Kakuro.Engine.Algorithms
             {
                 for (int j = 0; j < k.Width; j++)
                 {
-                    if (i == 0 || j == 0) k[i, j] = new BlackCell();
-                    else k[i, j] = new WhiteCell();
+                    if (i == 0 || j == 0) k.Grid[i, j] = new BlackCell();
+                    else k.Grid[i, j] = new WhiteCell();
                 }
             }
         }
 
         private void GetCandidateCells()
         {
-            int array_pos = 0, cell;
+            int array_pos, cell;
             bool[] constrains;
+            array_pos = 0;
 
-            for (int i = 1; i < k.Height; i++)
+            for (int i = 1; i < k.Height; ++i)
             {
-                for (int j = 1; j < k.Width; j++)
+                for (int j = 1; j < k.Width; ++j)
                 {
-                    constrains = new bool[2];
-                    constrains[0] = constrains[1] = true;
-
+                    constrains = new bool[] { true, true };
                     cell = i * k.Width + j;
-                    if (i != 2 && i != k.Width - 2 && j != 2 && j != k.Height - 2)
+
+                    if (i != 2 && i != k.Height - 2 && j != 2 && j != k.Width - 2)
                     {
                         candidate_cells.Add(cell);
-                        cell_index[cell] = array_pos;
-                        array_pos++;
+                        cell_index[cell] = array_pos++;
                     }
                     else
                     {
                         cell_index[cell] = -1;
                         constrains[1] = false;
                     }
+
                     cell_validity[cell] = constrains;
                 }
             }
@@ -146,18 +166,18 @@ namespace Kakuro.Engine.Algorithms
             cell_index = new Dictionary<int, int>((k.Height - 1) * (k.Width - 1));
 
             GetCandidateCells();
-            Random rand = new Random((int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds);
             int painted_cells, cell, cell_sim = 0;
 
             while (k.WhiteCells > max_white_cells && candidate_cells.Any())
             {
-                cell = candidate_cells[rand.Next(candidate_cells.Count)];
+                cell = candidate_cells[NextInt(candidate_cells.Count)];
                 painted_cells = PaintCells(cell, true);
 
                 RemoveCandidateCell(cell, 0);
+
                 if (Math.Abs(painted_cells) == 2)
                 {
-                    cell_sim = (k.Height - (cell / k.Width)) * k.Width + (k.Width - (cell & k.Width));
+                    cell_sim = (k.Height - (cell / k.Width)) * k.Width + (k.Width - (cell % k.Width));
                     RemoveCandidateCell(cell_sim, 0);
                 }
 
@@ -166,7 +186,10 @@ namespace Kakuro.Engine.Algorithms
                     UpdateCandidateCells(cell);
                     if (Math.Abs(painted_cells) == 2) UpdateCandidateCells(cell_sim);
                 }
-                else PaintCells(cell, false);
+                else
+                {
+                    PaintCells(cell, false);
+                }
             }
         }
 
@@ -174,8 +197,9 @@ namespace Kakuro.Engine.Algorithms
         {
             int r = cell / k.Width;
             int c = cell % k.Width;
+
             if (c + 2 < k.Width && ValidCell(cell + 2)) RemoveCandidateCell(cell + 2, 1);
-            if (c - 2 >= 1 && ValidCell(cell - 2)) RemoveCandidateCell(cell + 2, 1);
+            if (c - 2 >= 1 && ValidCell(cell - 2)) RemoveCandidateCell(cell - 2, 1);
             if (r + 2 < k.Height && ValidCell(cell + 2 * k.Width)) RemoveCandidateCell(cell + 2 * k.Width, 1);
             if (r - 2 >= 1 && ValidCell(cell - 2 * k.Width)) RemoveCandidateCell(cell - 2 * k.Width, 1);
             if (c + 1 < k.Width && InvalidPatternCell(cell + 1) && CheckPattern(cell + 1)) AddCandidateCell(cell + 1);
@@ -184,16 +208,9 @@ namespace Kakuro.Engine.Algorithms
             if (r - 1 >= 1 && InvalidPatternCell(cell - k.Width) && CheckPattern(cell - k.Width)) AddCandidateCell(cell - k.Width);
         }
 
-        private bool InvalidPatternCell(int cell)
-        {
-            return cell_validity[cell][0] && !cell_validity[cell][1];
-        }
+        private bool InvalidPatternCell(int cell) => cell_validity[cell][0] && !cell_validity[cell][1];
 
-        private bool ValidCell(int cell)
-        {
-            if (!cell_validity.ContainsKey(cell)) return false;
-            return cell_validity[cell][0] && cell_validity[cell][1];
-        }
+        private bool ValidCell(int cell) => cell_validity[cell][0] && cell_validity[cell][1];
 
         private void AddCandidateCell(int cell)
         {
@@ -202,15 +219,19 @@ namespace Kakuro.Engine.Algorithms
             cell_index[cell] = candidate_cells.Count - 1;
         }
 
+        private void Swap<T>(ref List<T> list, int i, int j)
+        {
+            T tmp = list[i];
+            list[i] = list[j];
+            list[j] = tmp;
+        }
+
         private void RemoveCandidateCell(int cell, int constraint)
         {
-            int index = cell_index.ContainsKey(cell) ? cell_index[cell] : -1;
+            int index = cell_index[cell];
             if (index != -1)
             {
-                int tmp = candidate_cells[index];
-                candidate_cells[index] = candidate_cells[candidate_cells.Count - 1];
-                candidate_cells[candidate_cells.Count - 1] = tmp;
-
+                Swap(ref candidate_cells, index, candidate_cells.Count - 1);
                 cell_index[candidate_cells[index]] = index;
                 cell_index[cell] = -1;
                 cell_validity[cell][constraint] = false;
@@ -229,24 +250,24 @@ namespace Kakuro.Engine.Algorithms
             if (black)
             {
                 painted_cells = -1;
-                k[r, c] = new BlackCell();
+                k.Grid[r,c] = new BlackCell();
             }
             else
             {
                 painted_cells = 1;
-                k[r, c] = new WhiteCell();
+                k.Grid[r,c] = new WhiteCell();
             }
 
             if (r != r_sim || c != c_sim)
             {
                 if (black)
                 {
-                    k[r_sim, c_sim] = new BlackCell();
+                    k.Grid[r_sim,c_sim] = new BlackCell();
                     painted_cells--;
                 }
                 else
                 {
-                    k[r_sim, c_sim] = new WhiteCell();
+                    k.Grid[r_sim,c_sim] = new WhiteCell();
                     painted_cells++;
                 }
             }
@@ -263,10 +284,7 @@ namespace Kakuro.Engine.Algorithms
             bool[,] visited = new bool[k.Height, k.Width];
             for (int i = 0; i < k.Height; i++)
             {
-                for (int j = 0; j < k.Width; j++)
-                {
-                    visited[i, j] = !(k[i, j] is WhiteCell);
-                }
+                for (int j = 0; j < k.Width; j++) visited[i, j] = !(k.Grid[i, j] is WhiteCell);
             }
 
             return CountWhiteCells(visited, pos) == k.WhiteCells;
@@ -278,14 +296,13 @@ namespace Kakuro.Engine.Algorithms
             int r = pos / k.Width;
             int c = pos % k.Width;
 
-            if (r >= 1 && c >= 1 && r < k.Height && c < k.Width && (k[r, c] is WhiteCell) && !visited[r, c])
-            {
-                visited[r, c] = true;
-                count++;
+            if (r >= 1 && c >= 1 && r < k.Height && c < k.Width && (k.Grid[r,c] is WhiteCell) && !visited[r,c]) {
+                visited[r,c] = true;
+                ++count;
                 count += CountWhiteCells(visited, pos + 1);
                 count += CountWhiteCells(visited, pos - 1);
                 count += CountWhiteCells(visited, pos + k.Width);
-                count += CountWhiteCells(visited, pos - k.Height);
+                count += CountWhiteCells(visited, pos - k.Width);
             }
 
             return count;
@@ -296,7 +313,7 @@ namespace Kakuro.Engine.Algorithms
             int r = pos / k.Width;
             int c = pos % k.Width;
 
-            while (r < k.Height && c < k.Width && !(k[r, c] is WhiteCell))
+            while (r < k.Height && c < k.Width && !(k.Grid[r, c] is WhiteCell))
             {
                 pos++;
                 r = pos / k.Width;
@@ -309,14 +326,14 @@ namespace Kakuro.Engine.Algorithms
         private bool CheckPattern(int cell)
         {
             int r = cell / k.Width;
-            int c = cell % k.Width;
+            int c = cell % k.Height;
 
-            if (r - 2 >= 0 && k[r - 1, c] is WhiteCell && k[r - 2, c] is BlackCell) return false;
-            if (c - 2 >= 0 && k[r, c - 1] is WhiteCell && k[r, c - 2] is BlackCell) return false;
-            if (r + 2 < k.Height && k[r + 1, c] is WhiteCell && k[r + 2, c] is BlackCell) return false;
-            if (c + 2 < k.Width && k[r, c + 1] is WhiteCell && k[r, c + 2] is BlackCell) return false;
-            if (r + 2 == k.Height && k[r + 1, c] is WhiteCell) return false;
-            if (c + 2 == k.Width && k[r, c + 1] is WhiteCell) return false;
+            if (r - 2 >= 0 && k.Grid[r - 1, c] is WhiteCell && k.Grid[r - 2, c] is BlackCell) return false;
+            if (c - 2 >= 0 && k.Grid[r, c - 1] is WhiteCell && k.Grid[r, c - 2] is BlackCell) return false;
+            if (r + 2 < k.Height && k.Grid[r + 1, c] is WhiteCell && k.Grid[r + 2, c] is BlackCell) return false;
+            if (c + 2 < k.Width && k.Grid[r, c + 1] is WhiteCell && k.Grid[r, c + 2] is BlackCell) return false;
+            if (r + 2 == k.Height && k.Grid[r + 1, c] is WhiteCell) return false;
+            if (c + 2 == k.Width && k.Grid[r, c + 1] is WhiteCell) return false;
 
             return true;
         }
@@ -353,7 +370,7 @@ namespace Kakuro.Engine.Algorithms
                         c = i;
                     }
 
-                    if (k[r, c] is WhiteCell)
+                    if (k.Grid[r, c] is WhiteCell)
                     {
                         count++;
                         if (count == 1)
@@ -367,17 +384,25 @@ namespace Kakuro.Engine.Algorithms
                             int cell, next_black_cell = 0;
 
                             List<int> l;
-                            if (row) l = GetCandidatePositionList(bound, max_j);
-                            else l = GetCandidatePositionList(bound, max_i);
+                            if (row) 
+                                l = GetCandidatePositionList(bound, max_j);
+                            else 
+                                l = GetCandidatePositionList(bound, max_i);
 
-                            List<int>.Enumerator em = l.GetEnumerator();
-                            while (em.MoveNext())
+                            List<int>.Enumerator enumerator = l.GetEnumerator();
+
+                            while(enumerator.MoveNext() && !painted)
                             {
-                                next_black_cell = em.Current;
-                                if (row) cell = r_ini * k.Width + c_ini + next_black_cell;
-                                else cell = (r_ini + next_black_cell) * k.Width + c_ini;
+                                next_black_cell = enumerator.Current;
+
+                                if (row)
+                                    cell = r_ini * k.Width + c_ini + next_black_cell;
+                                else
+                                    cell = (r_ini + next_black_cell) * k.Width + c_ini;
+
                                 PaintCells(cell, true);
                                 painted = CheckPattern(cell) && IsConnectedGrid();
+
                                 if (!painted) PaintCells(cell, false);
                             }
 
@@ -402,7 +427,7 @@ namespace Kakuro.Engine.Algorithms
 
         private int GetStripBound()
         {
-            int bound, n = new Random((int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds).Next(10);
+            int bound, n = NextInt(10);
 
             if (k.Difficulty == 1)
             {
@@ -430,7 +455,7 @@ namespace Kakuro.Engine.Algorithms
             while (n > 1)
             {
                 n--;
-                int k = random.Next(n + 1);
+                int k = NextInt(n + 1);
                 T value = list[k];
                 list[k] = list[n];
                 list[n] = value;
@@ -471,33 +496,33 @@ namespace Kakuro.Engine.Algorithms
             return l4;
         }
 
-        private void GetSumCellsColumn(Dictionary<int, int[]> sum_cell_info)
+        private void GetSumCellsColumn(ref Dictionary<int, int[]> sum_cell_info)
         {
-            for(int j = 1; j < k.Width; j++)
+            for (int j = 1; j < k.Width; ++j)
             {
-                for(int i = 0; i < k.Height; i++)
+                for (int i = 0; i < k.Height; ++i)
                 {
-                    if (k[i, j] is WhiteCell) k[i, j].Value = 0;
+                    if (k.Grid[i, j] is WhiteCell) (k.Grid[i, j] as WhiteCell).Value = 0;
                     else if (IsNextCellWhite(i, j, false))
                     {
-                        if (!(k[i,j] is SumCell))
+                        if (!(k.Grid[i, j] is SumCell))
                         {
-                            k[i,j] = new SumCell();
-                            sum_cell_info[i * k.Width + j] = new[] { 0, 0, 0, 0 }; 
+                            k.Grid[i, j] = new SumCell();
+                            sum_cell_info[i * k.Width + j] = new int[] { 0, 0, 0, 0 };
                         }
 
                         int r = i;
                         int c = j;
                         int sum_column = 0;
 
-                        while(++i < k.Height && k[i,j] is WhiteCell)
+                        while (++i < k.Height && k.Grid[i, j] is WhiteCell)
                         {
-                            sum_column += k[i,j].Value;
-                            k[i, j].Value = 0;
+                            sum_column += (k.Grid[i, j] as WhiteCell).Value;
+                            (k.Grid[i, j] as WhiteCell).Value = 0;
                         }
 
-                        k[r, c].ColSum = sum_column;
-                        i--;
+                        (k.Grid[r, c] as SumCell).ColSum = sum_column;
+                        --i;
 
                         sum_cell_info[r * k.Width + c][1] = i - r;
                     }
@@ -505,23 +530,23 @@ namespace Kakuro.Engine.Algorithms
             }
         }
 
-        private bool GetSumCellsRow(Dictionary<int, int[]> sum_cell_info)
+        private bool GetSumCellsRow(ref Dictionary<int, int[]> sum_cell_info)
         {
             k.Solution = new Dictionary<string, int>(k.WhiteCells);
 
-            for(int i = 1; i < k.Height; i++)
+            for (int i = 1; i < k.Height; ++i)
             {
-                for(int j = 1; j < k.Width; j++)
+                for (int j = 0; j < k.Width; ++j)
                 {
                     if (IsNextCellWhite(i, j, true))
                     {
-                        k[i, j] = new SumCell();
+                        k.Grid[i, j] = new SumCell();
                         int next_j = FillRow(i, j);
 
                         if (j == -1) return false;
                         else
                         {
-                            sum_cell_info[i * k.Width + j] = new[] { next_j - j, 0, 0, 0 };
+                            sum_cell_info[i * k.Width + j] =  new int[] { next_j - j, 0, 0, 0 };
                             j = next_j;
                         }
                     }
@@ -533,8 +558,8 @@ namespace Kakuro.Engine.Algorithms
 
         private bool IsNextCellWhite(int r, int c, bool is_row)
         {
-            if (is_row) return (++c < k.Width && k[r, c] is WhiteCell);
-            return (++r < k.Height && k[r, c] is WhiteCell);
+            if (is_row) return (++c < k.Width && k.Grid[r, c] is WhiteCell);
+            return (++r < k.Height && k.Grid[r, c] is WhiteCell);
         }
 
         private int FillRow(int r, int c)
@@ -543,35 +568,35 @@ namespace Kakuro.Engine.Algorithms
             int j = c;
             int sum_row = 0;
 
-            while(++j < k.Width && k[r, j] is WhiteCell)
-            {
-                k.Solution[r.ToString() + j] = int.MinValue;
-                HashSet<int> valid = new HashSet<int>(new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
+            while (++j < k.Width && k.Grid[r,j] is WhiteCell) {
+                //k.Solution[r.ToString() + j] = int.MinValue;
+                HashSet<int> valid = new HashSet<int>(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
 
-                valid.RemoveWhere((value) => repeated_row.Contains(value));
-
+                valid.RemoveWhere(value => repeated_row.Contains(value));
                 if (!valid.Any()) return -1;
 
                 int aux_i = r;
-                while (--aux_i >= 0 && k[aux_i, j] is WhiteCell) valid.Remove(k[aux_i, j].Value);
+                while (--aux_i >= 0 && k.Grid[aux_i, j] is WhiteCell) 
+                    valid.Remove((k.Grid[aux_i, j] as WhiteCell).Value);
+
                 if (!valid.Any()) return -1;
 
                 int value = GetRandomSetValue(valid);
-                k[r, j].Value = value;
+                (k.Grid[r, j] as WhiteCell).Value = value;
                 repeated_row.Add(value);
                 sum_row += value;
             }
 
-            j--;
-            k[r,c].RowSum = sum_row;
+            --j;
+            (k.Grid[r, c] as SumCell).RowSum = sum_row;
             return j;
         }
 
         private int GetRandomSetValue(HashSet<int> s)
         {
             HashSet<int>.Enumerator it = s.GetEnumerator();
-            if (s.Count == 1 && it.MoveNext()) return it.Current;
-            int value = new Random().Next(s.Count);
+            if (s.Count == 1) return s.Single();
+            int value = NextInt(s.Count);
             int i = 0;
 
             while (it.MoveNext())

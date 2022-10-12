@@ -47,4 +47,30 @@ public class GeneratorTest
         Assert.AreEqual(b.Height, 5);
         Assert.AreEqual(b.Difficulty, 2);
     }
+
+    [TestMethod]
+    public void Test4()
+    {
+        Solver s = new Solver();
+        Generator g = new Generator();
+        KakuroBoard b = g.Generate(9, 9, 2);
+
+        Assert.IsTrue(s.Validate(b));
+        Assert.AreEqual(b.Width, 9);
+        Assert.AreEqual(b.Height, 9);
+        Assert.AreEqual(b.Difficulty, 2);
+    }
+
+    [TestMethod]
+    public void Test5()
+    {
+        Solver s = new Solver();
+        Generator g = new Generator();
+        KakuroBoard b = g.Generate(7, 7, 3);
+
+        Assert.IsTrue(s.Validate(b));
+        Assert.AreEqual(b.Width, 7);
+        Assert.AreEqual(b.Height, 7);
+        Assert.AreEqual(b.Difficulty, 3);
+    }
 }

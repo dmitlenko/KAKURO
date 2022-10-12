@@ -54,7 +54,6 @@ namespace Kakuro.Engine.Algorithms
 
             SolveClues(cell, cells_to_empty);
             SolveGrid(cell, solution);
-            //FreeMemory();
 
             if (!solution[0]) throw new KakuroException("1 Kakuro without solution");
             if (!solution[1]) throw new KakuroException("Kakuro with more than 1 solution");

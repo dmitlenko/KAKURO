@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kakuro.Engine", "Kakuro.Eng
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kakuro.Windows", "Kakuro.Windows\Kakuro.Windows.csproj", "{CB3CC42C-C503-4A16-B5EB-001D703FF59D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kakuro.Test", "Kakuro.Test\Kakuro.Test.csproj", "{6910D56B-D4C3-4588-A14A-E3864B948680}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kakuro.Test", "Kakuro.Test\Kakuro.Test.csproj", "{9940C368-FCEB-4D3F-9CA2-4156A3046600}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kakuro.Console", "Kakuro.Console\Kakuro.Console.csproj", "{82B5ED65-2E79-4674-8924-531FC8B2AC6B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,14 +35,22 @@ Global
 		{CB3CC42C-C503-4A16-B5EB-001D703FF59D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CB3CC42C-C503-4A16-B5EB-001D703FF59D}.Release|x64.ActiveCfg = Release|Any CPU
 		{CB3CC42C-C503-4A16-B5EB-001D703FF59D}.Release|x64.Build.0 = Release|Any CPU
-		{6910D56B-D4C3-4588-A14A-E3864B948680}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6910D56B-D4C3-4588-A14A-E3864B948680}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6910D56B-D4C3-4588-A14A-E3864B948680}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{6910D56B-D4C3-4588-A14A-E3864B948680}.Debug|x64.Build.0 = Debug|Any CPU
-		{6910D56B-D4C3-4588-A14A-E3864B948680}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6910D56B-D4C3-4588-A14A-E3864B948680}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6910D56B-D4C3-4588-A14A-E3864B948680}.Release|x64.ActiveCfg = Release|Any CPU
-		{6910D56B-D4C3-4588-A14A-E3864B948680}.Release|x64.Build.0 = Release|Any CPU
+		{9940C368-FCEB-4D3F-9CA2-4156A3046600}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9940C368-FCEB-4D3F-9CA2-4156A3046600}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9940C368-FCEB-4D3F-9CA2-4156A3046600}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9940C368-FCEB-4D3F-9CA2-4156A3046600}.Debug|x64.Build.0 = Debug|Any CPU
+		{9940C368-FCEB-4D3F-9CA2-4156A3046600}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9940C368-FCEB-4D3F-9CA2-4156A3046600}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9940C368-FCEB-4D3F-9CA2-4156A3046600}.Release|x64.ActiveCfg = Release|Any CPU
+		{9940C368-FCEB-4D3F-9CA2-4156A3046600}.Release|x64.Build.0 = Release|Any CPU
+		{82B5ED65-2E79-4674-8924-531FC8B2AC6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82B5ED65-2E79-4674-8924-531FC8B2AC6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82B5ED65-2E79-4674-8924-531FC8B2AC6B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{82B5ED65-2E79-4674-8924-531FC8B2AC6B}.Debug|x64.Build.0 = Debug|Any CPU
+		{82B5ED65-2E79-4674-8924-531FC8B2AC6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82B5ED65-2E79-4674-8924-531FC8B2AC6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82B5ED65-2E79-4674-8924-531FC8B2AC6B}.Release|x64.ActiveCfg = Release|Any CPU
+		{82B5ED65-2E79-4674-8924-531FC8B2AC6B}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

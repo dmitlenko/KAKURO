@@ -4,8 +4,10 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-
+	<GenerateProgramFile>false</GenerateProgramFile>
     <IsPackable>false</IsPackable>
+
+    <Configurations>Debug;Release;Main</Configurations>
   </PropertyGroup>
 
   <ItemGroup>

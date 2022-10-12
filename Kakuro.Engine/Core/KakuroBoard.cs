@@ -65,15 +65,19 @@ namespace Kakuro.Engine.Core
             Solution = null;
         }
 
-        /**
-         * <summary>Get element by its coords</summary>
-         * <param name="row">Board row</param>
-         * <param name="col">Board column</param>
-         */
-        public Cell this[int row, int col]
+        /// <summary>
+        /// Create new kakuro board
+        /// </summary>
+        /// <param name="grid">Board grid</param>
+        public KakuroBoard(Cell[,] grid)
         {
-            get => Grid == null ? new BlackCell() : Grid[row, col];
-            set => Grid[row, col] = value;
+            Name = null;
+            Width = grid.GetLength(1);
+            Height = grid.GetLength(0);
+            Difficulty = 0;
+            WhiteCells = 0;
+            Grid = grid;
+            Solution = new Dictionary<string, int>();
         }
 
         /**

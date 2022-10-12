@@ -365,3 +365,6 @@ AnalysisReport.sarif
 upgrade-assistant.clef
 *.clef
 .editorconfig
+
+# This is my
+Kakuro.Console/

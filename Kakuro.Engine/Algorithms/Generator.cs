@@ -379,7 +379,7 @@ namespace Kakuro.Engine.Algorithms
         {
             HashSet<int>.Enumerator it = s.GetEnumerator();
             if (s.Count == 1) return s.Single();
-            int value = NextInt(s.Count);
+            int value = new Random((int)Time.UnixTimeMillis()).Next(s.Count);
             int i = 0;
 
             while (it.MoveNext())
@@ -399,7 +399,7 @@ namespace Kakuro.Engine.Algorithms
 
         private int GetStripBound()
         {
-            int bound, n = NextInt(10);
+            int bound, n = new Random((int)Time.UnixTimeMillis()).Next(10);
 
             if (k.Difficulty == 1)
             {

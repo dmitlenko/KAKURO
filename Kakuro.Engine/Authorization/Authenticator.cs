@@ -69,7 +69,7 @@ namespace Kakuro.Engine.Authorization
          * <param name="password">Password</param>
          * <returns>Is password valid?</returns>
          */
-        public bool CheckPassword(string password)
+        public static bool CheckPassword(string password)
         {
             return !string.IsNullOrWhiteSpace(password) && !password.Contains(' ') && password.Length >= 8 && password.Length <= 32;
         }
@@ -79,7 +79,7 @@ namespace Kakuro.Engine.Authorization
          * <param name="username">Username</param>
          * <returns>Is username valid?</returns>
          */
-        public bool CheckUsername(string username)
+        public static bool CheckUsername(string username)
         {
             return CheckPassword(username) && Regex.IsMatch(username, "^[a-zA-Z0-9_]*$");
         }

@@ -56,7 +56,7 @@ namespace Kakuro.Windows.MVVM.ViewModel
                 {
                     MessageBox.Show("Невірні дані для входу", "Помилка!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-            });
+            }, o => !string.IsNullOrWhiteSpace(UserName) && !string.IsNullOrWhiteSpace(Password));
 
 
         }

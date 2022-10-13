@@ -56,8 +56,8 @@ namespace Kakuro.Windows.MVVM.ViewModel
             Authenticator aut = new Authenticator();
             try
             {
-                if (!aut.CheckUsername(UserName)) throw new Exception("Невірний формат імені користувача!");
-                if (!aut.CheckPassword(Password)) throw new Exception("Невірний формат паролю користувача!");
+                if (!Authenticator.CheckUsername(UserName)) throw new Exception("Невірний формат імені користувача!");
+                if (!Authenticator.CheckPassword(Password)) throw new Exception("Невірний формат паролю користувача!");
                 if (!CheckDisplayName(DisplayName)) throw new Exception("Невірний формат повного імені!");
 
                 if(aut.Register(DisplayName, UserName, Password))
@@ -76,7 +76,7 @@ namespace Kakuro.Windows.MVVM.ViewModel
 
         public RegisterViewModel()
         {
-            RegisterCommand = new RelayCommand(o => Register());
+            RegisterCommand = new RelayCommand(o => Register(), o => !(string.IsNullOrWhiteSpace(UserName) && string.IsNullOrWhiteSpace(Password) && string.IsNullOrWhiteSpace(DisplayName)));
         }
     }
 }

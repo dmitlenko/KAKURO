@@ -35,7 +35,8 @@
 
         <DockPanel Grid.Row="1" Grid.Column="1" Panel.ZIndex="2">
 
-            <RadioButton Content="Головна"
+            <RadioButton Content="Гра
+"
                          Foreground="White"
                          FontSize="16"
                          IsChecked="True"

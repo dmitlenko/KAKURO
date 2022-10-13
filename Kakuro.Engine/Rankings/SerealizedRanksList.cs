@@ -7,20 +7,25 @@ using Kakuro.Engine.Core;
 
 namespace Kakuro.Engine.Rankings
 {
-    public class Ranker
+    public class SerealizedRanksList: SerealizedList<UserRank>
     {
         /// <summary>
-        /// Database file
+        /// Constructor for SerealizedRanksList
         /// </summary>
-        private SerealizedList<UserRank> rankData = new SerealizedList<UserRank>("ranks.hdb");
+        /// <param name="filename"></param>
+        public SerealizedRanksList(string filename): base(filename)
+        {
+            Load();
+            Sort(true);
+        }
 
         /// <summary>
-        /// Default consatructor for Ranker
+        /// Default costructor for SerealizedRanksList
         /// </summary>
-        public Ranker()
+        public SerealizedRanksList(): base("ranks.hdb")
         {
-            rankData.Load();
-            Sort();
+            Load();
+            Sort(true);
         }
 
         /// <summary>
@@ -29,7 +34,7 @@ namespace Kakuro.Engine.Rankings
         /// <param name="ascending">Sort ascending</param>
         public void Sort(bool ascending = false)
         {
-            rankData.Sort((a, b) =>
+            Sort((a, b) =>
             {
                 return ascending ? 
                     a.TotalSeconds().CompareTo(b.TotalSeconds()):
@@ -44,7 +49,7 @@ namespace Kakuro.Engine.Rankings
         /// <returns>UserRank</returns>
         public UserRank this[int place]
         {
-            get => rankData.Get(place);
+            get => Get(place);
         }
 
         /// <summary>
@@ -53,7 +58,7 @@ namespace Kakuro.Engine.Rankings
         /// <returns>UserRank</returns>
         public List<UserRank> Top()
         {
-            return rankData.GetAll(a => true);
+            return GetAll(a => true);
         }
 
         /// <summary>
@@ -66,19 +71,9 @@ namespace Kakuro.Engine.Rankings
             List<UserRank> top = new List<UserRank>();
 
             for (int i = 0; i < x; i++)
-                top.Add(rankData.Get(i));
+                top.Add(Get(i));
 
             return top;
-        }
-
-        /// <summary>
-        /// Add new rank to list
-        /// </summary>
-        /// <param name="rank">User rank</param>
-        /// <param name="save">Save to file?</param>
-        public void Add(UserRank rank, bool save = false)
-        { 
-            rankData.Add(rank, save);
         }
     }
 }

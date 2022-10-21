@@ -22,6 +22,11 @@ namespace Kakuro.Engine.Graphics
          */
         public bool Highlight { get; set; }
 
+        /// <summary>
+        /// Background color of the tile
+        /// </summary>
+        public bool HighlightBackground { get; set; }
+
         /**
          * <summary>Default constructor for WhiteGraphicTile</summary>
          */
@@ -42,7 +47,7 @@ namespace Kakuro.Engine.Graphics
          */
         public override void Draw(System.Drawing.Graphics graphics)
         {
-            graphics.FillRectangle(Brushes.White, new Rectangle(Position, Size));
+            graphics.FillRectangle(HighlightBackground ? new SolidBrush(Color.FromArgb(255, 230, 255, 230)) : Brushes.White, new Rectangle(Position, Size));
 
             int fontSize = (int)(Size.Height * 0.8) + 1;
             Font drawFont = new Font(FontFamily.GenericSansSerif, fontSize, FontStyle.Regular, GraphicsUnit.Pixel);

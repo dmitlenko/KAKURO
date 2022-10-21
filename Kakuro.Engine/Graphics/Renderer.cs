@@ -22,10 +22,12 @@ namespace Kakuro.Engine.Graphics
         public int SizeX { get => GraphicTiles.GetLength(1); }
         public int SizeY { get => GraphicTiles.GetLength(0); }
 
+        // config
         public bool HighlightCurrentClues { get; set; }
         public bool HighlightWrongSums { get; set; }
         public bool HighlightDuplicates { get; set; }
         public bool GrayCompleteSums { get; set; }
+        public bool HighlightCurrentRowColumn { get; set; }
 
         public bool Enabled
         {
@@ -299,11 +301,31 @@ namespace Kakuro.Engine.Graphics
                                     WhiteGraphicTile numberTile = GraphicTiles[i, j] as WhiteGraphicTile;
 
                                     // Set to default
-                                    // numberTile.Highlight = false;
+                                    numberTile.HighlightBackground = false;
 
                                     if (HighlightDuplicates)
                                     {
                                         // todo
+                                    }
+
+                                    if (HighlightCurrentRowColumn)
+                                    {
+                                        Point th = TopHintFromSelection();
+                                        Point lh = LeftHintFromSelection();
+
+                                        for (int k = th.Y + 1; k < SizeY; k++)
+                                        {
+                                            if (GraphicTiles[k, th.X] is WhiteGraphicTile)
+                                                ((WhiteGraphicTile)GraphicTiles[k, th.X]).HighlightBackground = true;
+                                            else break;
+                                        }
+
+                                        for (int k = lh.X + 1; k < SizeX; k++)
+                                        {
+                                            if (GraphicTiles[lh.Y, k] is WhiteGraphicTile)
+                                                ((WhiteGraphicTile)GraphicTiles[lh.Y, k]).HighlightBackground = true;
+                                            else break;
+                                        }
                                     }
 
                                     break;
@@ -327,6 +349,8 @@ namespace Kakuro.Engine.Graphics
                             GraphicTiles[lh.Y, lh.X].Draw(g);
                         }
                     }
+
+                    
 
                     if (!Enabled)
                         g.FillRectangle(new SolidBrush(Color.FromArgb(0xd0, Color.White)), new Rectangle(0, 0, Canvas.Width, Canvas.Height));

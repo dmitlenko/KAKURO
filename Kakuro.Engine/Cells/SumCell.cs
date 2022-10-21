@@ -14,12 +14,12 @@ namespace Kakuro.Engine.Cells
         /**
          * <summary>SumCell's row sum</summary> 
          */
-        public int RowSum { get; set; }
+        public new int RowSum { get; set; }
 
         /**
          * <summary>SumCell's column sum</summary> 
          */
-        public int ColSum { get; set; }
+        public new int ColSum { get; set; }
 
         /**
          * <summary>Checks if SumCell has row sum</summary> 

@@ -105,8 +105,8 @@ namespace Kakuro.Engine.Graphics
             Brush verticalColor = HighlightVerticalSum ? Brushes.DodgerBlue : GrayVerticalSum ? Brushes.Gray : Brushes.White;
             Brush horizontalColor = HighlightHorizontalSum ? Brushes.DodgerBlue : GrayHorizontalSum ? Brushes.Gray : Brushes.White;
 
-            graphics.DrawString(SumVertical == 0 ? "" : SumVertical.ToString(), verticalFont, verticalColor, Position.X, Position.Y + Size.Height - str1sz.Height);
-            graphics.DrawString(SumHorizontal == 0 ? "" : SumHorizontal.ToString(), horizontalFont, horizontalColor, Position.X + Size.Width - str2sz.Width, Position.Y);
+            graphics.DrawString(SumVertical == -1 ? "" : SumVertical.ToString(), verticalFont, verticalColor, Position.X, Position.Y + Size.Height - str1sz.Height);
+            graphics.DrawString(SumHorizontal == -1 ? "" : SumHorizontal.ToString(), horizontalFont, horizontalColor, Position.X + Size.Width - str2sz.Width, Position.Y);
 
             DrawOutline(graphics);
             if (Selected) DrawSelection(graphics);

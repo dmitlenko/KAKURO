@@ -73,7 +73,7 @@ namespace Kakuro.Windows
             Task.Factory.StartNew(() =>
             {
                 Generator g = new Generator();
-                kakuroBoard = g.Generate(kwidth, kheight, 1);
+                kakuroBoard = g.Generate(kwidth, kheight, 2);
 
                 pictureBox1.Invoke(new Action(() =>
                 {

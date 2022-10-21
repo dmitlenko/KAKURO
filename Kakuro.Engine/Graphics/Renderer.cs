@@ -143,8 +143,6 @@ namespace Kakuro.Engine.Graphics
 
         private int VerticalSum(int x, int y) => OffsetNumberSum(x, y, 0, 1);
 
-        public GraphicTile this[int x, int y] => GraphicTiles[y, x];
-
         public void AssignBoard(KakuroBoard board)
         {
             Cell[,] cells = board.Grid;

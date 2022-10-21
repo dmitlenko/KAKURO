@@ -97,5 +97,53 @@ namespace Kakuro.Engine.Core
         {
             return DateTimeOffset.Now.ToUnixTimeMilliseconds();
         }
+
+        /// <summary>
+        /// Increases seconds by 1
+        /// </summary>
+        public void IncreaseSecond()
+        {
+            if(!IsValidTime(hours, minutes, seconds + 1))
+            {
+                IncreaseMinute();
+                seconds = 0;
+            } else
+            {
+                seconds++;
+            }
+        }
+
+        /// <summary>
+        /// Increases minutes by 1
+        /// </summary>
+        public void IncreaseMinute()
+        {
+            if (!IsValidTime(hours, minutes + 1, seconds))
+            {
+                IncreaseHour();
+                minutes = 0;
+            }
+            else
+            {
+                minutes++;
+            }
+        }
+
+        /// <summary>
+        /// Increases hours by 1
+        /// </summary>
+        public void IncreaseHour()
+        {
+            hours++;
+        }
+
+        /// <summary>
+        /// Convert time to string
+        /// </summary>
+        /// <returns>String with time in HH:mm:ss format</returns>
+        public override string ToString()
+        {
+            return String.Format("{0:00}:{1:00}:{2:00}", hours, minutes, seconds);
+        }
     }
 }

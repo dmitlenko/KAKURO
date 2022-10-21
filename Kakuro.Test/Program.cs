@@ -27,7 +27,7 @@ class Program{
     {
         Solver s = new Solver();
         Generator g = new Generator();
-        KakuroBoard b = g.Generate(6, 6, 2);
+        KakuroBoard b = g.Generate(7, 7, 2);
 
         Print(b);
     }

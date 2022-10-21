@@ -12,6 +12,7 @@ namespace Kakuro.Engine.Graphics
     public class Renderer
     {
         private bool _enabled = true;
+        private MouseEventHandler _clickHandler;
 
         public PictureBox Canvas { get; set; }
         public GraphicTile[,] GraphicTiles = { };
@@ -65,6 +66,11 @@ namespace Kakuro.Engine.Graphics
             Update();
         }
 
+        ~Renderer()
+        {
+            Canvas.MouseDown -= _clickHandler;
+        }
+
         private void Canvas_MouseDown(object sender, MouseEventArgs e)
         {
             if (Enabled)
@@ -82,7 +88,8 @@ namespace Kakuro.Engine.Graphics
         private void PrepareCanvas()
         {
             Canvas.BackColor = Color.Black;
-            Canvas.MouseDown += new MouseEventHandler(Canvas_MouseDown);
+            _clickHandler = new MouseEventHandler(Canvas_MouseDown);
+            Canvas.MouseDown += _clickHandler;
             Canvas.Image = new Bitmap(Canvas.Width, Canvas.Height);
         }
 
@@ -156,7 +163,7 @@ namespace Kakuro.Engine.Graphics
                     else if (cells[i, j] is SumCell)
                         tiles[i, j] = new SumGraphicTile((cells[i, j] as SumCell).ColSum, (cells[i, j] as SumCell).RowSum);
                     else
-                        tiles[i, j] = new WhiteGraphicTile((cells[i, j] as WhiteCell).Value);
+                        tiles[i, j] = new WhiteGraphicTile();
 
             Enabled = true; // якийсь баг робить щоб контроллер виключався
             GraphicTiles = tiles;

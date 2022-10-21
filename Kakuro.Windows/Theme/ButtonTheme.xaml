@@ -46,6 +46,12 @@
                             <EventTrigger RoutedEvent="Click">
                                 <BeginStoryboard Storyboard="{StaticResource animation}"/>
                             </EventTrigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="True">
+                                <Setter Property="Opacity" Value="1"/>
+                            </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>

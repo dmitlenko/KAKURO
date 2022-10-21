@@ -77,6 +77,9 @@ namespace Kakuro.Windows
 
                 pictureBox1.Invoke(new Action(() =>
                 {
+                    toolStrip1.Enabled = true;
+                    timer1.Enabled = true;
+
                     rend = new Renderer(pictureBox1, kwidth, kheight, kakuroBoard);
                     rend.Update();
                 }));

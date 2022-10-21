@@ -68,7 +68,7 @@ namespace Kakuro.Engine.Graphics
 
         ~Renderer()
         {
-            Canvas.MouseDown -= _clickHandler;
+            //Canvas.MouseDown -= _clickHandler;
         }
 
         private void Canvas_MouseDown(object sender, MouseEventArgs e)
@@ -88,8 +88,8 @@ namespace Kakuro.Engine.Graphics
         private void PrepareCanvas()
         {
             Canvas.BackColor = Color.Black;
-            _clickHandler = new MouseEventHandler(Canvas_MouseDown);
-            Canvas.MouseDown += _clickHandler;
+            //_clickHandler = new MouseEventHandler(Canvas_MouseDown);
+            //Canvas.MouseDown += _clickHandler;
             Canvas.Image = new Bitmap(Canvas.Width, Canvas.Height);
         }
 

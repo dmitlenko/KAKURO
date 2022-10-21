@@ -22,7 +22,7 @@ namespace Kakuro.Engine.Graphics
         public int SizeX { get => GraphicTiles.GetLength(1); }
         public int SizeY { get => GraphicTiles.GetLength(0); }
 
-        public bool HighlightSelectionSums { get; set; }
+        public bool HighlightCurrentClues { get; set; }
         public bool HighlightWrongSums { get; set; }
         public bool HighlightDuplicates { get; set; }
         public bool GrayCompleteSums { get; set; }
@@ -313,7 +313,7 @@ namespace Kakuro.Engine.Graphics
                         }
                     }
 
-                    if (HighlightSelectionSums)
+                    if (HighlightCurrentClues)
                     {
                         Point th = TopHintFromSelection();
                         Point lh = LeftHintFromSelection();

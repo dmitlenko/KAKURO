@@ -71,9 +71,23 @@ namespace Kakuro.Windows
             }
         }
 
+        private void LoadSettings()
+        {
+            //autoSubmit.Checked = (bool)Properties.Settings.Default["AutoSubmit"];
+            rend.BlueForErrors = (bool)Properties.Settings.Default["BlueForErrors"];
+            rend.GrayCompleteSums = (bool)Properties.Settings.Default["GrayCompleteSums"];
+            //hideTimer.Checked = (bool)Properties.Settings.Default["HideTimer"];
+            rend.HighlightCurrentClues = (bool)Properties.Settings.Default["HighlightCurrentClues"];
+            rend.HighlightCurrentRowColumn = (bool)Properties.Settings.Default["HighlightCurrentRowCol"];
+            rend.HighlightWrong = (bool)Properties.Settings.Default["HighlightWrongCells"];
+            rend.HighlightWrongSums = (bool)Properties.Settings.Default["HighlightWrongSums"];
+            //showNumberButtons.Checked = (bool)Properties.Settings.Default["ShowNumberButtons"];
+        }
+
         private void MainForm_Load(object sender, EventArgs e)
         {
             MainForm_ResizeEnd(sender, e);
+            LoadSettings();
 
             Task.Factory.StartNew(() =>
             {
@@ -173,6 +187,16 @@ namespace Kakuro.Windows
 
             //numberPanel.Size = new Size(width, height);
             numberPanel.Location = new Point(left, top);
+        }
+
+        private void toolStripButton6_Click(object sender, EventArgs e)
+        {
+            SettingsDialog settingsDialog = new SettingsDialog();
+            timer1.Enabled = false;
+            settingsDialog.ShowDialog();
+            timer1.Enabled = true;
+            LoadSettings();
+            rend.Update();
         }
 
         private void toolStripButton7_Click(object sender, EventArgs e)

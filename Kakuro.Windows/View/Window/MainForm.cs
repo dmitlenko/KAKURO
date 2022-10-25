@@ -1,6 +1,7 @@
 ﻿using Kakuro.Engine.Algorithms;
 using Kakuro.Engine.Core;
 using Kakuro.Engine.Graphics;
+using Kakuro.Windows.View.Dialog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -99,7 +100,7 @@ namespace Kakuro.Windows
                     toolStrip1.Enabled = true;
                     timer1.Enabled = true;
 
-                    rend = new Renderer(pictureBox1, kwidth, kheight, kakuroBoard);
+                    rend.AssignBoard(kakuroBoard);
                     rend.Update();
                 }));
             });

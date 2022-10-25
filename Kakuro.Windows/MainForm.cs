@@ -61,11 +61,14 @@ namespace Kakuro.Windows
 
         private void toolStripButton4_Click(object sender, EventArgs e)
         {
-            pictureBox1.Invoke(new Action(() =>
+            if(MessageBox.Show("Do you want to restart current game?", "Are you sure?", MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
             {
-                rend = new Renderer(pictureBox1, kwidth, kheight, kakuroBoard);
-                rend.Update();
-            }));
+                pictureBox1.Invoke(new Action(() =>
+                {
+                    rend.ClearNumbers();
+                    solveTime = new Time();
+                }));
+            }
         }
 
         private void MainForm_Load(object sender, EventArgs e)

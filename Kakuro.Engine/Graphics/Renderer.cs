@@ -238,6 +238,23 @@ namespace Kakuro.Engine.Graphics
             }
         }
 
+        public void ClearNumbers()
+        {
+            for(int i = 0; i < SizeY; i++)
+            {
+                for(int j = 0; j < SizeX; j++)
+                {
+                    if(GraphicTiles[i, j] is WhiteGraphicTile)
+                    {
+                        (GraphicTiles[i, j] as WhiteGraphicTile).DrawnNumber = 0;
+                    }
+                }
+            }
+
+            Update();
+        }
+        
+
         public void Update()
         {
             if (Size.Width <= 0 && Size.Height <= 0) return;

@@ -9,6 +9,7 @@ namespace Kakuro.Engine.Cells
     /**
      * <summary>Class to represent sum cell</summary>
      */
+    [Serializable]
     public class SumCell : Cell
     {
         /**

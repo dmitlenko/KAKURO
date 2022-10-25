@@ -9,6 +9,7 @@ namespace Kakuro.Engine.Cells
     /**
      * <summary>Class to represent white cell</summary>
      */
+    [Serializable]
     public class WhiteCell: Cell
     {
         /**

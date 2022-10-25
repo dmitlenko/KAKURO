@@ -9,6 +9,7 @@ namespace Kakuro.Engine.Cells
     /**
      * <summary>Abstract class to represent a Cell</summary> 
      */
+    [Serializable]
     public abstract class Cell
     {
         /**

@@ -9,5 +9,6 @@ namespace Kakuro.Engine.Cells
     /**
      * <summary>Class to represent a black cell</summary> 
      */
+    [Serializable]
     public class BlackCell : Cell { }
 }

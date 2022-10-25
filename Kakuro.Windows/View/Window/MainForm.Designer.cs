@@ -92,7 +92,7 @@
             this.pictureBox1.BackColor = System.Drawing.SystemColors.WindowText;
             this.pictureBox1.Location = new System.Drawing.Point(8, 8);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(320, 320);
+            this.pictureBox1.Size = new System.Drawing.Size(336, 336);
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
             // 
@@ -205,6 +205,7 @@
             this.toolStripButton6.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.toolStripButton6.Size = new System.Drawing.Size(77, 24);
             this.toolStripButton6.Text = "Settings";
+            this.toolStripButton6.Click += new System.EventHandler(this.toolStripButton6_Click);
             // 
             // timer1
             // 

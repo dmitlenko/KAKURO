@@ -313,6 +313,7 @@ namespace Kakuro.Engine.Graphics
                             GraphicTiles[i, j].Size = new Size(tileHW, tileHW);
                             GraphicTiles[i, j].Position = new Point(j * tileHW, i * tileHW);
                             GraphicTiles[i, j].Selected = Selected.X == j && Selected.Y == i;
+                            GraphicTiles[i, j].BlueForErrors = BlueForErrors;
 
                             switch (GraphicTiles[i, j].Type)
                             {

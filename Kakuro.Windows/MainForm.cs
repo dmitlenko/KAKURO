@@ -91,17 +91,7 @@ namespace Kakuro.Windows
 
         private bool CheckKakuro()
         {
-            for(int i = 0; i < kheight; i++)
-            {
-                for(int j = 0; j < kwidth; j++)
-                {
-                    if (rend.GraphicTiles[j, i] is WhiteGraphicTile && 
-                        kakuroBoard.GetHelp(i, j) != (rend.GraphicTiles[j, i] as WhiteGraphicTile).DrawnNumber)
-                        return false;
-                }
-            }
-
-            return true;
+            return CountUnnasigned() == 0;
         }
 
         private int CountUnnasigned()

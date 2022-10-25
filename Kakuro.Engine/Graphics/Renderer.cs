@@ -13,9 +13,33 @@ namespace Kakuro.Engine.Graphics
     {
         private bool _enabled = true;
         private MouseEventHandler _clickHandler;
+        private KakuroBoard _board;
 
         public PictureBox Canvas { get; set; }
         public GraphicTile[,] GraphicTiles = { };
+        public KakuroBoard Board
+        {
+            get {
+                KakuroBoard ret = _board;
+
+                for(int i = 0; i < SizeX; i++)
+                {
+                    for(int j = 0; j < SizeY; j++)
+                    {
+                        if (GraphicTiles[i,j] is WhiteGraphicTile)
+                        {
+                            (ret.Grid[i, j] as WhiteCell).Value = (GraphicTiles[i, j] as WhiteGraphicTile).DrawnNumber;
+                        }
+                    }
+                }
+
+                return ret;
+            }
+            private set
+            {
+                _board = value; 
+            }
+        }
 
         public Point Selected = new Point(0, 0);
         public Size Size { get; set; }
@@ -25,7 +49,7 @@ namespace Kakuro.Engine.Graphics
         // config
         public bool HighlightCurrentClues { get; set; }
         public bool HighlightWrongSums { get; set; }
-        public bool HighlightDuplicates { get; set; }
+        public bool HighlightWrong { get; set; } = true;
         public bool GrayCompleteSums { get; set; }
         public bool HighlightCurrentRowColumn { get; set; }
 
@@ -61,6 +85,7 @@ namespace Kakuro.Engine.Graphics
             Canvas = canvas;
             Size = new Size(tilesX, tilesY);
             Enabled = true;
+            Board = board;
 
             AssignBoard(board);
 
@@ -147,6 +172,7 @@ namespace Kakuro.Engine.Graphics
 
         public void AssignBoard(KakuroBoard board)
         {
+            _board = board;
             Cell[,] cells = board.Grid;
 
             Size = new Size(cells.GetLength(1), cells.GetLength(0));
@@ -170,22 +196,6 @@ namespace Kakuro.Engine.Graphics
 
             Update();
         }
-
-        /*public Cell[,] CellData()
-        {
-            Cell[,] cells = new Cell[Size.Height, Size.Width];
-
-            for (int i = 0; i < Size.Height; i++)
-                for (int j = 0; j < Size.Width; j++)
-                    if (GraphicTiles[i, j].Type == TileTypes.Black || GraphicTiles[i, j].Type == TileTypes.Empty)
-                        cells[i, j] = new BlackCell();
-                    else if (GraphicTiles[i, j].Type == TileTypes.Hint)
-                        cells[i, j] = new SumCell(((SumGraphicTile)GraphicTiles[i, j]).SumVertical, ((SumGraphicTile)GraphicTiles[i, j]).SumHorizontal);
-                    else
-                        cells[i, j] = new WhiteCell(((WhiteGraphicTile)GraphicTiles[i, j]).DrawnNumber);
-
-            return cells;
-        }*/
 
         public void MoveSelectionUp()
         {
@@ -254,6 +264,7 @@ namespace Kakuro.Engine.Graphics
             Update();
         }
         
+       
 
         public void Update()
         {
@@ -319,10 +330,11 @@ namespace Kakuro.Engine.Graphics
 
                                     // Set to default
                                     numberTile.HighlightBackground = false;
+                                    numberTile.Highlight = false;
 
-                                    if (HighlightDuplicates)
+                                    if (HighlightWrong && numberTile.DrawnNumber > 0 && numberTile.DrawnNumber != _board.GetHelp(i, j))
                                     {
-                                        // todo
+                                        numberTile.Highlight = true;
                                     }
 
                                     if (HighlightCurrentRowColumn)
@@ -380,5 +392,6 @@ namespace Kakuro.Engine.Graphics
             });
 
         }
+
     }
 }

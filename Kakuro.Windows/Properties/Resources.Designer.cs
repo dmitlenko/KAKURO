@@ -93,6 +93,16 @@ namespace Kakuro.Windows.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap flag_flyaway_pointed {
+            get {
+                object obj = ResourceManager.GetObject("flag_flyaway_pointed", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap folder_vertical_open {
             get {
                 object obj = ResourceManager.GetObject("folder_vertical_open", resourceCulture);

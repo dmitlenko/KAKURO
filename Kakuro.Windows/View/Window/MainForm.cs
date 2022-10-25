@@ -21,6 +21,7 @@ namespace Kakuro.Windows
         Time solveTime = new Time(0,0,0);
 
         int kwidth = 7, kheight = 7;
+        bool autoSubmit;
 
         public MainForm()
         {
@@ -74,20 +75,21 @@ namespace Kakuro.Windows
 
         private void LoadSettings()
         {
-            //autoSubmit.Checked = (bool)Properties.Settings.Default["AutoSubmit"];
+            autoSubmit = (bool)Properties.Settings.Default["AutoSubmit"];
             rend.BlueForErrors = (bool)Properties.Settings.Default["BlueForErrors"];
             rend.GrayCompleteSums = (bool)Properties.Settings.Default["GrayCompleteSums"];
-            //hideTimer.Checked = (bool)Properties.Settings.Default["HideTimer"];
+            timeLabel.Visible = !(bool)Properties.Settings.Default["HideTimer"];
             rend.HighlightCurrentClues = (bool)Properties.Settings.Default["HighlightCurrentClues"];
             rend.HighlightCurrentRowColumn = (bool)Properties.Settings.Default["HighlightCurrentRowCol"];
             rend.HighlightWrong = (bool)Properties.Settings.Default["HighlightWrongCells"];
             rend.HighlightWrongSums = (bool)Properties.Settings.Default["HighlightWrongSums"];
-            //showNumberButtons.Checked = (bool)Properties.Settings.Default["ShowNumberButtons"];
+            numberPanelBox.Visible = (bool)Properties.Settings.Default["ShowNumberButtons"];
+
+            MainForm_ResizeEnd(null, null);
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            MainForm_ResizeEnd(sender, e);
             LoadSettings();
 
             Task.Factory.StartNew(() =>
@@ -159,6 +161,11 @@ namespace Kakuro.Windows
                 case Keys.D0: case Keys.D1: case Keys.D2: case Keys.D3: case Keys.D4: 
                 case Keys.D5: case Keys.D6: case Keys.D7: case Keys.D8: case Keys.D9:
                     rend.SetSelectedTileNumber(e.KeyValue - 48);
+                    if (autoSubmit && CheckKakuro())
+                    {
+                        timer1.Enabled = false;
+                        MessageBox.Show(string.Format("Congrats! You solved the puzzle in {0}!", solveTime.ToString()));
+                    }
                     break;
                 case Keys.Delete:
                     rend.SetSelectedTileNumber(0);
@@ -174,6 +181,11 @@ namespace Kakuro.Windows
         private void button_Click(object sender, EventArgs e)
         {
             rend.SetSelectedTileNumber(Convert.ToInt32((sender as Button).Text));
+            if(autoSubmit && CheckKakuro())
+            {
+                timer1.Enabled = false;
+                MessageBox.Show(string.Format("Congrats! You solved the puzzle in {0}!", solveTime.ToString()));
+            }
         }
 
         private void MainForm_Resize(object sender, EventArgs e)
@@ -216,6 +228,12 @@ namespace Kakuro.Windows
             }
 
             rend.Update();
+
+            if (autoSubmit && CheckKakuro())
+            {
+                timer1.Enabled = false;
+                MessageBox.Show(string.Format("Congrats! You solved the puzzle in {0}!", solveTime.ToString()));
+            }
         }
     }
 }

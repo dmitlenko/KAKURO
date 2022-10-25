@@ -35,18 +35,13 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.timeLabel = new System.Windows.Forms.Label();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.numberPanelBox = new System.Windows.Forms.Panel();
             this.numberPanel = new System.Windows.Forms.Panel();
             this.button10 = new System.Windows.Forms.Button();
@@ -59,6 +54,7 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -113,13 +109,11 @@
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton1,
-            this.toolStripButton2,
             this.toolStripSeparator1,
             this.toolStripButton3,
             this.toolStripButton4,
             this.toolStripButton5,
             this.toolStripButton7,
-            this.toolStripSeparator2,
             this.toolStripButton6});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
@@ -127,25 +121,6 @@
             this.toolStrip1.Size = new System.Drawing.Size(593, 27);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
-            // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.Image = global::Kakuro.Windows.Properties.Resources.folder_vertical_open;
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.toolStripButton1.Size = new System.Drawing.Size(97, 24);
-            this.toolStripButton1.Text = "Open game";
-            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
-            // 
-            // toolStripButton2
-            // 
-            this.toolStripButton2.Image = global::Kakuro.Windows.Properties.Resources.file_save_as;
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.toolStripButton2.Size = new System.Drawing.Size(92, 24);
-            this.toolStripButton2.Text = "Save game";
             // 
             // toolStripSeparator1
             // 
@@ -192,18 +167,15 @@
             this.toolStripButton7.Text = "Solve";
             this.toolStripButton7.Click += new System.EventHandler(this.toolStripButton7_Click);
             // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 27);
-            // 
             // toolStripButton6
             // 
+            this.toolStripButton6.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripButton6.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripButton6.Image = global::Kakuro.Windows.Properties.Resources.setting_tools;
             this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton6.Name = "toolStripButton6";
             this.toolStripButton6.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.toolStripButton6.Size = new System.Drawing.Size(77, 24);
+            this.toolStripButton6.Size = new System.Drawing.Size(28, 24);
             this.toolStripButton6.Text = "Settings";
             this.toolStripButton6.Click += new System.EventHandler(this.toolStripButton6_Click);
             // 
@@ -211,10 +183,6 @@
             // 
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // numberPanelBox
             // 
@@ -342,6 +310,15 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button_Click);
             // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.Image = global::Kakuro.Windows.Properties.Resources.flag_flyaway_pointed;
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.toolStripButton1.Size = new System.Drawing.Size(101, 24);
+            this.toolStripButton1.Text = "Checkpoints";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -376,21 +353,16 @@
 
         private Panel panel1;
         private ToolStrip toolStrip1;
-        private ToolStripButton toolStripButton1;
-        private ToolStripButton toolStripButton2;
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripButton toolStripButton3;
         private ToolStripButton toolStripButton4;
         private ToolStripButton toolStripButton5;
-        private ToolStripSeparator toolStripSeparator2;
         private ToolStripButton toolStripButton6;
         private Panel panel2;
         private PictureBox pictureBox1;
         private Label timeLabel;
         private ToolStripButton toolStripButton7;
         private System.Windows.Forms.Timer timer1;
-        private OpenFileDialog openFileDialog1;
-        private SaveFileDialog saveFileDialog1;
         private Panel numberPanelBox;
         private Panel numberPanel;
         private Button button10;
@@ -403,5 +375,6 @@
         private Button button3;
         private Button button2;
         private Button button1;
+        private ToolStripButton toolStripButton1;
     }
 }

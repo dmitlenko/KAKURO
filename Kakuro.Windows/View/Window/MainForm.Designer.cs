@@ -351,6 +351,7 @@
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.numberPanelBox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.MinimumSize = new System.Drawing.Size(609, 537);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

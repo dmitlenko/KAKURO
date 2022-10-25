@@ -49,9 +49,10 @@ namespace Kakuro.Engine.Graphics
         // config
         public bool HighlightCurrentClues { get; set; }
         public bool HighlightWrongSums { get; set; }
-        public bool HighlightWrong { get; set; } = true;
+        public bool HighlightWrong { get; set; }
         public bool GrayCompleteSums { get; set; }
         public bool HighlightCurrentRowColumn { get; set; }
+        public bool BlueForErrors { get; set; }
 
         public bool Enabled
         {
@@ -129,46 +130,68 @@ namespace Kakuro.Engine.Graphics
 
         private Point TopHintFromSelection()
         {
-            for (int i = Selected.Y; i >= 0; i--)
-                if (GraphicTiles[i, Selected.X].Type == TileTypes.Hint)
-                    return new Point(Selected.X, i);
+            try
+            {
+                for (int i = Selected.Y; i >= 0; i--)
+                    if (GraphicTiles[i, Selected.X].Type == TileTypes.Hint)
+                        return new Point(Selected.X, i);
+            }
+            catch { }
 
             return Point.Empty;
         }
 
         private Point LeftHintFromSelection()
         {
-            for (int i = Selected.X; i >= 0; i--)
+            try
+            {
+                for (int i = Selected.X; i >= 0; i--)
                 if (GraphicTiles[Selected.Y, i].Type == TileTypes.Hint)
                     return new Point(i, Selected.Y);
+            }
+            catch { }
 
             return Point.Empty;
         }
 
-        private void OffsetForType(int x, int y, int xoff, int yoff, string type, Func<GraphicTile, bool> action)
-        {
-            x += xoff;
-            y += yoff;
-            if (type != GraphicTiles[y, x].Type || !action(GraphicTiles[y, x])) return;
-            else OffsetForType(x, y, xoff, yoff, type, action);
-        }
-
-        private int OffsetNumberSum(int x, int y, int xoff, int yoff)
+        private int HorizontalSum(int y, int x)
         {
             int sum = 0;
 
-            OffsetForType(x, y, xoff, yoff, TileTypes.Number, (tile) =>
+   
+            for (int i = y + 1; i < SizeY; i++)
             {
-                sum += (tile as WhiteGraphicTile).DrawnNumber;
-                return true;
-            });
+                if (GraphicTiles[x, i] is WhiteGraphicTile)
+                {
+                    sum += (GraphicTiles[x, i] as WhiteGraphicTile).DrawnNumber;
+                }
+                else
+                {
+                    break;
+                }
+            }
 
             return sum;
         }
 
-        private int HorizontalSum(int x, int y) => OffsetNumberSum(x, y, 1, 0);
+        private int VerticalSum(int y, int x)
+        {
+            int sum = 0;
 
-        private int VerticalSum(int x, int y) => OffsetNumberSum(x, y, 0, 1);
+            for (int i = x + 1; i < SizeX; i++)
+            {
+                if (GraphicTiles[i, y] is WhiteGraphicTile)
+                {
+                    sum += (GraphicTiles[i, y] as WhiteGraphicTile).DrawnNumber;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return sum;
+        }
 
         public void AssignBoard(KakuroBoard board)
         {

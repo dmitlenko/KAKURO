@@ -52,6 +52,8 @@ namespace Kakuro.Engine.Graphics
          */
         public bool GrayHorizontalSum { get; set; } = false;
 
+        
+
         /**
          * <summary>Default constructor for SumGraphicTiles</summary>
          */
@@ -102,8 +104,8 @@ namespace Kakuro.Engine.Graphics
             SizeF str1sz = graphics.MeasureString(SumVertical.ToString(), verticalFont);
             SizeF str2sz = graphics.MeasureString(SumHorizontal.ToString(), horizontalFont);
 
-            Brush verticalColor = HighlightVerticalSum ? Brushes.DodgerBlue : GrayVerticalSum ? Brushes.Gray : Brushes.White;
-            Brush horizontalColor = HighlightHorizontalSum ? Brushes.DodgerBlue : GrayHorizontalSum ? Brushes.Gray : Brushes.White;
+            Brush verticalColor = HighlightVerticalSum ? (BlueForErrors ? Brushes.DodgerBlue : Brushes.Red) : GrayVerticalSum ? Brushes.Gray : Brushes.White;
+            Brush horizontalColor = HighlightHorizontalSum ? (BlueForErrors ? Brushes.DodgerBlue : Brushes.Red) : GrayHorizontalSum ? Brushes.Gray : Brushes.White;
 
             graphics.DrawString(SumVertical == -1 ? "" : SumVertical.ToString(), verticalFont, verticalColor, Position.X, Position.Y + Size.Height - str1sz.Height);
             graphics.DrawString(SumHorizontal == -1 ? "" : SumHorizontal.ToString(), horizontalFont, horizontalColor, Position.X + Size.Width - str2sz.Width, Position.Y);

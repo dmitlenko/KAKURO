@@ -51,6 +51,11 @@ namespace Kakuro.Engine.Graphics
          */
         public bool Selected { get; set; }
 
+        /// <summary>
+        /// Use blue for errors
+        /// </summary>
+        public bool BlueForErrors { get; set; } = false;
+
         /**
          * <summary>Base constructor for GraphicTile</summary>
          */

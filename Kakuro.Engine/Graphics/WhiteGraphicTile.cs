@@ -55,7 +55,7 @@ namespace Kakuro.Engine.Graphics
             SizeF textSize = graphics.MeasureString(DrawnNumber.ToString(), drawFont);
             Size textSize1 = new Size(Size.Width / 2 - (int)textSize.Width / 2, Size.Height / 2 - (int)textSize.Height / 2);
 
-            graphics.DrawString(DrawnNumber == 0 ? "" : DrawnNumber.ToString(), drawFont, Highlight ? Brushes.Blue : Brushes.DodgerBlue, Point.Add(Position, textSize1));
+            graphics.DrawString(DrawnNumber == 0 ? "" : DrawnNumber.ToString(), drawFont, Highlight ? (BlueForErrors ? Brushes.Blue : Brushes.Red) : Brushes.DodgerBlue, Point.Add(Position, textSize1));
 
             DrawOutline(graphics);
             if (Selected) DrawSelection(graphics);

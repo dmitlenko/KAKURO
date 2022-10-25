@@ -41,6 +41,8 @@ namespace Kakuro.Windows.View.Dialog
             Properties.Settings.Default.HighlightWrongCells = highlightWrongCells.Checked;
             Properties.Settings.Default.HighlightWrongSums = highlightWrongSums.Checked;
             Properties.Settings.Default.ShowNumberButtons = showNumberButtons.Checked;
+
+            Close();
         }
     }
 }

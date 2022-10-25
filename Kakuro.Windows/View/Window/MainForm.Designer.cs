@@ -35,6 +35,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.timeLabel = new System.Windows.Forms.Label();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
@@ -54,7 +55,6 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -121,6 +121,16 @@
             this.toolStrip1.Size = new System.Drawing.Size(593, 27);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.Image = global::Kakuro.Windows.Properties.Resources.flag_flyaway_pointed;
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.toolStripButton1.Size = new System.Drawing.Size(101, 24);
+            this.toolStripButton1.Text = "Checkpoints";
+            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click_1);
             // 
             // toolStripSeparator1
             // 
@@ -212,6 +222,7 @@
             // 
             // button10
             // 
+            this.button10.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.button10.Location = new System.Drawing.Point(516, 8);
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(48, 40);
@@ -222,6 +233,7 @@
             // 
             // button9
             // 
+            this.button9.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.button9.Location = new System.Drawing.Point(460, 8);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(48, 40);
@@ -232,6 +244,7 @@
             // 
             // button8
             // 
+            this.button8.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.button8.Location = new System.Drawing.Point(404, 8);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(48, 40);
@@ -242,6 +255,7 @@
             // 
             // button7
             // 
+            this.button7.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.button7.Location = new System.Drawing.Point(348, 8);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(48, 40);
@@ -252,6 +266,7 @@
             // 
             // button6
             // 
+            this.button6.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.button6.Location = new System.Drawing.Point(292, 8);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(48, 40);
@@ -262,6 +277,7 @@
             // 
             // button5
             // 
+            this.button5.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.button5.Location = new System.Drawing.Point(236, 8);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(48, 40);
@@ -272,6 +288,7 @@
             // 
             // button4
             // 
+            this.button4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.button4.Location = new System.Drawing.Point(180, 8);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(48, 40);
@@ -282,6 +299,7 @@
             // 
             // button3
             // 
+            this.button3.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.button3.Location = new System.Drawing.Point(124, 8);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(48, 40);
@@ -292,6 +310,7 @@
             // 
             // button2
             // 
+            this.button2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.button2.Location = new System.Drawing.Point(68, 8);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(48, 40);
@@ -302,6 +321,7 @@
             // 
             // button1
             // 
+            this.button1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.button1.Location = new System.Drawing.Point(12, 8);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(48, 40);
@@ -309,15 +329,6 @@
             this.button1.Text = "1";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button_Click);
-            // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.Image = global::Kakuro.Windows.Properties.Resources.flag_flyaway_pointed;
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.toolStripButton1.Size = new System.Drawing.Size(101, 24);
-            this.toolStripButton1.Text = "Checkpoints";
             // 
             // MainForm
             // 

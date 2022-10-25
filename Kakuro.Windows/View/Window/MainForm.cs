@@ -1,6 +1,7 @@
 ﻿using Kakuro.Engine.Algorithms;
 using Kakuro.Engine.Core;
 using Kakuro.Engine.Graphics;
+using Kakuro.Windows.Core;
 using Kakuro.Windows.View.Dialog;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace Kakuro.Windows
         Renderer rend;
         KakuroBoard kakuroBoard;
         Time solveTime = new Time(0,0,0);
+        CheckPointFile checkPoint = new CheckPointFile();
 
         int kwidth = 7, kheight = 7;
         bool autoSubmit;
@@ -173,11 +175,6 @@ namespace Kakuro.Windows
             }
         }
 
-        private void toolStripButton1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void button_Click(object sender, EventArgs e)
         {
             rend.SetSelectedTileNumber(Convert.ToInt32((sender as Button).Text));
@@ -198,7 +195,6 @@ namespace Kakuro.Windows
             int top = numberPanelBox.Height / 2 - height / 2 - padding;
             int left = numberPanelBox.Width / 2 - width / 2;
 
-            //numberPanel.Size = new Size(width, height);
             numberPanel.Location = new Point(left, top);
         }
 
@@ -210,6 +206,24 @@ namespace Kakuro.Windows
             timer1.Enabled = true;
             LoadSettings();
             rend.Update();
+        }
+
+        private void toolStripButton1_Click_1(object sender, EventArgs e)
+        {
+            CheckpointDialog checkpointDialog = new CheckpointDialog(checkPoint, rend.Board, solveTime);
+
+            timer1.Enabled = false;
+
+            if (checkpointDialog.ShowDialog() == DialogResult.OK)
+            {
+                solveTime = checkpointDialog.Loaded.Time;
+                kakuroBoard = checkpointDialog.Loaded.Instance;
+
+                rend.AssignBoard(kakuroBoard);
+                rend.Update();
+            }
+
+            timer1.Enabled = true;
         }
 
         private void toolStripButton7_Click(object sender, EventArgs e)

@@ -212,7 +212,7 @@ namespace Kakuro.Engine.Graphics
                     else if (cells[i, j] is SumCell)
                         tiles[i, j] = new SumGraphicTile((cells[i, j] as SumCell).ColSum, (cells[i, j] as SumCell).RowSum);
                     else
-                        tiles[i, j] = new WhiteGraphicTile();
+                        tiles[i, j] = new WhiteGraphicTile((cells[i, j] as WhiteCell).Value);
 
             Enabled = true; // якийсь баг робить щоб контроллер виключався
             GraphicTiles = tiles;

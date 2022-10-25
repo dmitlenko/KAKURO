@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Kakuro.Engine.Core;
+using Kakuro.Windows.Core;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,9 +14,56 @@ namespace Kakuro.Windows.View.Dialog
 {
     public partial class CheckpointDialog : Form
     {
-        public CheckpointDialog()
+        CheckPointFile checkPoint;
+        public CheckPoint Loaded { get; private set; }
+        public KakuroBoard Instance { get; private set; }
+        public Time Time { get; private set; }
+
+        public CheckpointDialog(CheckPointFile file, KakuroBoard instance, Time time)
         {
             InitializeComponent();
+            checkPoint = file;
+
+            Instance = instance;
+            Time = time;
+        }
+
+        private void CheckpointDialog_Load(object sender, EventArgs e)
+        {
+            listBox1.Items.Clear();
+            foreach (var item in checkPoint.CheckPoints)
+            {
+                listBox1.Items.Add(item.ToString());
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (listBox1.SelectedIndex >= 0 && MessageBox.Show("Do you want to load this checkpoint?", "Are you sure?", MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+            {
+                Loaded = checkPoint.CheckPoints[listBox1.SelectedIndex];
+                DialogResult = DialogResult.OK;
+                Close();
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            checkPoint.CheckPoints.Add(new CheckPoint(
+                "Checkpoint " + (checkPoint.CheckPoints.Count + 1),
+                Time, Instance, DateTime.Now));
+            checkPoint.Save();
+            CheckpointDialog_Load(null, null);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if(listBox1.SelectedIndex >= 0 && MessageBox.Show("Do you want to delete this checkpoint?", "Are you sure?", MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+            {
+                checkPoint.CheckPoints.RemoveAt(listBox1.SelectedIndex);
+                checkPoint.Save();
+                CheckpointDialog_Load(null, null);
+            }
         }
     }
 }

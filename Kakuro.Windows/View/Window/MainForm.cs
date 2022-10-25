@@ -19,7 +19,7 @@ namespace Kakuro.Windows
         KakuroBoard kakuroBoard;
         Time solveTime = new Time(0,0,0);
 
-        int kwidth = 7, kheight = 7;
+        int kwidth = 6, kheight = 6;
 
         public MainForm()
         {
@@ -73,10 +73,12 @@ namespace Kakuro.Windows
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            MainForm_ResizeEnd(sender, e);
+
             Task.Factory.StartNew(() =>
             {
                 Generator g = new Generator();
-                kakuroBoard = g.Generate(kwidth, kheight, 2);
+                kakuroBoard = g.Generate(kwidth, kheight, 1);
 
                 pictureBox1.Invoke(new Action(() =>
                 {
@@ -103,7 +105,7 @@ namespace Kakuro.Windows
                 for (int j = 0; j < kwidth; j++)
                 {
                     if (rend.GraphicTiles[j, i] is WhiteGraphicTile &&
-                        (rend.GraphicTiles[j, i] as WhiteGraphicTile).DrawnNumber <= 0)
+                        (rend.GraphicTiles[j, i] as WhiteGraphicTile).DrawnNumber != kakuroBoard.GetHelp(i,j))
                         count++;
                 }
             }
@@ -147,6 +149,30 @@ namespace Kakuro.Windows
                     rend.SetSelectedTileNumber(0);
                     break;
             }
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_Click(object sender, EventArgs e)
+        {
+            rend.SetSelectedTileNumber(Convert.ToInt32((sender as Button).Text));
+        }
+
+        private void MainForm_Resize(object sender, EventArgs e)
+        {
+            int padding = 8;
+
+            int height = numberPanel.Height; 
+            int width = numberPanel.Width;
+
+            int top = numberPanelBox.Height / 2 - height / 2 - padding;
+            int left = numberPanelBox.Width / 2 - width / 2;
+
+            //numberPanel.Size = new Size(width, height);
+            numberPanel.Location = new Point(left, top);
         }
 
         private void toolStripButton7_Click(object sender, EventArgs e)

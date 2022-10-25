@@ -19,7 +19,7 @@ namespace Kakuro.Windows
         KakuroBoard kakuroBoard;
         Time solveTime = new Time(0,0,0);
 
-        int kwidth = 6, kheight = 6;
+        int kwidth = 7, kheight = 7;
 
         public MainForm()
         {
@@ -33,8 +33,8 @@ namespace Kakuro.Windows
         {
             int padding = 8;
 
-            int height = 320;
-            int width = 320;
+            int height = 337;
+            int width = 337;
 
             int top = panel1.Height/2 - height/2 - padding;
             int left = panel1.Width / 2 - width / 2;

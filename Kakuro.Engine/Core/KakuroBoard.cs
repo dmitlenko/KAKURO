@@ -8,6 +8,7 @@ using Kakuro.Engine.Cells;
 
 namespace Kakuro.Engine.Core
 {
+    [Serializable]
     public class KakuroBoard
     {
         /**

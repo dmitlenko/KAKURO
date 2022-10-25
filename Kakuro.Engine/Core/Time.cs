@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kakuro.Engine.Core
 {
+    [Serializable]
     public class Time
     {
         private int hours;

@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Kakuro.Windows.MainForm">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACQAAAEBACAAgIAIgX6AsNcSAMw7IAQAAAAAgQFACEA=</HashCode>
+      <FileName>View\Window\MainForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Kakuro.Windows.View.Dialog.CheckpointDialog">
+    <Position X="2.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAACEAABAAAAKAAAACAAA4AAAAQHAAAAAAAQA=</HashCode>
+      <FileName>View\Dialog\CheckpointDialog.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Kakuro.Windows.View.Dialog.SettingsDialog">
+    <Position X="4.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAUAAAAAACCABAAABACEIAACAAAEAUAEACAAAAAACAA=</HashCode>
+      <FileName>View\Dialog\SettingsDialog.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Kakuro.Windows.Core.CheckPoint">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAEAAAAAAAAAAAAAAQAQAAAAAAAAQA=</HashCode>
+      <FileName>Core\CheckPoint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Kakuro.Windows.Core.CheckPointFile">
+    <Position X="8.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgIAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Core\CheckPointFile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

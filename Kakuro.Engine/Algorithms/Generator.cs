@@ -1,5 +1,6 @@
 ﻿using Kakuro.Engine.Cells;
 using Kakuro.Engine.Core;
+using Kakuro.Engine.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -96,6 +97,24 @@ namespace Kakuro.Engine.Algorithms
             catch (Exception)
             {
                 goto generatenew;
+            }
+
+            // additional check
+            for (int i = 0; i < k.Height; i++)
+            {
+                for (int j = 0; j < k.Width; j++)
+                {
+                    if (k.Grid[i, j] is WhiteCell)
+                    {
+                        try
+                        {
+                            k.GetHelp(i, j);
+                        }catch (Exception)
+                        {
+                            goto generatenew;
+                        }
+                    }
+                }
             }
 
             KakuroBoard aux = k;

@@ -18,7 +18,7 @@ public class SolverTest
 
     Cell[,] grid3x3 = new Cell[,]
     {
-        {new BlackCell(), new SumCell(-1,4), new SumCell(-1,5)},
+        {new BlackCell(), new SumCell(-1,4), new SumCell(-1,1)},
         {new SumCell(4,-1), new WhiteCell(), new WhiteCell()},
         {new SumCell(5,-1), new WhiteCell(), new WhiteCell()}
     };

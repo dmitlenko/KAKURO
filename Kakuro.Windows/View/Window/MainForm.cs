@@ -87,6 +87,7 @@ namespace Kakuro.Windows
             rend.HighlightWrongSums = (bool)Properties.Settings.Default["HighlightWrongSums"];
             numberPanelBox.Visible = (bool)Properties.Settings.Default["ShowNumberButtons"];
 
+
             MainForm_ResizeEnd(null, null);
         }
 
@@ -97,7 +98,7 @@ namespace Kakuro.Windows
             Task.Factory.StartNew(() =>
             {
                 Generator g = new Generator();
-                kakuroBoard = g.Generate(kwidth, kheight, 1);
+                kakuroBoard = g.Generate(kwidth, kheight, (int)Properties.Settings.Default["BoardDifficulty"]);
 
                 pictureBox1.Invoke(new Action(() =>
                 {

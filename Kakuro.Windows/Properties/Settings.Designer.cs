@@ -130,5 +130,17 @@ namespace Kakuro.Windows.Properties {
                 this["BlueForErrors"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int BoardDifficulty {
+            get {
+                return ((int)(this["BoardDifficulty"]));
+            }
+            set {
+                this["BoardDifficulty"] = value;
+            }
+        }
     }
 }

@@ -28,7 +28,7 @@ namespace Kakuro.Windows.View.Dialog
             highlightWrongCells.Checked = (bool)Properties.Settings.Default["HighlightWrongCells"];
             highlightWrongSums.Checked = (bool)Properties.Settings.Default["HighlightWrongSums"];
             showNumberButtons.Checked = (bool)Properties.Settings.Default["ShowNumberButtons"];
-            comboBox1.SelectedIndex = (int)Properties.Settings.Default["BoardDifficulty"] - 1;
+            difficultyDrop.SelectedIndex = (int)Properties.Settings.Default["BoardDifficulty"] - 1;
         }
 
         private void save_Click(object sender, EventArgs e)
@@ -42,7 +42,7 @@ namespace Kakuro.Windows.View.Dialog
             Properties.Settings.Default.HighlightWrongCells = highlightWrongCells.Checked;
             Properties.Settings.Default.HighlightWrongSums = highlightWrongSums.Checked;
             Properties.Settings.Default.ShowNumberButtons = showNumberButtons.Checked;
-            Properties.Settings.Default.BoardDifficulty = comboBox1.SelectedIndex + 1;
+            Properties.Settings.Default.BoardDifficulty = difficultyDrop.SelectedIndex + 1;
             Properties.Settings.Default.Save();
             Close();
         }

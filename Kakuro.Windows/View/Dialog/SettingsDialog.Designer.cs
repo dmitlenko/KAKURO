@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsDialog));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.difficultyDrop = new System.Windows.Forms.ComboBox();
             this.hideTimer = new System.Windows.Forms.CheckBox();
             this.showNumberButtons = new System.Windows.Forms.CheckBox();
             this.autoSubmit = new System.Windows.Forms.CheckBox();
@@ -42,8 +44,6 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.blueForErrors = new System.Windows.Forms.CheckBox();
             this.save = new System.Windows.Forms.Button();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -52,7 +52,7 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.comboBox1);
+            this.groupBox1.Controls.Add(this.difficultyDrop);
             this.groupBox1.Controls.Add(this.hideTimer);
             this.groupBox1.Controls.Add(this.showNumberButtons);
             this.groupBox1.Controls.Add(this.autoSubmit);
@@ -62,6 +62,28 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Game";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(8, 96);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(58, 15);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Difficulty:";
+            // 
+            // difficultyDrop
+            // 
+            this.difficultyDrop.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.difficultyDrop.FormattingEnabled = true;
+            this.difficultyDrop.Items.AddRange(new object[] {
+            "Easy",
+            "Medium",
+            "Hard (long generation time)"});
+            this.difficultyDrop.Location = new System.Drawing.Point(8, 112);
+            this.difficultyDrop.Name = "difficultyDrop";
+            this.difficultyDrop.Size = new System.Drawing.Size(192, 23);
+            this.difficultyDrop.TabIndex = 1;
             // 
             // hideTimer
             // 
@@ -187,28 +209,6 @@
             this.save.UseVisualStyleBackColor = true;
             this.save.Click += new System.EventHandler(this.save_Click);
             // 
-            // comboBox1
-            // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "Easy",
-            "Medium",
-            "Hard (long generation time)"});
-            this.comboBox1.Location = new System.Drawing.Point(8, 112);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(192, 23);
-            this.comboBox1.TabIndex = 1;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 96);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(58, 15);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Difficulty:";
-            // 
             // SettingsDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -252,6 +252,6 @@
         private Button save;
         private CheckBox highlightWrongCells;
         private Label label1;
-        private ComboBox comboBox1;
+        private ComboBox difficultyDrop;
     }
 }

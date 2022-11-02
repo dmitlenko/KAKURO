@@ -32,20 +32,20 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.mainCanvas = new System.Windows.Forms.PictureBox();
             this.timeLabel = new System.Windows.Forms.Label();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStrip = new System.Windows.Forms.ToolStrip();
+            this.checkPointsButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.newGameButton = new System.Windows.Forms.ToolStripButton();
+            this.restartButton = new System.Windows.Forms.ToolStripButton();
+            this.checkButton = new System.Windows.Forms.ToolStripButton();
+            this.solveButton = new System.Windows.Forms.ToolStripButton();
+            this.settingsButton = new System.Windows.Forms.ToolStripButton();
+            this.timer = new System.Windows.Forms.Timer(this.components);
             this.numberPanelBox = new System.Windows.Forms.Panel();
             this.numberPanel = new System.Windows.Forms.Panel();
-            this.button10 = new System.Windows.Forms.Button();
+            this.button0 = new System.Windows.Forms.Button();
             this.button9 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
@@ -57,8 +57,8 @@
             this.button1 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.toolStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mainCanvas)).BeginInit();
+            this.toolStrip.SuspendLayout();
             this.numberPanelBox.SuspendLayout();
             this.numberPanel.SuspendLayout();
             this.SuspendLayout();
@@ -75,7 +75,7 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.pictureBox1);
+            this.panel2.Controls.Add(this.mainCanvas);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 24);
             this.panel2.Name = "panel2";
@@ -83,14 +83,14 @@
             this.panel2.Size = new System.Drawing.Size(593, 373);
             this.panel2.TabIndex = 1;
             // 
-            // pictureBox1
+            // mainCanvas
             // 
-            this.pictureBox1.BackColor = System.Drawing.SystemColors.WindowText;
-            this.pictureBox1.Location = new System.Drawing.Point(8, 8);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(336, 336);
-            this.pictureBox1.TabIndex = 2;
-            this.pictureBox1.TabStop = false;
+            this.mainCanvas.BackColor = System.Drawing.SystemColors.WindowText;
+            this.mainCanvas.Location = new System.Drawing.Point(8, 8);
+            this.mainCanvas.Name = "mainCanvas";
+            this.mainCanvas.Size = new System.Drawing.Size(336, 336);
+            this.mainCanvas.TabIndex = 2;
+            this.mainCanvas.TabStop = false;
             // 
             // timeLabel
             // 
@@ -102,98 +102,98 @@
             this.timeLabel.Text = "00:00:00";
             this.timeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // toolStrip1
+            // toolStrip
             // 
-            this.toolStrip1.BackColor = System.Drawing.SystemColors.Window;
-            this.toolStrip1.Enabled = false;
-            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton1,
+            this.toolStrip.BackColor = System.Drawing.SystemColors.Window;
+            this.toolStrip.Enabled = false;
+            this.toolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.checkPointsButton,
             this.toolStripSeparator1,
-            this.toolStripButton3,
-            this.toolStripButton4,
-            this.toolStripButton5,
-            this.toolStripButton7,
-            this.toolStripButton6});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Padding = new System.Windows.Forms.Padding(12, 0, 12, 0);
-            this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStrip1.Size = new System.Drawing.Size(593, 27);
-            this.toolStrip1.TabIndex = 1;
-            this.toolStrip1.Text = "toolStrip1";
+            this.newGameButton,
+            this.restartButton,
+            this.checkButton,
+            this.solveButton,
+            this.settingsButton});
+            this.toolStrip.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip.Name = "toolStrip";
+            this.toolStrip.Padding = new System.Windows.Forms.Padding(12, 0, 12, 0);
+            this.toolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.toolStrip.Size = new System.Drawing.Size(593, 27);
+            this.toolStrip.TabIndex = 1;
+            this.toolStrip.Text = "toolStrip1";
             // 
-            // toolStripButton1
+            // checkPointsButton
             // 
-            this.toolStripButton1.Image = global::Kakuro.Windows.Properties.Resources.flag_flyaway_pointed;
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.toolStripButton1.Size = new System.Drawing.Size(101, 24);
-            this.toolStripButton1.Text = "Checkpoints";
-            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click_1);
+            this.checkPointsButton.Image = global::Kakuro.Windows.Properties.Resources.flag_flyaway_pointed;
+            this.checkPointsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.checkPointsButton.Name = "checkPointsButton";
+            this.checkPointsButton.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.checkPointsButton.Size = new System.Drawing.Size(101, 24);
+            this.checkPointsButton.Text = "Checkpoints";
+            this.checkPointsButton.Click += new System.EventHandler(this.toolStripButton1_Click_1);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 27);
             // 
-            // toolStripButton3
+            // newGameButton
             // 
-            this.toolStripButton3.Image = global::Kakuro.Windows.Properties.Resources.page_white;
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.toolStripButton3.Size = new System.Drawing.Size(92, 24);
-            this.toolStripButton3.Text = "New game";
-            this.toolStripButton3.Click += new System.EventHandler(this.toolStripButton3_Click);
+            this.newGameButton.Image = global::Kakuro.Windows.Properties.Resources.page_white;
+            this.newGameButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.newGameButton.Name = "newGameButton";
+            this.newGameButton.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.newGameButton.Size = new System.Drawing.Size(92, 24);
+            this.newGameButton.Text = "New game";
+            this.newGameButton.Click += new System.EventHandler(this.toolStripButton3_Click);
             // 
-            // toolStripButton4
+            // restartButton
             // 
-            this.toolStripButton4.Image = global::Kakuro.Windows.Properties.Resources.arrow_refresh_small;
-            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton4.Name = "toolStripButton4";
-            this.toolStripButton4.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.toolStripButton4.Size = new System.Drawing.Size(71, 24);
-            this.toolStripButton4.Text = "Restart";
-            this.toolStripButton4.Click += new System.EventHandler(this.toolStripButton4_Click);
+            this.restartButton.Image = global::Kakuro.Windows.Properties.Resources.arrow_refresh_small;
+            this.restartButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.restartButton.Name = "restartButton";
+            this.restartButton.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.restartButton.Size = new System.Drawing.Size(71, 24);
+            this.restartButton.Text = "Restart";
+            this.restartButton.Click += new System.EventHandler(this.toolStripButton4_Click);
             // 
-            // toolStripButton5
+            // checkButton
             // 
-            this.toolStripButton5.Image = global::Kakuro.Windows.Properties.Resources.arrow_right;
-            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton5.Name = "toolStripButton5";
-            this.toolStripButton5.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.toolStripButton5.Size = new System.Drawing.Size(71, 24);
-            this.toolStripButton5.Text = "Check ";
-            this.toolStripButton5.Click += new System.EventHandler(this.toolStripButton5_Click);
+            this.checkButton.Image = global::Kakuro.Windows.Properties.Resources.arrow_right;
+            this.checkButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.checkButton.Name = "checkButton";
+            this.checkButton.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.checkButton.Size = new System.Drawing.Size(71, 24);
+            this.checkButton.Text = "Check ";
+            this.checkButton.Click += new System.EventHandler(this.toolStripButton5_Click);
             // 
-            // toolStripButton7
+            // solveButton
             // 
-            this.toolStripButton7.Image = global::Kakuro.Windows.Properties.Resources.ruby;
-            this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton7.Name = "toolStripButton7";
-            this.toolStripButton7.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.toolStripButton7.Size = new System.Drawing.Size(63, 24);
-            this.toolStripButton7.Text = "Solve";
-            this.toolStripButton7.Click += new System.EventHandler(this.toolStripButton7_Click);
+            this.solveButton.Image = global::Kakuro.Windows.Properties.Resources.ruby;
+            this.solveButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.solveButton.Name = "solveButton";
+            this.solveButton.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.solveButton.Size = new System.Drawing.Size(63, 24);
+            this.solveButton.Text = "Solve";
+            this.solveButton.Click += new System.EventHandler(this.toolStripButton7_Click);
             // 
-            // toolStripButton6
+            // settingsButton
             // 
-            this.toolStripButton6.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripButton6.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton6.Image = global::Kakuro.Windows.Properties.Resources.setting_tools;
-            this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton6.Name = "toolStripButton6";
-            this.toolStripButton6.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.toolStripButton6.Size = new System.Drawing.Size(28, 24);
-            this.toolStripButton6.Text = "Settings";
-            this.toolStripButton6.Click += new System.EventHandler(this.toolStripButton6_Click);
+            this.settingsButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.settingsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.settingsButton.Image = global::Kakuro.Windows.Properties.Resources.setting_tools;
+            this.settingsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.settingsButton.Name = "settingsButton";
+            this.settingsButton.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.settingsButton.Size = new System.Drawing.Size(28, 24);
+            this.settingsButton.Text = "Settings";
+            this.settingsButton.Click += new System.EventHandler(this.toolStripButton6_Click);
             // 
-            // timer1
+            // timer
             // 
-            this.timer1.Interval = 1000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.timer.Interval = 1000;
+            this.timer.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // numberPanelBox
             // 
@@ -206,7 +206,7 @@
             // 
             // numberPanel
             // 
-            this.numberPanel.Controls.Add(this.button10);
+            this.numberPanel.Controls.Add(this.button0);
             this.numberPanel.Controls.Add(this.button9);
             this.numberPanel.Controls.Add(this.button8);
             this.numberPanel.Controls.Add(this.button7);
@@ -221,16 +221,16 @@
             this.numberPanel.Size = new System.Drawing.Size(576, 56);
             this.numberPanel.TabIndex = 0;
             // 
-            // button10
+            // button0
             // 
-            this.button10.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.button10.Location = new System.Drawing.Point(516, 8);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(48, 40);
-            this.button10.TabIndex = 1;
-            this.button10.Text = "0";
-            this.button10.UseVisualStyleBackColor = true;
-            this.button10.Click += new System.EventHandler(this.button_Click);
+            this.button0.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.button0.Location = new System.Drawing.Point(516, 8);
+            this.button0.Name = "button0";
+            this.button0.Size = new System.Drawing.Size(48, 40);
+            this.button0.TabIndex = 1;
+            this.button0.Text = "0";
+            this.button0.UseVisualStyleBackColor = true;
+            this.button0.Click += new System.EventHandler(this.button_Click);
             // 
             // button9
             // 
@@ -337,7 +337,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(593, 498);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.toolStrip1);
+            this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.numberPanelBox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
@@ -351,9 +351,9 @@
             this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mainCanvas)).EndInit();
+            this.toolStrip.ResumeLayout(false);
+            this.toolStrip.PerformLayout();
             this.numberPanelBox.ResumeLayout(false);
             this.numberPanel.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -364,20 +364,20 @@
         #endregion
 
         private Panel panel1;
-        private ToolStrip toolStrip1;
+        private ToolStrip toolStrip;
         private ToolStripSeparator toolStripSeparator1;
-        private ToolStripButton toolStripButton3;
-        private ToolStripButton toolStripButton4;
-        private ToolStripButton toolStripButton5;
-        private ToolStripButton toolStripButton6;
+        private ToolStripButton newGameButton;
+        private ToolStripButton restartButton;
+        private ToolStripButton checkButton;
+        private ToolStripButton settingsButton;
         private Panel panel2;
-        private PictureBox pictureBox1;
+        private PictureBox mainCanvas;
         private Label timeLabel;
-        private ToolStripButton toolStripButton7;
-        private System.Windows.Forms.Timer timer1;
+        private ToolStripButton solveButton;
+        private System.Windows.Forms.Timer timer;
         private Panel numberPanelBox;
         private Panel numberPanel;
-        private Button button10;
+        private Button button0;
         private Button button9;
         private Button button8;
         private Button button7;
@@ -387,6 +387,6 @@
         private Button button3;
         private Button button2;
         private Button button1;
-        private ToolStripButton toolStripButton1;
+        private ToolStripButton checkPointsButton;
     }
 }

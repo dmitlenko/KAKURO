@@ -30,18 +30,18 @@ namespace Kakuro.Windows.View.Dialog
 
         private void CheckpointDialog_Load(object sender, EventArgs e)
         {
-            listBox1.Items.Clear();
+            checkPointList.Items.Clear();
             foreach (var item in checkPoint.CheckPoints)
             {
-                listBox1.Items.Add(item.ToString());
+                checkPointList.Items.Add(item.ToString());
             }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (listBox1.SelectedIndex >= 0 && MessageBox.Show("Do you want to load this checkpoint?", "Are you sure?", MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+            if (checkPointList.SelectedIndex >= 0 && MessageBox.Show("Do you want to load this checkpoint?", "Are you sure?", MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
             {
-                Loaded = checkPoint.CheckPoints[listBox1.SelectedIndex];
+                Loaded = checkPoint.CheckPoints[checkPointList.SelectedIndex];
                 DialogResult = DialogResult.OK;
                 Close();
             }
@@ -58,9 +58,9 @@ namespace Kakuro.Windows.View.Dialog
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if(listBox1.SelectedIndex >= 0 && MessageBox.Show("Do you want to delete this checkpoint?", "Are you sure?", MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+            if(checkPointList.SelectedIndex >= 0 && MessageBox.Show("Do you want to delete this checkpoint?", "Are you sure?", MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
             {
-                checkPoint.CheckPoints.RemoveAt(listBox1.SelectedIndex);
+                checkPoint.CheckPoints.RemoveAt(checkPointList.SelectedIndex);
                 checkPoint.Save();
                 CheckpointDialog_Load(null, null);
             }

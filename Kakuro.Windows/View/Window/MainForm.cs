@@ -1,4 +1,5 @@
 ﻿using Kakuro.Engine.Algorithms;
+using Kakuro.Engine.Cells;
 using Kakuro.Engine.Core;
 using Kakuro.Engine.Graphics;
 using Kakuro.Windows.Core;
@@ -29,7 +30,7 @@ namespace Kakuro.Windows
         {
             InitializeComponent();
 
-            rend = new Renderer(pictureBox1);
+            rend = new Renderer(mainCanvas);
             kakuroBoard = new KakuroBoard(7, 7);
         }
 
@@ -43,8 +44,8 @@ namespace Kakuro.Windows
             int top = panel1.Height/2 - height/2 - padding;
             int left = panel1.Width / 2 - width / 2;
 
-            pictureBox1.Size = new Size(width, height);
-            pictureBox1.Location = new Point(left, top);
+            mainCanvas.Size = new Size(width, height);
+            mainCanvas.Location = new Point(left, top);
 
             rend.Update();
         }
@@ -67,11 +68,9 @@ namespace Kakuro.Windows
         {
             if(MessageBox.Show("Do you want to restart current game?", "Are you sure?", MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
             {
-                pictureBox1.Invoke(new Action(() =>
-                {
-                    rend.ClearNumbers();
-                    solveTime = new Time();
-                }));
+                rend.ClearNumbers();
+                solveTime = new Time();
+                timer.Enabled = true;
             }
         }
 
@@ -98,12 +97,12 @@ namespace Kakuro.Windows
             Task.Factory.StartNew(() =>
             {
                 Generator g = new Generator();
-                kakuroBoard = g.Generate(kwidth, kheight, (int)Properties.Settings.Default["BoardDifficulty"]);
+                kakuroBoard = g.Generate(kwidth,kheight, (int)Properties.Settings.Default["BoardDifficulty"] - 1);
 
-                pictureBox1.Invoke(new Action(() =>
+                mainCanvas.Invoke(new Action(() =>
                 {
-                    toolStrip1.Enabled = true;
-                    timer1.Enabled = true;
+                    toolStrip.Enabled = true;
+                    timer.Enabled = true;
 
                     rend.AssignBoard(kakuroBoard);
                     rend.Update();
@@ -113,7 +112,43 @@ namespace Kakuro.Windows
 
         private bool CheckKakuro()
         {
-            return CountUnnasigned() == 0;
+            for(int i = 0; i < kheight; i++)
+            {
+                for(int j = 0; j < kwidth; j++)
+                {
+                    if (rend.GraphicTiles[i, j] is SumGraphicTile)
+                    {
+                        int sumv = 0, vsum = (rend.GraphicTiles[i, j] as SumGraphicTile).SumVertical;
+                        int sumh = 0, hsum = (rend.GraphicTiles[i, j] as SumGraphicTile).SumHorizontal;
+
+                        vsum = vsum == -1 ? 0 : vsum;
+                        hsum = hsum == -1 ? 0 : hsum;
+
+                        for(int k = i + 1; k < kheight; k++)
+                        {
+                            if (rend.GraphicTiles[k, j] is WhiteGraphicTile)
+                            {
+                                sumv += (rend.GraphicTiles[k, j] as WhiteGraphicTile).DrawnNumber;
+                            }
+                            else break;
+                        }
+
+                        for (int k = j + 1; k < kheight; k++)
+                        {
+                            if (rend.GraphicTiles[i, k] is WhiteGraphicTile)
+                            {
+                                sumh += (rend.GraphicTiles[i, k] as WhiteGraphicTile).DrawnNumber;
+                            }
+                            else break;
+                        }
+
+                        if (sumv != vsum || sumh != hsum) return false;
+                    }
+                }
+            }
+
+
+            return true;
         }
 
         private int CountUnnasigned()
@@ -124,8 +159,8 @@ namespace Kakuro.Windows
             {
                 for (int j = 0; j < kwidth; j++)
                 {
-                    if (rend.GraphicTiles[j, i] is WhiteGraphicTile &&
-                        (rend.GraphicTiles[j, i] as WhiteGraphicTile).DrawnNumber != kakuroBoard.GetHelp(i,j))
+                    if (rend.GraphicTiles[i,j] is WhiteGraphicTile &&
+                        (rend.GraphicTiles[i,j] as WhiteGraphicTile).DrawnNumber != kakuroBoard.GetHelp(i,j))
                         count++;
                 }
             }
@@ -137,7 +172,7 @@ namespace Kakuro.Windows
         {
             if (CheckKakuro())
             {
-                timer1.Enabled = false;
+                timer.Enabled = false;
                 MessageBox.Show(string.Format("Congrats! You solved the puzzle in {0}!", solveTime.ToString()));
             } else
             {
@@ -166,7 +201,7 @@ namespace Kakuro.Windows
                     rend.SetSelectedTileNumber(e.KeyValue - 48);
                     if (autoSubmit && CheckKakuro())
                     {
-                        timer1.Enabled = false;
+                        timer.Enabled = false;
                         MessageBox.Show(string.Format("Congrats! You solved the puzzle in {0}!", solveTime.ToString()));
                     }
                     break;
@@ -181,7 +216,7 @@ namespace Kakuro.Windows
             rend.SetSelectedTileNumber(Convert.ToInt32((sender as Button).Text));
             if(autoSubmit && CheckKakuro())
             {
-                timer1.Enabled = false;
+                timer.Enabled = false;
                 MessageBox.Show(string.Format("Congrats! You solved the puzzle in {0}!", solveTime.ToString()));
             }
         }
@@ -202,9 +237,9 @@ namespace Kakuro.Windows
         private void toolStripButton6_Click(object sender, EventArgs e)
         {
             SettingsDialog settingsDialog = new SettingsDialog();
-            timer1.Enabled = false;
+            timer.Enabled = false;
             settingsDialog.ShowDialog();
-            timer1.Enabled = true;
+            timer.Enabled = true;
             LoadSettings();
             rend.Update();
         }
@@ -213,7 +248,7 @@ namespace Kakuro.Windows
         {
             CheckpointDialog checkpointDialog = new CheckpointDialog(checkPoint, rend.Board, solveTime);
 
-            timer1.Enabled = false;
+            timer.Enabled = false;
 
             if (checkpointDialog.ShowDialog() == DialogResult.OK)
             {
@@ -224,7 +259,7 @@ namespace Kakuro.Windows
                 rend.Update();
             }
 
-            timer1.Enabled = true;
+            timer.Enabled = true;
         }
 
         private void toolStripButton7_Click(object sender, EventArgs e)
@@ -246,7 +281,7 @@ namespace Kakuro.Windows
 
             if (autoSubmit && CheckKakuro())
             {
-                timer1.Enabled = false;
+                timer.Enabled = false;
                 MessageBox.Show(string.Format("Congrats! You solved the puzzle in {0}!", solveTime.ToString()));
             }
         }

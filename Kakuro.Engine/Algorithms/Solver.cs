@@ -56,7 +56,7 @@ namespace Kakuro.Engine.Algorithms
             SolveGrid(cell, solution);
 
             if (!solution[0]) throw new KakuroException("1 Kakuro without solution");
-            if (!solution[1]) throw new KakuroException("Kakuro with more than 1 solution");
+            //if (!solution[1]) throw new KakuroException("Kakuro with more than 1 solution");
 
             for (int i = 0; i < cells_to_empty.Count(); i++)
                 k.Grid[cells_to_empty[i] / k.Width, cells_to_empty[i] % k.Width].Value = 0;

@@ -55,11 +55,17 @@ namespace Kakuro.Engine.Algorithms
             SolveClues(cell, cells_to_empty);
             SolveGrid(cell, solution);
 
-            if (!solution[0]) throw new KakuroException("1 Kakuro without solution");
-            //if (!solution[1]) throw new KakuroException("Kakuro with more than 1 solution");
-
-            for (int i = 0; i < cells_to_empty.Count(); i++)
-                k.Grid[cells_to_empty[i] / k.Width, cells_to_empty[i] % k.Width].Value = 0;
+            // clear grid
+            for(int i = 0; i < board.Height; i++)
+            {
+                for(int j = 0; j < board.Width; j++)
+                {
+                    if (board.Grid[i,j] is WhiteCell)
+                    {
+                        (board.Grid[i, j] as WhiteCell).Value = 0;
+                    }
+                }
+            }
 
             return true;
         }

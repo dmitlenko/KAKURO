@@ -322,6 +322,8 @@ namespace Kakuro.Engine.Graphics
 
                                     tile.HighlightVertical = false;
                                     tile.HighlightHorizontal = false;
+                                    tile.HighlightHorizontalSum = false;
+                                    tile.HighlightVerticalSum = false;
 
                                     if (HighlightWrongSums)
                                     {

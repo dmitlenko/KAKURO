@@ -36,17 +36,28 @@ namespace Kakuro.Windows
 
         private void MainForm_ResizeEnd(object sender, EventArgs e)
         {
-            int padding = 8;
+            int pad = 24, h, w, tx, ty;
 
-            int height = 337;
-            int width = 337;
+            int hc = panel1.Height, wc = panel1.Width;
 
-            int top = panel1.Height/2 - height/2 - padding;
-            int left = panel1.Width / 2 - width / 2;
+            if (hc > wc)
+            {
+                w = wc - pad * 2;
+                h = w;
+                tx = pad;
+                ty = (hc / 2) - (h / 2);
+            } else
+            {
+                h = hc - pad * 5;
+                w = h;
+                tx = wc / 2 - w / 2;
+                ty = pad;
+            }
 
-            mainCanvas.Size = new Size(width, height);
-            mainCanvas.Location = new Point(left, top);
+            numberPanel.Left = numberPanelBox.Width / 2 - numberPanel.Width / 2;
 
+            mainCanvas.Size = new Size(w, h);
+            mainCanvas.Location = new Point(tx, ty);
             rend.Update();
         }
 
@@ -97,7 +108,10 @@ namespace Kakuro.Windows
             Task.Factory.StartNew(() =>
             {
                 Generator g = new Generator();
-                kakuroBoard = g.Generate(kwidth,kheight, (int)Properties.Settings.Default["BoardDifficulty"] - 1);
+                int d = (int)Properties.Settings.Default["BoardDifficulty"];
+                int[] dd = { 5, 6, 7 };
+                (kwidth, kheight) = (dd[d - 1], dd[d - 1]);
+                kakuroBoard = g.Generate(kwidth,kheight, d);
 
                 mainCanvas.Invoke(new Action(() =>
                 {

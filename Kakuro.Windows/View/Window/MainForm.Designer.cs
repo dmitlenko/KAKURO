@@ -86,6 +86,7 @@
             // mainCanvas
             // 
             this.mainCanvas.BackColor = System.Drawing.SystemColors.WindowText;
+            this.mainCanvas.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.mainCanvas.Location = new System.Drawing.Point(8, 8);
             this.mainCanvas.Name = "mainCanvas";
             this.mainCanvas.Size = new System.Drawing.Size(336, 336);

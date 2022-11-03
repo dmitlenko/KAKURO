@@ -75,7 +75,7 @@ namespace Kakuro.Engine.Algorithms
 
                         try
                         {
-                            solver.sum_cell_info = sum_cell_info;
+                            //solver.sum_cell_info = sum_cell_info;
                             if (solver.Validate(k)) goto outter;
                         }
                         catch (Exception)
@@ -109,7 +109,7 @@ namespace Kakuro.Engine.Algorithms
                         try
                         {
                             k.GetHelp(i, j);
-                        }catch (Exception)
+                        } catch (Exception)
                         {
                             goto generatenew;
                         }

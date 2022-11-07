@@ -25,6 +25,7 @@ namespace Kakuro.Windows
 
         int kwidth = 7, kheight = 7;
         bool autoSubmit;
+        private bool solved;
 
         public MainForm()
         {
@@ -63,9 +64,11 @@ namespace Kakuro.Windows
 
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
-            Hide();
-            new MainForm().ShowDialog();
-            Close();
+            if (MessageBox.Show("Do you want to start a new game?", "Are you sure?", MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+            {
+                timeLabel.Text = new Time().ToString();
+                MainForm_Load(null, null);
+            }
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -81,6 +84,7 @@ namespace Kakuro.Windows
             {
                 rend.ClearNumbers();
                 solveTime = new Time();
+                timeLabel.Text = new Time().ToString();
                 timer.Enabled = true;
             }
         }
@@ -104,7 +108,7 @@ namespace Kakuro.Windows
         private void MainForm_Load(object sender, EventArgs e)
         {
             LoadSettings();
-
+            solveTime = new Time(0, 0, 0);
             Task.Factory.StartNew(() =>
             {
                 Generator g = new Generator();
@@ -188,6 +192,7 @@ namespace Kakuro.Windows
             {
                 timer.Enabled = false;
                 MessageBox.Show(string.Format("Congrats! You solved the puzzle in {0}!", solveTime.ToString()));
+                solved = true;
             } else
             {
                 MessageBox.Show(string.Format("You not solved the puzzle. Still {0} cells to go!", CountUnnasigned()));
@@ -217,6 +222,7 @@ namespace Kakuro.Windows
                     {
                         timer.Enabled = false;
                         MessageBox.Show(string.Format("Congrats! You solved the puzzle in {0}!", solveTime.ToString()));
+                        solved = true;
                     }
                     break;
                 case Keys.Delete:
@@ -232,6 +238,7 @@ namespace Kakuro.Windows
             {
                 timer.Enabled = false;
                 MessageBox.Show(string.Format("Congrats! You solved the puzzle in {0}!", solveTime.ToString()));
+                solved = true;
             }
         }
 
@@ -253,7 +260,7 @@ namespace Kakuro.Windows
             SettingsDialog settingsDialog = new SettingsDialog();
             timer.Enabled = false;
             settingsDialog.ShowDialog();
-            timer.Enabled = true;
+            if(!solved) timer.Enabled = true;
             LoadSettings();
             rend.Update();
         }
@@ -273,7 +280,7 @@ namespace Kakuro.Windows
                 rend.Update();
             }
 
-            timer.Enabled = true;
+            if(!solved) timer.Enabled = true;
         }
 
         private void toolStripButton7_Click(object sender, EventArgs e)
@@ -297,6 +304,7 @@ namespace Kakuro.Windows
             {
                 timer.Enabled = false;
                 MessageBox.Show(string.Format("Congrats! You solved the puzzle in {0}!", solveTime.ToString()));
+                solved = true;
             }
         }
     }

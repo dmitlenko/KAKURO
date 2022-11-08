@@ -14,7 +14,6 @@ namespace Kakuro.Engine.Algorithms
         private Dictionary<int, bool[]> cell_validity;
         private KakuroBoard k;
         private Random random = new Random();
-        //private static readonly object syncLock = new object();
 
         /**
          * <summary>Default constructor for Generator</summary>
@@ -54,7 +53,7 @@ namespace Kakuro.Engine.Algorithms
                 {
                     InitializeGrid();
                     GenerateBlackCells(max_white_cells);
-                    if ((CorrectGrid(true) && CorrectGrid(false))) break;
+                    if (CorrectGrid(true) && CorrectGrid(false)) break;
                 }
 
                 int act = 0;
@@ -75,7 +74,6 @@ namespace Kakuro.Engine.Algorithms
 
                         try
                         {
-                            //solver.sum_cell_info = sum_cell_info;
                             if (solver.Validate(k)) goto outter;
                         }
                         catch (Exception)
@@ -87,19 +85,7 @@ namespace Kakuro.Engine.Algorithms
                 }
             }
 
-        outter:
-            // check again
-            try
-            {
-                solver.sum_cell_info = null;
-                solver.Validate(k);
-            }
-            catch (Exception)
-            {
-                goto generatenew;
-            }
-
-            // additional check
+            outter:
             for (int i = 0; i < k.Height; i++)
             {
                 for (int j = 0; j < k.Width; j++)
@@ -274,7 +260,6 @@ namespace Kakuro.Engine.Algorithms
 
             while (++j < k.Width && k.Grid[r, j] is WhiteCell)
             {
-                //k.Solution[r.ToString() + j] = int.MinValue;
                 HashSet<int> valid = new HashSet<int>(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
 
                 valid.RemoveWhere(value => repeated_row.Contains(value));
